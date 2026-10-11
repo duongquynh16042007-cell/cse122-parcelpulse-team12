@@ -1,0 +1,23 @@
+.login-page .auth-main {
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 480px);
+}
+
+.login-page .auth-intro {
+  padding-bottom: 18px;
+}
+
+.login-page .form-message.success {
+  color: #27845e;
+}
+
+@media (max-width: 900px) {
+  .login-page .auth-main {
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .login-page .auth-main {
+    grid-template-columns: 1fr;
+  }
+}
