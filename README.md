@@ -15,7 +15,7 @@
 - Thêm tài khoản demo và chỉnh sửa thông tin tài khoản.
 - Kiểm tra email trùng trước khi lưu.
 - Tạm khóa tài khoản hoặc mở khóa tài khoản đã bị khóa.
-- Hiển thị thông báo sau khi lưu; thông báo tự ẩn sau 10 giây.
+- Hiển thị thông báo sau khi lưu; thông báo tự ẩn sau 5 giây.
 - Lưu dữ liệu tài khoản trên thiết bị bằng `localStorage`.
 
 ## Công nghệ sử dụng
