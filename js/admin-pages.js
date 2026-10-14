@@ -240,6 +240,14 @@ document.addEventListener("DOMContentLoaded", () => {
       pending: ["Chờ kích hoạt", "amber"],
       suspended: ["Tạm khóa", "red"],
     };
+    const nextUserId = () => {
+      const maxId = users.reduce((max, user) => {
+        const match = /^USR-(\d+)$/i.exec(user.id);
+        const number = match ? Number(match[1]) : 0;
+        return Number.isSafeInteger(number) ? Math.max(max, number) : max;
+      }, 0);
+      return `USR-${String(maxId + 1).padStart(3, "0")}`;
+    };
 
     const render = () => {
       const term = $("#user-search").value.trim().toLowerCase();
@@ -289,6 +297,28 @@ document.addEventListener("DOMContentLoaded", () => {
           toast(`${user.name}: ${statusLabels[user.status][0].toLowerCase()}.`);
         });
         actions.append(toggle);
+
+        //ham-xoa
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "btn";
+        remove.textContent = "Xóa";
+        remove.addEventListener("click", () => {
+          if (!window.confirm(`Bạn có chắc muốn xóa tài khoản ${user.id}?`))
+            return;
+          const userIndex = users.indexOf(user);
+          if (userIndex === -1) return;
+          users.splice(userIndex, 1);
+          if (editingId === user.id) {
+            editor.hidden = true;
+            form.reset();
+            editingId = null;
+          }
+          write("users", users);
+          render();
+          toast(`Đã xóa tài khoản ${user.id}.`);
+        });
+        actions.append(remove);
         row.append(actions);
         userBody.append(row);
       });
@@ -305,6 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     };
 
+    //ham-them-user
     const openEditor = (user) => {
       editingId = user?.id || null;
       $("#user-editor-title").textContent = user
@@ -361,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (existing) Object.assign(existing, data);
       else
         users.push({
-          id: `USR-${String(Date.now()).slice(-6)}`,
+          id: nextUserId(),
           ...data,
         });
       write("users", users);
