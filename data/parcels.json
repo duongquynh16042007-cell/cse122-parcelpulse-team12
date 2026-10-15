@@ -1,0 +1,76 @@
+[
+  {
+    "id": "PP1001",
+    "recipient": "Minh Anh",
+    "address": "Số 14, Đường Trần Hưng Đạo, Quận 1, TP.HCM",
+    "status": "Đang trên đường",
+    "eta": "Hôm nay, 18:30",
+    "exception": "",
+    "timeline": [
+      { "title": "Đơn hàng đã được tạo", "date": "08:00, 25/09/2026", "state": "done" },
+      { "title": "Đóng gói hoàn tất", "date": "09:15, 25/09/2026", "state": "done" },
+      { "title": "Đang vận chuyển từ kho trung tâm", "date": "11:20, 25/09/2026", "state": "done" },
+      { "title": "Xe giao hàng đang đến khu vực bạn", "date": "17:45, 25/09/2026", "state": "pending" },
+      { "title": "Giao hàng thành công", "date": "Dự kiến 18:30", "state": "pending" }
+    ]
+  },
+  {
+    "id": "PP1002",
+    "recipient": "Minh Anh",
+    "address": "88/2, Lê Lợi, Phường 4, Quận 3, TP.HCM",
+    "status": "Giao trễ 1 giờ",
+    "eta": "Ngày mai, 09:00",
+    "exception": "Đường giao hàng đang tắc nghẽn do điều kiện thời tiết, đội giao hàng sẽ điều chỉnh lộ trình và cập nhật lại ETA.",
+    "timeline": [
+      { "title": "Đơn hàng đã được tạo", "date": "07:30, 26/09/2026", "state": "done" },
+      { "title": "Đóng gói xong", "date": "08:20, 26/09/2026", "state": "done" },
+      { "title": "Rời kho trung tâm", "date": "09:10, 26/09/2026", "state": "done" },
+      { "title": "Bị chậm do giao thông", "date": "12:30, 26/09/2026", "state": "warning" },
+      { "title": "Dự kiến giao lại", "date": "Ngày mai, 09:00", "state": "pending" }
+    ]
+  },
+  {
+    "id": "PP1003",
+    "recipient": "Minh Anh",
+    "address": "36/18 Bùi Xương Trạch, Phường Khương Đình, Quận Thanh Xuân, TP. Hà Nội",
+    "status": "Đã giao thành công",
+    "eta": "Đã giao lúc 11:20, 25/09/2026",
+    "exception": "",
+    "timeline": [
+      { "title": "Đơn hàng đã được tạo", "date": "07:50, 24/09/2026", "state": "done" },
+      { "title": "Đóng gói hoàn tất", "date": "09:05, 24/09/2026", "state": "done" },
+      { "title": "Rời kho trung tâm", "date": "10:40, 24/09/2026", "state": "done" },
+      { "title": "Giao hàng thành công", "date": "11:20, 25/09/2026", "state": "done" }
+    ]
+  },
+  {
+    "id": "PP1004",
+    "recipient": "Minh Anh",
+    "address": "129 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP.HCM",
+    "status": "Chờ lấy hàng tại bưu cục",
+    "eta": "Hôm nay, trước 20:00",
+    "exception": "",
+    "timeline": [
+      { "title": "Đơn hàng đã được tạo", "date": "08:10, 25/09/2026", "state": "done" },
+      { "title": "Đóng gói hoàn tất", "date": "09:30, 25/09/2026", "state": "done" },
+      { "title": "Vận chuyển đến bưu cục Quận 7", "date": "13:15, 25/09/2026", "state": "done" },
+      { "title": "Hàng sẵn sàng tại bưu cục", "date": "14:05, 25/09/2026", "state": "done" },
+      { "title": "Bạn đến lấy hoặc yêu cầu giao lại", "date": "Trước 20:00 hôm nay", "state": "pending" }
+    ]
+  },
+  {
+    "id": "PP1005",
+    "recipient": "Đỗ Hải Đăng",
+    "address": "5/47 Thành Thái, Phường 14, Quận 10, TP.HCM",
+    "status": "Giao trễ 3 giờ",
+    "eta": "Hôm nay, 14:00",
+    "exception": "Không liên hệ được người nhận và địa chỉ thiếu số nhà; tài xế đang chờ tổng đài xác nhận lại địa chỉ trước khi giao tiếp.",
+    "timeline": [
+      { "title": "Đơn hàng đã được tạo", "date": "07:20, 26/09/2026", "state": "done" },
+      { "title": "Đóng gói xong", "date": "08:05, 26/09/2026", "state": "done" },
+      { "title": "Rời kho trung tâm", "date": "09:00, 26/09/2026", "state": "done" },
+      { "title": "Không liên hệ được người nhận", "date": "11:45, 26/09/2026", "state": "warning" },
+      { "title": "Chờ xác nhận địa chỉ mới", "date": "Dự kiến 14:00", "state": "pending" }
+    ]
+  }
+]

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f1f3">
+  <title>ParcelPulse - Theo dõi đơn hàng</title>
+  <link rel="stylesheet" href="../css/recipient-app.css">
+  <link rel="stylesheet" href="../css/track-parcel.css">
+</head>
+<body class="app-page tracking-page">
+  <div class="app-shell">
+  <aside class="app-sidebar">
+    <a class="app-brand" href="recipient-track-parcel.html" aria-label="ParcelPulse">
+      <span class="app-brand-mark" aria-hidden="true">↗</span>
+      <span>ParcelPulse</span>
+    </a>
+    <span class="app-role-tag">NGƯỜI NHẬN</span>
+    <nav class="app-side-nav" aria-label="Điều hướng chính">
+      <a class="side-link active" href="recipient-track-parcel.html" aria-current="page"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg> Kiện hàng</a>
+      <a class="side-link" href="recipient-delivery-preferences.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9.5"/><circle cx="16.8" cy="7" r="2.6"/><path d="M20 17h-9.5"/><circle cx="7.2" cy="17" r="2.6"/></svg> Tuỳ chọn</a>
+      <a class="side-link" href="recipient-delivery-feedback.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/></svg> Phản hồi</a>
+    </nav>
+    <a class="side-link side-settings" href="recipient-settings.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.2 2h-.4a2 2 0 0 0-2 2v.2a2 2 0 0 1-1 1.7l-.4.3a2 2 0 0 1-2 0l-.2-.1a2 2 0 0 0-2.7.7l-.2.4a2 2 0 0 0 .7 2.7l.2.1a2 2 0 0 1 1 1.7v.5a2 2 0 0 1-1 1.8l-.2.1a2 2 0 0 0-.7 2.7l.2.4a2 2 0 0 0 2.7.7l.2-.1a2 2 0 0 1 2 0l.4.3a2 2 0 0 1 1 1.7v.2a2 2 0 0 0 2 2h.4a2 2 0 0 0 2-2v-.2a2 2 0 0 1 1-1.7l.4-.3a2 2 0 0 1 2 0l.2.1a2 2 0 0 0 2.7-.7l.2-.4a2 2 0 0 0-.7-2.7l-.2-.1a2 2 0 0 1-1-1.8v-.5a2 2 0 0 1 1-1.7l.2-.1a2 2 0 0 0 .7-2.7l-.2-.4a2 2 0 0 0-2.7-.7l-.2.1a2 2 0 0 1-2 0l-.4-.3a2 2 0 0 1-1-1.7V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></svg> Cài đặt</a>
+    <button id="logoutBtn" class="side-link" type="button">Đăng xuất</button>
+    <div class="side-user">
+      <strong id="sideUserName">Minh Anh</strong>
+      <span>Khách hàng • Trực tuyến</span>
+      <span class="side-user-badge">Thông báo: 3</span>
+    </div>
+  </aside>
+
+    <main class="app-main">
+      <section class="app-heading tracking-heading">
+        <div>
+          <p class="app-eyebrow">TRA CỨU VẬN ĐƠN</p>
+          <h1>Theo dõi kiện hàng</h1>
+          <p>Cập nhật hành trình, thời gian dự kiến và các ngoại lệ giao nhận.</p>
+        </div>
+        <span class="demo-hint">Mã thử: <strong>PP1001</strong> · <strong>PP1005</strong></span>
+      </section>
+
+      <section class="app-card tracking-search" aria-label="Tra cứu vận đơn">
+        <label for="trackingCode">Mã đơn hàng</label>
+        <div class="tracking-search-row">
+          <div class="tracking-input-wrap">
+            <span aria-hidden="true">⌕</span>
+            <input id="trackingCode" name="trackingCode" autocomplete="off"
+              placeholder="Nhập mã vận đơn, ví dụ PP1001" aria-describedby="formMessage">
+          </div>
+          <button id="trackBtn" class="app-button" type="button" disabled>Tra cứu</button>
+        </div>
+        <p id="formMessage" class="app-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="loading" class="app-card tracking-state hidden" aria-live="polite">
+        <span class="tracking-spinner" aria-hidden="true"></span>
+        <div><h2>Đang tra cứu đơn hàng...</h2><p>Đang kiểm tra dữ liệu vận chuyển.</p></div>
+      </section>
+
+      <section id="empty" class="app-card tracking-state empty-state">
+        <span class="state-icon" aria-hidden="true">⌕</span>
+        <h2 id="emptyTitle">Nhập mã để bắt đầu tra cứu</h2>
+        <p id="emptyCopy">Thử <strong>PP1001</strong> đến <strong>PP1005</strong> để xem dữ liệu minh họa.</p>
+      </section>
+
+      <section id="errorState" class="app-card tracking-state error-state hidden" role="alert">
+        <span class="state-icon" aria-hidden="true">!</span>
+        <h2>Chưa thể tải dữ liệu đơn hàng</h2>
+        <p id="errorMessage">Kiểm tra kết nối rồi thử lại.</p>
+        <button id="retryBtn" class="app-button app-button-secondary" type="button">Thử lại</button>
+      </section>
+
+      <section id="result" class="tracking-results hidden" aria-live="polite">
+        <div class="tracking-columns">
+          <div class="tracking-primary-column">
+            <article class="app-card parcel-card">
+              <div class="parcel-card-heading">
+                <div class="parcel-mark" aria-hidden="true">▣</div>
+                <div class="parcel-title">
+                  <p class="app-eyebrow">MÃ VẬN ĐƠN</p>
+                  <h2 id="parcelId">-</h2>
+                </div>
+                <span id="statusTag" class="app-tag">-</span>
+              </div>
+              <div class="parcel-progress" aria-hidden="true"><span id="progressBar"></span></div>
+              <dl class="parcel-meta">
+                <div><dt>Người nhận</dt><dd id="recipientName">-</dd></div>
+                <div><dt>Địa chỉ giao</dt><dd id="address">-</dd></div>
+              </dl>
+              <div id="exceptionBox" class="exception-box hidden" role="status"></div>
+            </article>
+
+            <article class="app-card timeline-card">
+              <div class="section-heading">
+                <div><p class="app-eyebrow">CẬP NHẬT VẬN CHUYỂN</p><h2 class="app-card-heading">Hành trình kiện hàng</h2></div>
+                <span class="app-card-copy">Theo thời gian</span>
+              </div>
+              <ol id="timeline" class="timeline-list"></ol>
+            </article>
+          </div>
+
+          <div class="tracking-secondary-column">
+            <article class="app-card eta-card">
+              <div class="section-heading">
+                <div><p class="app-eyebrow">THỜI GIAN DỰ KIẾN</p><h2 id="eta" class="eta-time">-</h2></div>
+                <span id="etaTag" class="eta-tag">Dự kiến</span>
+              </div>
+              <p class="app-card-copy">Thời gian có thể thay đổi theo tình hình giao thông và điều kiện thực tế.</p>
+              <a class="app-button eta-action" href="recipient-delivery-preferences.html">Tùy chọn giao hàng</a>
+            </article>
+
+            <article class="app-card ai-card">
+              <div class="ai-card-title">
+                <span class="ai-icon" aria-hidden="true">✦</span>
+                <div><p class="app-eyebrow">HỖ TRỢ THÔNG MINH · BẢN DEMO</p><h2 class="app-card-heading">Giải thích ETA</h2></div>
+              </div>
+              <p class="app-card-copy">Xem các yếu tố trong dữ liệu đơn hàng có thể ảnh hưởng đến thời gian giao.</p>
+              <button id="aiBtn" class="app-button ai-button" type="button" disabled>Phân tích đơn hàng</button>
+              <p id="aiState" class="ai-status" role="status" aria-live="polite">Tra cứu đơn hàng để bắt đầu.</p>
+              <div id="aiResult" class="ai-result hidden" aria-live="polite">
+                <span id="aiConfidence" class="ai-confidence"></span>
+                <p id="aiExplanation"></p>
+                <div id="aiReason" class="ai-reason"></div>
+                <p id="aiFailure" class="ai-failure hidden"></p>
+                <div class="ai-actions">
+                  <button id="acceptAiBtn" class="app-button" type="button">Lưu giải thích</button>
+                  <button id="retryAiBtn" class="app-button app-button-secondary" type="button">Phân tích lại</button>
+                  <a href="recipient-delivery-preferences.html">Dùng thủ công</a>
+                </div>
+                <p id="aiSavedMessage" class="app-message success" role="status" aria-live="polite"></p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../js/auth.js"></script>
+  <script src="../js/track-parcel.js"></script>
+</body>
+</html>
