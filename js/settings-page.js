@@ -176,3 +176,92 @@ document.addEventListener("DOMContentLoaded", () => {
         phone: roleInfo.phone,
         ...readJson(profileKey, {}),
       };
+      sessionData = sessionRole === role ? session : null;
+      profile.name = profile.name || sessionName || "Minh Anh";
+
+      nameInput.value = profile.name;
+      phoneInput.value = profile.phone;
+      emailInput.value = roleInfo.email;
+      $("#account-name").textContent = profile.name;
+      $("#settings-side-name").textContent = profile.name;
+      $("#avatar-initials").textContent = initialsOf(profile.name);
+      $$("[data-setting]").forEach((input) => {
+        input.checked =
+          input.dataset.setting in settings.notifications
+            ? settings.notifications[input.dataset.setting]
+            : settings[input.dataset.setting] === true;
+      });
+      $("#language").value = settings.language;
+      setThemeButtons(settings.theme);
+      applyTheme(settings.theme);
+      document.getElementById("settings-app").dataset.density = settings.compact
+        ? "compact"
+        : "comfortable";
+      syncTwoFactorState();
+      showMessage(formMessage, "");
+      showMessage(securityMessage, "");
+    } catch {
+      showMessage(
+        formMessage,
+        "Không thể đọc cài đặt đã lưu. Hãy kiểm tra bộ nhớ trình duyệt.",
+        "error",
+      );
+    }
+  };
+
+  $("#change-avatar").addEventListener("click", () => avatarInput.click());
+  avatarInput.addEventListener("change", () => {
+    const [file] = avatarInput.files || [];
+    if (!file) return;
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+      showMessage(
+        formMessage,
+        "Ảnh đại diện cần có định dạng JPG hoặc PNG.",
+        "error",
+      );
+      avatarInput.value = "";
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      showMessage(
+        formMessage,
+        "Ảnh đại diện không được vượt quá 2 MB.",
+        "error",
+      );
+      avatarInput.value = "";
+      return;
+    }
+    showMessage(
+      formMessage,
+      `Demo: đã chọn ảnh "${file.name}". Ảnh chưa được tải lên máy chủ.`,
+    );
+  });
+
+  $$("[data-theme-option]").forEach((button) => {
+    button.addEventListener("click", () => {
+      settings.theme = button.dataset.themeOption;
+      setThemeButtons(settings.theme);
+      applyTheme(settings.theme);
+    });
+  });
+
+  $("#two-factor-state")
+    .closest(".setting-row")
+    .addEventListener("change", syncTwoFactorState);
+  $("#change-password").addEventListener("click", () => {
+    showMessage(
+      securityMessage,
+      "Demo: hướng dẫn đổi mật khẩu sẽ được gửi tới email đã xác minh của bạn.",
+      "success",
+    );
+  });
+  $("#language").addEventListener("change", () => {
+    if ($("#language").value !== "vi") {
+      showMessage(
+        formMessage,
+        "Bản demo hiện hỗ trợ Tiếng Việt. Các ngôn ngữ khác sẽ sớm ra mắt.",
+      );
+    } else {
+      showMessage(formMessage, "");
+    }
+  });
