@@ -34,3 +34,11 @@ Các vai trò dùng chung trang `page/settings.html` để chỉnh sửa thông 
 ## Giới hạn
 
 Đây là bản demo phía trình duyệt, không kết nối backend hoặc dữ liệu giao nhận trực tiếp. Các thay đổi chỉ lưu trên thiết bị hiện tại; chức năng xác thực tài khoản và phân quyền máy chủ không có trong bản demo.
+
+## Tệp giao diện chính
+
+- `css/base.css` và `css/profile.css`: kiểu dùng chung.
+- `css/dispatcher.css`: giao diện điều hành.
+- `css/admin.css`: giao diện quản trị.
+- `css/settings.css`: giao diện cài đặt.
+
