@@ -265,3 +265,93 @@ document.addEventListener("DOMContentLoaded", () => {
       showMessage(formMessage, "");
     }
   });
+
+  $("#cancel-settings").addEventListener("click", loadSettings);
+  $("#save-settings").addEventListener("click", () => {
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const phoneDigits = phone.replace(/\D/g, "");
+    if (name.length < 2) {
+      nameInput.setAttribute("aria-invalid", "true");
+      showMessage(formMessage, "Nhập họ tên gồm ít nhất 2 ký tự.", "error");
+      nameInput.focus();
+      return;
+    }
+    if (phone && (phoneDigits.length < 9 || phoneDigits.length > 15)) {
+      phoneInput.setAttribute("aria-invalid", "true");
+      showMessage(
+        formMessage,
+        "Nhập số điện thoại từ 9 đến 15 chữ số.",
+        "error",
+      );
+      phoneInput.focus();
+      return;
+    }
+    nameInput.removeAttribute("aria-invalid");
+    phoneInput.removeAttribute("aria-invalid");
+
+    const nextSettings = {
+      notifications: {
+        delivery: $('[data-setting="delivery"]').checked,
+        exception: $('[data-setting="exception"]').checked,
+        ai: $('[data-setting="ai"]').checked,
+        news: $('[data-setting="news"]').checked,
+      },
+      twoFactor: $('[data-setting="twoFactor"]').checked,
+      theme: settings.theme,
+      language: $("#language").value,
+      compact: settings.compact,
+    };
+    const nextProfile = { name, phone };
+    try {
+      localStorage.setItem(settingsKey, JSON.stringify(nextSettings));
+      localStorage.setItem(
+        legacySettingsKey,
+        JSON.stringify({
+          notifications:
+            nextSettings.notifications.delivery ||
+            nextSettings.notifications.exception ||
+            nextSettings.notifications.ai ||
+            nextSettings.notifications.news,
+          compact: nextSettings.compact,
+        }),
+      );
+      localStorage.setItem(profileKey, JSON.stringify(nextProfile));
+      if (sessionData) {
+        localStorage.setItem(
+          "parcelpulse.demoSession",
+          JSON.stringify({ ...sessionData, name, phone }),
+        );
+        sessionData = { ...sessionData, name, phone };
+      }
+      settings = nextSettings;
+      profile = nextProfile;
+      $("#settings-side-name").textContent = name;
+      $("#account-name").textContent = name;
+      $("#avatar-initials").textContent = initialsOf(name);
+      applyTheme(settings.theme);
+      showMessage(
+        formMessage,
+        "Đã lưu thay đổi trên trình duyệt này.",
+        "success",
+      );
+    } catch {
+      showMessage(
+        formMessage,
+        "Không thể lưu cài đặt trên trình duyệt này.",
+        "error",
+      );
+    }
+  });
+
+  $("#logout").addEventListener("click", () => {
+    localStorage.removeItem("parcelpulse.demoSession");
+    window.location.href = "login.html";
+  });
+
+  const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  colorScheme.addEventListener("change", () => {
+    if (settings.theme === "system") applyTheme("system");
+  });
+  loadSettings();
+});
