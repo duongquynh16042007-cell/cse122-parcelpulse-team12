@@ -186,3 +186,97 @@ document.addEventListener("DOMContentLoaded", () => {
         addMessage(prompt, "user");
         addMessage(replyTo(prompt), "assistant");
       });
+    });
+    $(".ai-chat__form", chat).addEventListener("submit", (event) => {
+      event.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+      addMessage(question, "user");
+      addMessage(replyTo(question), "assistant");
+      input.value = "";
+      input.focus();
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        $(".ai-chat__form", chat).requestSubmit();
+      }
+    });
+    chat.addEventListener("close", () => launcher.focus());
+  }
+
+  const savedTheme = read("settings", {}).theme;
+  if (["light", "dark", "system"].includes(savedTheme)) {
+    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    const applySavedTheme = () => {
+      document.documentElement.dataset.theme =
+        savedTheme === "system"
+          ? colorScheme.matches
+            ? "dark"
+            : "light"
+          : savedTheme;
+    };
+    applySavedTheme();
+    colorScheme.addEventListener("change", () => {
+      if (savedTheme === "system") applySavedTheme();
+    });
+  }
+
+  /* ===== Shared profile and settings drawer ===== */
+  const settingsTrigger = $("[data-open-profile]");
+  const roleElement = $(".role-chip");
+  if (roleElement) {
+    const roleLabels = {
+      recipient: "Người nhận",
+      driver: "Nhân viên giao hàng",
+      dispatcher: "Điều phối viên",
+      admin: "Quản trị viên",
+    };
+    const accountByLabel = Object.fromEntries(
+      Object.entries(roleLabels).map(([role, label]) => [label, role]),
+    );
+    const role = accountByLabel[roleElement.textContent.trim()] || "recipient";
+    const profileDefaults = {
+      recipient: {
+        email: "minhanh.recipient@parcelpulse.demo",
+        phone: "09•• ••• 123",
+      },
+      driver: {
+        email: "minhanh.driver@parcelpulse.demo",
+        phone: "09•• ••• 246",
+      },
+      dispatcher: {
+        email: "minhanh.dispatcher@parcelpulse.demo",
+        phone: "09•• ••• 810",
+      },
+      admin: { email: "admin.demo@parcelpulse.demo", phone: "09•• ••• 000" },
+    };
+    const session = read("demoSession", null);
+    const profileKey = `profile.${role}`;
+    const savedProfile = read(profileKey, {});
+    const profileName =
+      savedProfile.name ||
+      (session?.role === role
+        ? session.name
+        : $(".user strong")?.textContent.trim());
+    const settings = {
+      notifications: true,
+      compact: false,
+      ...read("profileSettings", {}),
+    };
+    const dialog = document.createElement("dialog");
+    dialog.className = "profile-drawer";
+    dialog.setAttribute("aria-labelledby", "profile-drawer-title");
+    dialog.innerHTML = `
+      <header class="profile-drawer__header">
+        <div><p class="eyebrow">Tài khoản demo</p><h2 id="profile-drawer-title">Hồ sơ &amp; cài đặt</h2></div>
+        <button class="profile-drawer__close" type="button" aria-label="Đóng cài đặt" data-close-profile>×</button>
+      </header>
+      <section class="profile-card" aria-label="Thông tin hồ sơ">
+        <span class="profile-avatar" aria-hidden="true">MA</span>
+        <div><strong data-profile-name></strong><span data-profile-role></span></div>
+      </section>
+      <dl class="profile-details">
+        <div><dt>Email</dt><dd data-profile-email></dd></div>
+        <div><dt>Điện thoại</dt><dd data-profile-phone></dd></div>
+      </dl>
