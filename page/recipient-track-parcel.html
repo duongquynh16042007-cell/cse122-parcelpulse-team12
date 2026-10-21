@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!-- Màn hình theo dõi kiện hàng của người nhận. -->
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff4f6">
+  <title>ParcelPulse - Theo dõi đơn hàng</title>
+  <link rel="stylesheet" href="../css/recipient-app.css">
+  <link rel="stylesheet" href="../css/role-pages.css">
+  <link rel="stylesheet" href="../css/track-parcel.css">
+  <link rel="stylesheet" href="../css/profile.css">
+  <script src="../js/role-pages.js" defer></script>
+  <script src="../js/recipient-pages.js" defer></script>
+</head>
+<body class="app-page tracking-page">
+  <div class="app-shell app">
+  <aside class="app-sidebar">
+    <a class="app-brand" href="recipient-track-parcel.html" aria-label="ParcelPulse">
+      <span class="app-brand-mark" aria-hidden="true">P</span>
+      <span>ParcelPulse</span>
+    </a>
+    <span class="app-role-tag role-chip">Người nhận</span>
+    <nav class="app-side-nav" aria-label="Điều hướng chính">
+      <a class="side-link active" href="recipient-track-parcel.html" aria-current="page"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg> Kiện hàng</a>
+      <a class="side-link" href="recipient-delivery-preferences.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9.5"/><circle cx="16.8" cy="7" r="2.6"/><path d="M20 17h-9.5"/><circle cx="7.2" cy="17" r="2.6"/></svg> Tuỳ chọn</a>
+      <a class="side-link" href="recipient-delivery-feedback.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/></svg> Phản hồi</a>
+    </nav>
+    <div class="side-user user">
+      <strong>Minh Anh</strong>
+      <span>Người nhận</span>
+    </div>
+  </aside>
+
+    <main class="app-main">
+      <section class="app-heading tracking-heading">
+        <div>
+          <p class="app-eyebrow">TRA CỨU VẬN ĐƠN</p>
+          <h1>Theo dõi kiện hàng</h1>
+          <p>Cập nhật hành trình, thời gian dự kiến và các ngoại lệ giao nhận.</p>
+        </div>
+        <span class="demo-hint">Mã thử: <strong>PPVN-4829-1024</strong></span>
+      </section>
+
+      <section class="app-card tracking-search" aria-label="Tra cứu vận đơn">
+        <label for="parcel-code">Mã đơn hàng</label>
+        <form class="portal-form" id="parcel-track-form" novalidate>
+          <div class="tracking-search-row">
+            <div class="tracking-input-wrap">
+              <span aria-hidden="true">⌕</span>
+              <input id="parcel-code" name="code" autocomplete="off"
+                placeholder="Nhập mã vận đơn, ví dụ PPVN-4829-1024" aria-describedby="track-status" required>
+            </div>
+            <button class="app-button" type="submit">Tra cứu</button>
+          </div>
+        </form>
+        <p id="track-status" class="app-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="track-result" aria-label="Kết quả theo dõi kiện hàng" hidden>
+        <p class="tracking-preview-note">Bản demo hiển thị hành trình minh họa cho mã bạn vừa nhập; thông tin này không phải dữ liệu vận chuyển trực tiếp.</p>
+        <div class="metric-grid tracking-metrics">
+          <article class="app-card metric">
+            <span>Trạng thái</span><strong>Đang giao</strong>
+            <small>Đã rời trung tâm phân loại</small>
+          </article>
+          <article class="app-card metric">
+            <span>Thời gian dự kiến</span><strong>14:10–14:35</strong>
+            <small>Hôm nay · ước tính</small>
+          </article>
+          <article class="app-card metric">
+            <span>Điểm tiếp theo</span><strong>Cầu Giấy</strong>
+            <small>Tuyến giao CG-14</small>
+          </article>
+          <article class="app-card metric">
+            <span>Khối lượng</span><strong>1,8 kg</strong>
+            <small>Giao tiêu chuẩn</small>
+          </article>
+        </div>
+
+        <div class="tracking-columns">
+          <div class="tracking-primary-column">
+            <article class="app-card parcel-card">
+              <div class="parcel-card-heading">
+                <div class="parcel-mark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg>
+                </div>
+                <div class="parcel-title">
+                  <p class="app-eyebrow">ĐANG VẬN CHUYỂN</p>
+                  <strong data-parcel-code>PPVN-4829-1024</strong>
+                  <small>Nắng Studio · Địa chỉ giao: 82 Duy Tân, Cầu Giấy, Hà Nội</small>
+                </div>
+                <span class="app-tag">Dự kiến hôm nay</span>
+              </div>
+            </article>
+
+            <article class="app-card timeline-card">
+              <div class="section-heading">
+                <div><p class="app-eyebrow">CẬP NHẬT VẬN CHUYỂN</p><h2 class="app-card-heading">Hành trình kiện hàng</h2></div>
+                <span class="app-card-copy">Theo thời gian</span>
+              </div>
+              <ol class="timeline-list">
+                <li class="is-done">
+                  <strong>Đã tạo đơn</strong>
+                  <small>08:12 · Người gửi đã bàn giao thông tin</small>
+                </li>
+                <li class="is-done">
+                  <strong>Đã lấy hàng</strong>
+                  <small>09:05 · Bưu cục Hà Nội 02</small>
+                </li>
+                <li class="is-done">
+                  <strong>Đã đến trung tâm phân loại</strong>
+                  <small>11:20 · Đã sắp xếp theo tuyến giao</small>
+                </li>
+                <li class="is-current">
+                  <strong>Đang giao</strong>
+                  <small>13:40 · Tài xế đang trên tuyến CG-14</small>
+                </li>
+                <li>
+                  <strong>Giao thành công</strong>
+                  <small>Chưa có cập nhật</small>
+                </li>
+              </ol>
+            </article>
+          </div>
+
+          <div class="tracking-secondary-column">
+            <article class="app-card eta-card">
+              <div class="section-heading">
+                <div><p class="app-eyebrow">THỜI GIAN DỰ KIẾN</p><h2 class="eta-time">14:10–14:35</h2></div>
+                <span class="eta-tag">Dự kiến</span>
+              </div>
+              <p class="app-card-copy">Thời gian có thể thay đổi theo tình hình giao thông và điều kiện thực tế.</p>
+              <a class="app-button eta-action" href="recipient-delivery-preferences.html">Tùy chọn giao hàng</a>
+            </article>
+
+            <article class="app-card tracking-support-card">
+              <div class="section-heading">
+                <div>
+                  <p class="app-eyebrow">CẦN HỖ TRỢ?</p>
+                  <h2 class="app-card-heading">Liên hệ & Phản hồi</h2>
+                </div>
+              </div>
+              <p class="app-card-copy">Nếu không có người nhận, hãy cập nhật khung giờ hoặc điểm nhận trước thời hạn.</p>
+              <div class="tracking-actions">
+                <a class="app-button" href="recipient-delivery-preferences.html">Cập nhật cách nhận</a>
+                <a class="app-button app-button-secondary" href="recipient-delivery-feedback.html">Gửi phản hồi</a>
+              </div>
+            </article>
+          </div>
+        </div>
+        <p class="app-card-copy tracking-disclaimer">Dữ liệu trên trang là dữ liệu minh họa; không phản ánh vị trí giao hàng thực tế.</p>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

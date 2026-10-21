@@ -1,0 +1,54 @@
+/* Tệp nguoi-nhan.css trong ứng dụng ParcelPulse. */
+/* Kiểu dáng và thành phần dùng chung cho người nhận. */
+.rating-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.rating-option {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.rating-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.rating-option span {
+  display: block;
+  color: #d89a35;
+  font-size: 25px;
+  line-height: 1;
+  opacity: 0.82;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.rating-option.is-selected span, .rating-option:hover span {
+  opacity: 1;
+}
+
+.rating-option:hover span {
+  transform: scale(1.12);
+}
+
+.rating-option input:focus-visible + span {
+  outline: 2px solid #f2a1bd;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.rating-caption {
+  min-height: 18px;
+  margin: 0;
+  color: var(--app-pink-dark);
+  font-size: 12px;
+  font-weight: 700;
+}

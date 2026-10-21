@@ -1,0 +1,312 @@
+<!doctype html>
+<!-- Trang chủ và tra cứu nhanh dành cho khách. -->
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang cá nhân — ParcelPulse</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-top">
+          <div class="user-status">
+            <span class="status-badge">NGƯỜI NHẬN - KHÔNG CẦN TÀI KHOẢN</span>
+          </div>
+          <div class="auth-status">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span class="not-logged">Chưa đăng nhập</span>
+          </div>
+        </div>
+
+        <div class="header-main">
+          <h1>Trang cá nhân</h1>
+          <p class="subtitle">
+            Nhận kiện hàng an toàn, theo dõi hành trình và quản lý trải nghiệm
+            của bạn.
+          </p>
+        </div>
+
+        <div class="welcome-banner">
+          <div class="welcome-icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div class="welcome-content">
+            <h2>Chào bạn, khách của ParcelPulse!</h2>
+            <p>
+              Bạn vẫn có thể nhận hàng mà không cần tài khoản. Hãy nhập mã để
+              xem chi tiết đơn hàng và đánh giá sản phẩm.
+            </p>
+          </div>
+          <div class="welcome-actions">
+            <a href="login.html" class="btn btn-primary">Đăng nhập</a>
+            <a href="register.html" class="btn btn-outline">Đăng ký</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Package Tracking Section -->
+        <section class="tracking-section">
+          <div class="section-header">
+            <div class="section-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M16.5 9.4l-9-5.19M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"
+                ></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <div>
+              <h2>Lấy / nhận kiện hàng</h2>
+              <p>Xác minh người nhận, không cần đăng nhập</p>
+            </div>
+            <button class="btn-text">Dành cho khách</button>
+          </div>
+
+          <!-- Steps -->
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h3>Nhập thông tin</h3>
+              <p>Mã vận đơn và số điện thoại nhận hàng.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <h3>Xác minh OTP</h3>
+              <p>Nhập mã gửi đến số điện thoại của bạn.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h3>Nhận kiện hàng</h3>
+              <p>Xuất trình mã nhận hàng khi được yêu cầu.</p>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form class="tracking-form" id="trackingForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="trackingCode">Mã vận đơn</label>
+                <div class="input-with-icon">
+                  <svg
+                    class="icon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                    ></path>
+                  </svg>
+                  <input
+                    type="text"
+                    id="trackingCode"
+                    placeholder="Nhập mã từ SMS / thông báo"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="phoneNumber">Số điện thoại người nhận</label>
+                <div class="input-with-icon">
+                  <svg
+                    class="icon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"
+                    ></path>
+                  </svg>
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    placeholder="Số điện thoại trên kiện hàng"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-note">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span
+                >OTP chỉ dùng để xác minh nhận hàng. Không tạo tài khoản hoặc mã
+                chỉ tiết đơn hàng.</span
+              >
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-large">
+              Gửi mã xác minh
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+
+            <div class="form-info">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <span
+                >Chỉ cung cấp mã nhận hàng cho nhân viên khi nhận kiện
+                hàng.</span
+              >
+            </div>
+          </form>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+          <h2 class="section-title">Đồng hành cùng kiện hàng của bạn</h2>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <h3>Theo dõi kiện hàng</h3>
+              <p>
+                Tra cứu trạng thái vận chuyển bằng mã vận đơn. Không hiển thị
+                chi tiết riêng tư.
+              </p>
+              <a href="#" class="link">Tra cứu kiện hàng →</a>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 11l3 3L22 4"></path>
+                  <path
+                    d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
+                  ></path>
+                </svg>
+              </div>
+              <h3>Tùy chọn giao nhận</h3>
+              <p>
+                Tìm hiểu đổi lịch giao, điểm nhận và hướng dẫn giao hàng. Xác
+                minh trước khi thay đổi.
+              </p>
+              <a href="#" class="link">Xem hướng dẫn →</a>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                  ></path>
+                </svg>
+              </div>
+              <h3>Phản hồi & hỗ trợ</h3>
+              <p>
+                Cần giúp nhận hàng hoặc báo sự cố? Liên hệ hỗ trợ mà không cần
+                tải tài khoản.
+              </p>
+              <a href="#" class="link">Yêu cầu hỗ trợ →</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 ParcelPulse. Hệ thống vận hành thông minh.</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

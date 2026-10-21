@@ -1,35 +1,30 @@
 # ParcelPulse
 
-ParcelPulse là giao diện mô phỏng theo dõi giao hàng và xử lý ngoại lệ cho người nhận.
+Giao diện demo cho quy trình giao nhận bưu kiện. Thư mục này hợp nhất trang chủ và xác thực dùng chung, các màn hình người nhận, cùng những màn hình nhóm đang phát triển.
 
-## Phạm vi sinh viên 1
+## Chạy dự án
 
-- Theo dõi đơn hàng: [recipient-track-parcel.html](../pages/recipient-track-parcel.html)
-- Tùy chọn đơn hàng của khách hàng: [recipient-delivery-preferences.html](../pages/recipient-delivery-preferences.html)
-- Phản hồi giao hàng: [recipient-delivery-feedback.html](../pages/recipient-delivery-feedback.html)
-- Danh sách màn hình và người phụ trách: [screen-list.md](../screen-list.md)
-- Luồng người nhận: [user-flow.md](../docs/user-flow.md)
+Mở thư mục gốc bằng VS Code và chạy bằng Live Server. Điểm vào tiếng Việt là `page/trang-chu.html`; trang chủ demo bổ sung là `page/index.html`. Dùng Live Server để các đường dẫn nội bộ hoạt động đầy đủ.
 
-Mỗi trang giữ HTML, CSS và JavaScript riêng. Các màn hình người nhận dùng chung
-`../css/recipient-app.css`; dữ liệu vận đơn mẫu nằm tại `../data/parcels.json`.
+## Trang chính bằng tiếng Việt
 
-## Chạy thử
+- `page/trang-chu.html`: trang chủ chung, dẫn đến đăng nhập và đăng ký.
+- `page/dang-nhap.html`: đăng nhập demo, chọn người nhận, nhân viên giao hàng, điều phối viên hoặc quản trị viên.
+- `page/dang-ky.html` và `page/quen-mat-khau.html`: biểu mẫu xác thực demo.
+- `page/theo-doi-kien-hang.html`, `page/tuy-chon-giao-nhan.html` và `page/phan-hoi-giao-hang.html`: chức năng dành cho người nhận.
 
-Mở thư mục gốc dự án bằng VS Code và chạy `index.html` bằng Live Server.
-Không mở trực tiếp bằng `file://`, vì trang theo dõi tải dữ liệu từ tệp JSON qua HTTP.
+## Các màn hình nhóm bổ sung
 
-Tài khoản demo: `demo@parcelpulse.vn` / `Parcel123`.
+- `page/index.html`, `page/login.html`, `page/register.html` và `page/forgot-password.html`: bộ trang demo bổ sung.
+- `page/recipient-track-parcel.html`, `page/recipient-delivery-preferences.html` và `page/recipient-delivery-feedback.html`: các màn hình người nhận.
+- `page/admin-user-management.html`: màn hình quản lý người dùng; các màn hình quản trị khác có thể được ghép từ nhánh thành viên phụ trách.
 
-## Dữ liệu demo
+Mỗi file HTML, CSS và JavaScript có ghi chú ngắn mô tả chức năng. CSS và JavaScript được chia theo trang hoặc nhóm chức năng để thuận tiện ghép phần.
 
-- Tra cứu vận đơn: `PP1001` đến `PP1005` (đang giao, trễ thời tiết, đã giao, chờ lấy bưu cục, trễ do địa chỉ).
-  Trong đó `PP1001`–`PP1004` đứng tên khách hàng demo `Minh Anh`; `PP1005` là đơn của khách khác
-  nên không xuất hiện trong màn hình tùy chọn đơn hàng của Minh Anh.
-- Màn hình Tùy chọn đơn hàng chỉ liệt kê đơn hàng đứng tên khách đăng nhập. Nếu tài khoản đăng nhập
-  chưa có đơn hàng riêng trong dữ liệu mẫu (ví dụ tài khoản mới đăng ký), màn hình tự gắn bộ đơn hàng
-  demo `PP1001`–`PP1004` đứng tên tài khoản đó và hiển thị thông báo rõ ràng, để trang không bao giờ
-  rơi vào trạng thái trống.
-- Tùy chọn đơn hàng lưu riêng theo từng đơn hàng và từng tài khoản (localStorage phiên bản 3, khóa theo
-  email phiên đăng nhập); phản hồi và giải thích ETA cũng lưu trong `localStorage` của trình duyệt hiện tại.
-- Giải thích ETA là luồng mô phỏng dựa trên dữ liệu JSON, không gọi dịch vụ AI thật.
-- Đăng nhập là luồng minh họa phía trình duyệt, không dùng cho xác thực thật.
+## Ghép phần của nhóm
+
+- Trang người nhận liên kết tới `page/settings.html?role=recipient`; ghép trang cài đặt và tài nguyên từ thành viên phụ trách.
+- Ghép các màn hình nhân viên giao hàng, điều phối viên, quản trị viên và trợ lý AI từ các thành viên tương ứng; cập nhật liên kết sau khi thống nhất tên tệp.
+- Kiểm tra đường dẫn tương đối đến CSS, JavaScript và các trang HTML sau khi ghép.
+
+Đăng nhập, đăng ký, khôi phục mật khẩu và dữ liệu hiện tại chỉ là demo phía trình duyệt, chưa kết nối máy chủ hoặc cơ sở dữ liệu.

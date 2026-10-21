@@ -1,0 +1,13 @@
+/* Tệp dang-ky.css trong ứng dụng ParcelPulse. */
+/* Kiểu dáng riêng cho trang đăng ký. */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.notice.warn {
+  border: 1px solid #f1dc9a;
+  background: #fff7e0;
+  color: #7a5b00;
+}

@@ -1,163 +1,204 @@
-const SESSION_KEY = 'parcelpulse-session';
-const USERS_KEY = 'parcelpulse-users';
-const SETTINGS_KEY = 'parcelpulse-settings';
-const WELCOME_KEY = 'parcelpulse-welcome';
-const DEFAULT_PAGE = 'recipient-track-parcel.html';
-const GUEST_PAGE = 'guest-profile.html';
-const APP_PAGES = new Set([
-  'recipient-track-parcel.html',
-  'recipient-delivery-preferences.html',
-  'recipient-delivery-feedback.html',
-  'recipient-settings.html'
-]);
-const AUTH_PAGES = new Set(['login.html', 'register.html', 'forgot-password.html']);
-const DEMO_USER = {
-  name: 'Minh Anh',
-  email: 'demo@parcelpulse.vn',
-  phone: '0904821024',
-  password: 'Parcel123'
-};
+// Xử lý đăng nhập và khôi phục mật khẩu demo.
+document.addEventListener("DOMContentLoaded", () => {
+  // =========================================================================
+  // PHẦN 1: LOGIC CHO TRANG ĐĂNG NHẬP (Login)
+  // =========================================================================
+  const loginForm = document.getElementById("loginForm");
 
-function readJson(storage, key) {
-  try {
-    const raw = storage.getItem(key);
-    return raw ? JSON.parse(raw) : null;
-  } catch (error) {
-    return null;
-  }
-}
+  if (loginForm) {
+    const identity = document.getElementById("identity");
+    const password = document.getElementById("password");
+    const roleInput = document.getElementById("role");
+    const identityError = document.getElementById("identityError");
+    const passwordError = document.getElementById("passwordError");
+    const formAlert = document.getElementById("formAlert");
+    const togglePassword = document.getElementById("togglePassword");
+    const roleButtons = document.querySelectorAll(".role-option");
 
-function getSession() {
-  let session = readJson(sessionStorage, SESSION_KEY);
-  if (!session) {
-    session = readJson(localStorage, SESSION_KEY);
-    if (session && session.remember) {
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    // Chọn vai trò đăng nhập
+    roleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        roleButtons.forEach((item) => {
+          item.classList.remove("active");
+          item.setAttribute("aria-pressed", "false");
+        });
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", "true");
+        roleInput.value = button.dataset.role;
+      });
+    });
+
+    // Hiện / ẩn mật khẩu
+    if (togglePassword) {
+      togglePassword.addEventListener("click", () => {
+        const isPassword = password.type === "password";
+        password.type = isPassword ? "text" : "password";
+        togglePassword.textContent = isPassword ? "Ẩn" : "Hiện";
+        togglePassword.setAttribute(
+          "aria-label",
+          isPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu",
+        );
+      });
+    }
+
+    // Xóa trạng thái lỗi khi người dùng bắt đầu sửa
+    identity.addEventListener("input", () =>
+      clearFieldError(identity, identityError),
+    );
+    password.addEventListener("input", () =>
+      clearFieldError(password, passwordError),
+    );
+
+    function clearFieldError(input, message) {
+      input.classList.remove("invalid");
+      input.removeAttribute("aria-invalid");
+      message.textContent = "";
+      hideAlert();
+    }
+
+    function showFieldError(input, messageElement, message) {
+      input.classList.add("invalid");
+      input.setAttribute("aria-invalid", "true");
+      messageElement.textContent = message;
+    }
+
+    function hideAlert() {
+      formAlert.textContent = "";
+      formAlert.className = "form-alert";
+    }
+
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearFieldError(identity, identityError);
+      clearFieldError(password, passwordError);
+      let isValid = true;
+
+      const identityValue = identity.value.trim();
+      const passwordValue = password.value;
+
+      if (identityValue === "") {
+        showFieldError(
+          identity,
+          identityError,
+          "Vui lòng nhập email hoặc số điện thoại.",
+        );
+        isValid = false;
+      } else {
+        const looksLikeEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identityValue);
+        const looksLikePhone = /^[0-9+\s()-]{9,15}$/.test(identityValue);
+        if (!looksLikeEmail && !looksLikePhone) {
+          showFieldError(
+            identity,
+            identityError,
+            "Nhập email hợp lệ hoặc số điện thoại từ 9–15 chữ số.",
+          );
+          isValid = false;
+        }
+      }
+
+      if (passwordValue.trim() === "") {
+        showFieldError(password, passwordError, "Vui lòng nhập mật khẩu.");
+        isValid = false;
+      } else if (passwordValue.length < 6) {
+        showFieldError(
+          password,
+          passwordError,
+          "Mật khẩu phải có ít nhất 6 ký tự.",
+        );
+        isValid = false;
+      }
+
+      if (!isValid) {
+        formAlert.textContent = "Vui lòng kiểm tra lại thông tin đăng nhập.";
+        formAlert.className = "form-alert error show";
+        const firstInvalid = loginForm.querySelector(".invalid");
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      const roleNames = {
+        driver: "Nhân viên giao hàng",
+        dispatcher: "Điều phối viên",
+        admin: "Quản trị viên",
+      };
+
+      formAlert.textContent = `Thông tin hợp lệ cho vai trò ${roleNames[roleInput.value]}. Đây là bản demo giao diện; chưa xác thực tài khoản với máy chủ.`;
+      formAlert.className = "form-alert success show";
+    });
+
+    const forgotLink = document.getElementById("forgotLink");
+    if (forgotLink) {
+      forgotLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        formAlert.textContent =
+          "Chức năng quên mật khẩu sẽ được kết nối khi xây dựng trang khôi phục mật khẩu.";
+        formAlert.className = "form-alert success show";
+      });
+    }
+
+    const registerLink = document.getElementById("registerLink");
+    if (registerLink) {
+      registerLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        formAlert.textContent =
+          "Trang đăng ký sẽ được xây dựng ở bước tiếp theo.";
+        formAlert.className = "form-alert success show";
+      });
     }
   }
-  return session && session.email ? session : null;
-}
 
-function setSession(profile, remember = false) {
-  const session = Object.assign({}, profile, {
-    remember: Boolean(remember),
-    loggedInAt: new Date().toISOString()
-  });
-  sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  if (remember) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  } else {
-    localStorage.removeItem(SESSION_KEY);
+  // =========================================================================
+  // PHẦN 2: LOGIC CHO TRANG QUÊN MẬT KHẨU (Forgot Password) - ĐÃ THÊM
+  // =========================================================================
+  const forgotForm = document.querySelector('[data-form="forgot"]');
+
+  if (forgotForm) {
+    const tabs = document.querySelectorAll(".tab");
+    const panes = document.querySelectorAll("[data-pane]");
+
+    // Xử lý chuyển đổi tab Email / Số điện thoại
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.tab;
+
+        // Cập nhật trạng thái của các tab
+        tabs.forEach((t) => {
+          t.setAttribute("aria-selected", "false");
+          t.classList.remove("active"); // Nếu bạn có class active trong CSS
+        });
+        tab.setAttribute("aria-selected", "true");
+        tab.classList.add("active");
+
+        // Hiển thị/Ẩn ô input tương ứng
+        panes.forEach((pane) => {
+          if (pane.dataset.pane === target) {
+            pane.hidden = false;
+          } else {
+            pane.hidden = true;
+          }
+        });
+      });
+    });
+
+    // Xử lý submit form quên mật khẩu (Demo)
+    forgotForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const statusEl = document.getElementById("status");
+      const activeTab = document.querySelector('.tab[aria-selected="true"]')
+        .dataset.tab;
+      const inputValue =
+        activeTab === "email"
+          ? document.getElementById("rec-email").value
+          : document.getElementById("rec-phone").value;
+
+      if (!inputValue.trim()) {
+        statusEl.textContent = `Vui lòng nhập ${activeTab === "email" ? "email" : "số điện thoại"}.`;
+        statusEl.style.color = "red";
+        return;
+      }
+
+      statusEl.textContent = `Đã gửi liên kết khôi phục đến ${activeTab === "email" ? "email" : "SĐT"} của bạn (Demo).`;
+      statusEl.style.color = "green";
+    });
   }
-  return session;
-}
-
-function clearSession() {
-  sessionStorage.removeItem(SESSION_KEY);
-  localStorage.removeItem(SESSION_KEY);
-}
-
-function listUsers() {
-  const users = readJson(localStorage, USERS_KEY);
-  return Array.isArray(users) ? users : [];
-}
-
-function normalizePhone(value) {
-  return String(value || '').replace(/[^\d+]/g, '').replace(/^\+84/, '0');
-}
-
-function findUser(identifier, password) {
-  const contact = String(identifier || '').trim().toLowerCase();
-  const phone = normalizePhone(contact);
-  return [DEMO_USER].concat(listUsers()).find((user) => {
-    const emailMatch = Boolean(user.email) && user.email.toLowerCase() === contact;
-    const phoneMatch = phone.length >= 9 && normalizePhone(user.phone) === phone;
-    return (emailMatch || phoneMatch) && user.password === password;
-  }) || null;
-}
-
-function getDestination() {
-  const requestedPage = new URLSearchParams(window.location.search).get('next');
-  return APP_PAGES.has(requestedPage) ? requestedPage : DEFAULT_PAGE;
-}
-
-function applyTheme(theme) {
-  const resolved = theme === 'dark'
-    ? 'dark'
-    : theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', resolved);
-}
-
-function initTheme() {
-  const settings = readJson(localStorage, SETTINGS_KEY) || {};
-  applyTheme(settings.theme || 'light');
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    const current = (readJson(localStorage, SETTINGS_KEY) || {}).theme || 'light';
-    if (current === 'system') {
-      applyTheme('system');
-    }
-  });
-}
-
-function showToast(message) {
-  const toast = document.createElement('div');
-  toast.className = 'app-toast';
-  toast.setAttribute('role', 'status');
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  window.setTimeout(() => toast.classList.add('visible'), 10);
-  window.setTimeout(() => {
-    toast.classList.remove('visible');
-    window.setTimeout(() => toast.remove(), 300);
-  }, 3400);
-}
-
-const currentPage = window.location.pathname.split('/').pop();
-const currentSession = getSession();
-
-if (AUTH_PAGES.has(currentPage)) {
-  if (currentSession) {
-    window.location.replace(getDestination());
-  }
-} else if (APP_PAGES.has(currentPage)) {
-  if (!currentSession) {
-    window.location.replace(`login.html?next=${encodeURIComponent(currentPage)}`);
-  } else {
-    initTheme();
-    const nameEl = document.getElementById('sideUserName');
-    if (nameEl) {
-      nameEl.textContent = currentSession.name || 'Khách ParcelPulse';
-    }
-    const welcome = sessionStorage.getItem(WELCOME_KEY);
-    if (welcome) {
-      sessionStorage.removeItem(WELCOME_KEY);
-      window.setTimeout(() => showToast(welcome), 350);
-    }
-  }
-}
-
-const logoutButton = document.getElementById('logoutBtn');
-if (logoutButton) {
-  logoutButton.addEventListener('click', () => {
-    clearSession();
-    window.location.replace(GUEST_PAGE);
-  });
-}
-
-window.ParcelPulseAuth = {
-  SESSION_KEY,
-  USERS_KEY,
-  SETTINGS_KEY,
-  DEMO_USER,
-  DEFAULT_PAGE,
-  GUEST_PAGE,
-  getSession,
-  setSession,
-  clearSession,
-  listUsers,
-  findUser,
-  normalizePhone,
-  getDestination,
-  applyTheme,
-  showToast
-};
+});
