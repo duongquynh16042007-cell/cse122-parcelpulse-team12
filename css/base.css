@@ -1,0 +1,231 @@
+/* ===== Design tokens ===== */
+:root {
+  --bg: #fff4f6;
+  --card: #ffffff;
+  --line: #f4dce4;
+  --ink: #33182a;
+  --muted: #8a6f7d;
+  --pink: #c93f6c;
+  --pink-dark: #a8335a;
+  --pink-soft: #fbdbe6;
+  --pink-bg: #fff0f4;
+  --bar: #f4b9cf;
+  --bar-hot: #e8588d;
+  --green: #17663f;
+  --green-bg: #d8f3e4;
+  --amber: #7a4a00;
+  --amber-bg: #fdebc4;
+  --indigo: #3b45a8;
+  --indigo-bg: #e3e7fb;
+  --red: #a11d3c;
+  --red-bg: #fddde3;
+  --radius: 16px;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #211a20;
+  --card: #30252e;
+  --line: #4a3945;
+  --ink: #f6eaf0;
+  --muted: #c0a9b6;
+  --pink: #e66f9a;
+  --pink-dark: #f2b9cd;
+  --pink-soft: #49303d;
+  --pink-bg: #382832;
+  --green: #8ed0a8;
+  --red: #ff9eae;
+  --red-bg: #482932;
+}
+
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    Roboto,
+    Arial,
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+h1,
+h2,
+p {
+  margin: 0;
+}
+:focus-visible {
+  outline: 3px solid #f2a1bd;
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ===== Khung ứng dụng: sidebar + nội dung ===== */
+.app {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.side {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 14px;
+  background: var(--card);
+  border-right: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.logo {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--pink);
+  color: #fff;
+}
+
+.role-chip {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--pink-soft);
+  color: #7d1f46;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+.nav a::before {
+  content: "";
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #9b7a8a;
+  border-radius: 50%;
+}
+.nav a.nav-item--icon::before {
+  display: none;
+}
+.nav-icon {
+  display: inline-grid;
+  flex: none;
+  width: 15px;
+  height: 15px;
+  place-items: center;
+  color: #9b7a8a;
+  font-size: 15px;
+  line-height: 1;
+}
+.nav a:hover {
+  background: var(--pink-bg);
+}
+.nav a[aria-current="page"] {
+  background: var(--pink-soft);
+  color: #7d1f46;
+}
+.nav a[aria-current="page"] .nav-icon {
+  color: var(--pink);
+}
+.nav a[aria-current="page"]::before {
+  border-color: var(--pink);
+  background: radial-gradient(circle, var(--pink) 38%, transparent 42%);
+}
+.nav a[aria-disabled="true"] {
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .side {
+  background: var(--card);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .side .nav a[aria-current="page"] {
+  background: #ed4084;
+  color: #fff;
+}
+
+html[data-theme="dark"] .side .nav a[aria-current="page"] .nav-icon {
+  color: #fff;
+}
+
+html[data-theme="dark"] .side .nav a:focus-visible {
+  background: #ed4084;
+  color: #fff;
+}
+
+html[data-theme="dark"] .side .nav a:focus-visible .nav-icon {
+  color: #fff;
+}
+
+.ai-group {
+  border: 1px solid var(--pink-soft);
+  border-radius: 14px;
+  padding: 10px;
+}
+.ai-group h2 {
+  margin-bottom: 6px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pink);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ai-group .nav a {
+  padding: 8px 10px;
+  font-size: 13px;
