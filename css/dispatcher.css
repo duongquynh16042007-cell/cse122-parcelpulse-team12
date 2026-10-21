@@ -1,0 +1,382 @@
+/* ===== Trang Điều hành ===== */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.kpi {
+  --c: #e8588d;
+  --ct: var(--pink);
+  padding: 14px 16px;
+}
+.kpi.green {
+  --c: #1f8a5a;
+  --ct: var(--green);
+}
+.kpi.amber {
+  --c: #d98a10;
+  --ct: #8a5200;
+}
+.kpi.indigo {
+  --c: #5b66d6;
+  --ct: var(--indigo);
+}
+.kpi .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.kpi .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.kpi strong {
+  display: block;
+  margin: 6px 0 2px;
+  font-size: 26px;
+  font-weight: 600;
+}
+.kpi small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ct);
+}
+
+.ov {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 170px;
+}
+.bar {
+  flex: 1;
+  height: var(--h, 0%);
+  border-radius: 6px 6px 3px 3px;
+  background: var(--bar);
+  transition:
+    height 0.35s ease,
+    background-color 0.2s;
+}
+.bar.peak {
+  background: var(--bar-hot);
+}
+.axis {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.axis span {
+  grid-column: span 2;
+}
+
+.map {
+  position: relative;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: #14121f;
+}
+.map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.map .tag {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  padding: 4px 9px;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 600;
+}
+.legend {
+  display: flex;
+  gap: 14px;
+  padding: 8px 4px 0;
+  font-size: 11px;
+  color: #e9d9e2;
+}
+.legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+/* ===== Trang Hàng đợi ngoại lệ ===== */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.search {
+  flex: 1;
+  min-width: 220px;
+}
+.search input,
+.toolbar select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+.toolbar select {
+  width: auto;
+}
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.pager nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+}
+.pager .page {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--pink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pager .page[aria-current="page"] {
+  background: var(--pink);
+  color: #fff;
+}
+.pager .step {
+  border: 0;
+  background: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ex-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+
+.detail-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.detail-head > div {
+  flex: 1;
+}
+.detail-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--pink);
+  color: #fff;
+}
+.detail-text {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.why {
+  font-size: 12px;
+  color: var(--muted);
+}
+#exception-type-edit {
+  padding: 5px 8px;
+  border: 1px solid var(--pink);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.sla-bar {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+  margin: 14px 0 8px;
+}
+.sla-bar span {
+  border-radius: 999px;
+}
+.sla-bar .ok {
+  flex: 22;
+  background: #1f8a5a;
+}
+.sla-bar .soon {
+  flex: 10;
+  background: #c47a12;
+}
+.sla-bar .late {
+  flex: 4;
+  background: #c93f55;
+}
+.sla-note {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ===== Trang Phân công lại ===== */
+.re {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
+  gap: 16px;
+  align-items: start;
+}
+.list {
+  display: grid;
+  gap: 8px;
+}
+
+.stop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.stop:has(input:checked) {
+  background: var(--pink-bg);
+  border-color: var(--pink-soft);
+}
+.stop input {
+  accent-color: var(--pink);
+}
+.stop .meta {
+  flex: 1;
+  font-size: 12px;
+  color: var(--muted);
+}
+.stop .meta b {
+  display: block;
+  font-size: 13px;
+  color: var(--ink);
+}
+.stop time {
+  font-size: 12px;
+  font-weight: 600;
+}
+.foot {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+.empty-note {
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.driver {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+}
+.driver input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.driver:has(input:checked) {
+  background: var(--pink-bg);
+  border-color: var(--pink);
+}
+.driver:has(input:focus-visible) {
+  outline: 3px solid #f2a1bd;
+  outline-offset: 2px;
+}
+.driver b {
+  display: block;
+  font-size: 13px;
+}
+.driver small {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.driver .fit {
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+}
+.driver .fit small {
+  display: block;
+  font-weight: 400;
+}
+
+.route-map {
+  margin-top: 16px;
+  overflow: hidden;
+  padding: 0;
+}
+.route-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1180px) {
+  .kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ov,
+  .ex-bottom,
+  .re {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .kpis {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+}
