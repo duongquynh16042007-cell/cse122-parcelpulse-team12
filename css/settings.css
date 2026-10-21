@@ -266,3 +266,137 @@
 .switch input:focus-visible + .switch-track {
   outline: 2px solid var(--pink);
   outline-offset: 2px;
+}
+
+.setting-line-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 0 0 auto;
+}
+
+.state-label {
+  color: var(--pink-dark);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.settings-footnote,
+.device-note {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+}
+
+.theme-group {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--pink-bg);
+}
+
+.theme-group button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 5px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.theme-group button:hover {
+  color: var(--pink-dark);
+}
+
+.theme-group button.active {
+  background: var(--pink-soft);
+  color: var(--pink-dark);
+}
+
+.theme-copy {
+  margin: -4px 0 0;
+}
+
+.session-card {
+  padding: 18px 20px;
+  border-color: var(--pink-soft);
+  background: var(--pink-bg);
+}
+
+.session-card .settings-card-head {
+  align-items: center;
+  width: 100%;
+}
+
+.session-card .sub {
+  max-width: 620px;
+}
+
+.session-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin-left: auto;
+  background: #f7c9d7;
+  color: var(--pink-dark);
+}
+
+.session-logout:hover {
+  background: #f2b3c6;
+}
+
+.settings-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+}
+
+.settings-footer > div:first-child strong,
+.settings-footer > div:first-child span {
+  display: block;
+}
+
+.settings-footer > div:first-child strong {
+  font-size: 12px;
+}
+
+.settings-footer-actions,
+.settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.settings-inline-message {
+  margin: 0;
+}
+
+.settings-inline-message[data-tone="error"] {
+  color: var(--red);
+}
+
+.settings-inline-message[data-tone="success"] {
+  color: var(--green);
+}
+
+.settings-user {
+  display: grid;
+  gap: 3px;
+}
+
+.settings-user > span {
+  margin: 0;
