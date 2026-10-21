@@ -1,6 +1,6 @@
 ﻿# ParcelPulse — Hệ thống vận hành giao nhận
 
-Bản demo giao diện quản lý vận hành giao nhận với hai vai trò: **Điều hành (Điều phối viên)** và **Quản trị viên**. Trang chủ `page/index.html` mở không gian điều hành. Các trang dùng dữ liệu mẫu và lưu thay đổi cục bộ trên trình duyệt.
+Bản demo giao diện quản lý vận hành giao nhận với hai vai trò: **Điều hành (Điều phối viên)** và **Quản trị viên**. Các trang dùng dữ liệu mẫu và lưu thay đổi cục bộ trên trình duyệt.
 
 ## Vai trò và chức năng
 
@@ -16,15 +16,11 @@ Bản demo giao diện quản lý vận hành giao nhận với hai vai trò: **
 - **Quản lý người dùng** (`page/admin-user-management.html`): tìm kiếm, lọc, thêm, sửa, khóa/mở khóa và xóa tài khoản demo.
 - **Báo cáo logistics** (`page/admin-logistics-report.html`): xem số liệu theo khoảng 7, 30 hoặc 90 ngày, lưu lựa chọn báo cáo và tải CSV mẫu.
 
-### Hồ sơ và cài đặt
-
-Các vai trò dùng chung trang `page/settings.html` để chỉnh sửa thông tin hồ sơ, tùy chọn thông báo, giao diện, ngôn ngữ và cài đặt bảo mật mô phỏng.
-
 ## Chạy thử
 
 1. Mở thư mục dự án trong VS Code.
 2. Chạy bằng Live Server.
-3. Mở `page/index.html` để vào trang tổng quan điều hành. Có thể mở trực tiếp các trang quản trị trong thư mục `page`.
+3. Mở `page/dispatcher-overview.html` để vào trang tổng quan điều hành. Có thể mở trực tiếp các trang quản trị trong thư mục `page`.
 
 ## Công nghệ
 
@@ -40,7 +36,6 @@ Các vai trò dùng chung trang `page/settings.html` để chỉnh sửa thông 
 - `css/base.css` và `css/profile.css`: kiểu dùng chung.
 - `css/dispatcher.css`: giao diện điều hành.
 - `css/admin.css`: giao diện quản trị.
-- `css/settings.css`: giao diện cài đặt.
 
 ## Liên kết dự án
 
