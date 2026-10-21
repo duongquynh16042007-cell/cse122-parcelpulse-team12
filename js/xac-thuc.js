@@ -1,4 +1,3 @@
-// Tệp xac-thuc.js trong ứng dụng ParcelPulse.
 // Xử lý đăng nhập, đăng ký và khôi phục mật khẩu.
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (selector, root = document) => root.querySelector(selector);

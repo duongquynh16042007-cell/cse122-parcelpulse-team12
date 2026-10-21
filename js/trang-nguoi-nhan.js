@@ -1,4 +1,3 @@
-// Tệp trang-nguoi-nhan.js trong ứng dụng ParcelPulse.
 // Tương tác cho các trang chức năng người nhận.
 document.addEventListener("DOMContentLoaded", () => {
   const { $, $$, read, write, toast, announce } = window.ParcelPulseRolePages;

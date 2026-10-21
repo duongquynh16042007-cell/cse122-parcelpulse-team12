@@ -1,4 +1,3 @@
-// Tệp trang-vai-tro.js trong ứng dụng ParcelPulse.
 // Điều hướng và tương tác dùng chung theo vai trò.
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (selector, root = document) => root.querySelector(selector);

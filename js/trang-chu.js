@@ -1,4 +1,3 @@
-// Tệp trang-chu.js trong ứng dụng ParcelPulse.
 // Trang chủ ParcelPulse.
 document.addEventListener("DOMContentLoaded", () => {
   const trackingForm = document.getElementById("trackingForm");
