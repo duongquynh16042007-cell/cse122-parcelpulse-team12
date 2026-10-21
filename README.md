@@ -42,3 +42,10 @@ Các vai trò dùng chung trang `page/settings.html` để chỉnh sửa thông 
 - `css/admin.css`: giao diện quản trị.
 - `css/settings.css`: giao diện cài đặt.
 
+## Liên kết dự án
+
+- [Figma](https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=zDJNyxMIUbNaoNGI-1)
+- [YouTube — Playlist 1](https://www.youtube.com/playlist?list=PLdwaB8kTRTB0)
+- [YouTube — Playlist 2](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
+- [GitHub](https://github.com/duongquynh16042007-cell/cse122-parcelpulse-team12.git)
+
