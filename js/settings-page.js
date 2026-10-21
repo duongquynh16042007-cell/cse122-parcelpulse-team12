@@ -87,3 +87,92 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameInput = $("#display-name");
   const phoneInput = $("#phone");
   const emailInput = $("#email");
+  const avatarInput = $("#avatar-input");
+  let settings = structuredClone(defaults);
+  let profile = { name: "Minh Anh", phone: roleInfo.phone };
+  let sessionData = session;
+
+  $("#settings-brand").href = roleInfo.landing;
+  $("#settings-role").textContent = roleInfo.label;
+  $("#settings-side-role").textContent = roleInfo.label;
+  $("#settings-eyebrow").textContent = `${roleInfo.label} · Tài khoản cá nhân`;
+  $("#settings-navigation").innerHTML = roleInfo.links
+    .map(
+      ([icon, label, href]) => {
+        const iconMarkup = recipientIcons[icon]
+          ? `<svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${recipientIcons[icon]}</svg>`
+          : `<span class="nav-icon" aria-hidden="true">${icon}</span>`;
+        return `<a class="nav-item--icon" href="${href}">${iconMarkup}${label}</a>`;
+      },
+    )
+    .join("");
+  $(".settings-trigger").href =
+    `settings.html?role=${encodeURIComponent(role)}`;
+
+  const showMessage = (element, text, tone = "") => {
+    element.textContent = text;
+    if (tone) element.dataset.tone = tone;
+    else delete element.dataset.tone;
+  };
+
+  const readJson = (key, fallback) => {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  };
+
+  const initialsOf = (name) => {
+    const parts = String(name || "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    if (parts.length === 0) return "PP";
+    return `${parts[0][0]}${parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || ""}`.toUpperCase();
+  };
+
+  const resolvedTheme = (theme) => {
+    if (theme !== "system") return theme;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  const applyTheme = (theme) => {
+    document.documentElement.dataset.theme = resolvedTheme(theme);
+  };
+
+  const setThemeButtons = (theme) => {
+    $$("[data-theme-option]").forEach((button) => {
+      const selected = button.dataset.themeOption === theme;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+  };
+
+  const syncTwoFactorState = () => {
+    $("#two-factor-state").textContent = $('[data-setting="twoFactor"]').checked
+      ? "Đang bật"
+      : "Đang tắt";
+  };
+
+  const loadSettings = () => {
+    try {
+      const legacy = readJson(legacySettingsKey, {});
+      const stored = readJson(settingsKey, {});
+      settings = {
+        ...structuredClone(defaults),
+        ...legacy,
+        ...stored,
+        notifications: {
+          ...defaults.notifications,
+          ...(stored.notifications || {}),
+        },
+      };
+      const sessionName =
+        sessionRole === role && typeof session?.name === "string"
+          ? session.name.trim()
+          : "";
+      profile = {
+        name: sessionName || "Minh Anh",
+        phone: roleInfo.phone,
+        ...readJson(profileKey, {}),
+      };
