@@ -280,3 +280,98 @@ document.addEventListener("DOMContentLoaded", () => {
         <div><dt>Email</dt><dd data-profile-email></dd></div>
         <div><dt>Điện thoại</dt><dd data-profile-phone></dd></div>
       </dl>
+      <section class="profile-preferences" aria-labelledby="profile-preferences-title">
+        <h3 id="profile-preferences-title">Tùy chọn giao diện</h3>
+        <label><span><strong>Thông báo trong ứng dụng</strong><small>Hiện thông báo thao tác của bản demo.</small></span><input type="checkbox" data-setting="notifications" /></label>
+        <label><span><strong>Giao diện gọn</strong><small>Thu gọn khoảng cách trong khu vực làm việc.</small></span><input type="checkbox" data-setting="compact" /></label>
+      </section>
+      <p class="profile-drawer__note" role="status" aria-live="polite">Thông tin và tùy chọn chỉ lưu trên thiết bị này; không phải tài khoản thật.</p>
+      <button class="profile-logout" type="button" data-profile-logout>Đăng xuất</button>
+    `;
+    document.body.append(dialog);
+
+    const applyDensity = () => {
+      const app = $(".app");
+      if (app)
+        app.dataset.density = settings.compact ? "compact" : "comfortable";
+    };
+    const initialsOf = (name) => {
+      const parts = String(name || "")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+      if (parts.length === 0) return "PP";
+      return `${parts[0][0]}${parts.length > 1 ? parts[parts.length - 1][0] : parts[0][1] || ""}`.toUpperCase();
+    };
+    const applyProfileName = (name) => {
+      if (!name) return;
+      const sidebarName = $(".user strong");
+      if (sidebarName) sidebarName.textContent = name;
+      $("[data-profile-name]", dialog).textContent = name;
+      $(".profile-avatar", dialog).textContent = initialsOf(name);
+    };
+    const updatePreference = (input) => {
+      settings[input.dataset.setting] = input.checked;
+      write("profileSettings", settings);
+      applyDensity();
+      const note = $(".profile-drawer__note", dialog);
+      note.textContent =
+        input.dataset.setting === "notifications"
+          ? `Thông báo trong ứng dụng đã ${input.checked ? "bật" : "tắt"}. Tùy chọn được lưu trên thiết bị này.`
+          : `Giao diện gọn đã ${input.checked ? "bật" : "tắt"}. Tùy chọn được lưu trên thiết bị này.`;
+    };
+    $$("[data-setting]", dialog).forEach((input) => {
+      input.checked = settings[input.dataset.setting] === true;
+      input.addEventListener("change", () => updatePreference(input));
+    });
+    applyDensity();
+    applyProfileName(profileName || "Minh Anh");
+    $("[data-profile-role]", dialog).textContent = roleLabels[role];
+    $("[data-profile-email]", dialog).textContent = profileDefaults[role].email;
+    $("[data-profile-phone]", dialog).textContent = profileDefaults[role].phone;
+    window.addEventListener("storage", (event) => {
+      if (event.key !== `parcelpulse.${profileKey}` || !event.newValue) return;
+      const updatedProfile = JSON.parse(event.newValue);
+      applyProfileName(updatedProfile.name);
+    });
+
+    const profileCard = $(".user");
+    if (profileCard) {
+      profileCard.setAttribute("role", "button");
+      profileCard.setAttribute("tabindex", "0");
+      profileCard.setAttribute("aria-label", "Mở hồ sơ và cài đặt");
+    }
+    const openDialog = () => {
+      dialog.showModal();
+      requestAnimationFrame(() => dialog.classList.add("is-open"));
+      $("[data-close-profile]", dialog).focus();
+    };
+    const closeDialog = () => {
+      dialog.classList.remove("is-open");
+      dialog.close();
+    };
+    settingsTrigger?.addEventListener("click", openDialog);
+    profileCard?.addEventListener("click", openDialog);
+    profileCard?.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openDialog();
+      }
+    });
+    $("[data-close-profile]", dialog).addEventListener("click", closeDialog);
+    dialog.addEventListener("close", () => dialog.classList.remove("is-open"));
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeDialog();
+      }
+    });
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) closeDialog();
+    });
+    $("[data-profile-logout]", dialog).addEventListener("click", () => {
+      localStorage.removeItem("parcelpulse.demoSession");
+      window.location.href = "login.html";
+    });
+  }
+});
