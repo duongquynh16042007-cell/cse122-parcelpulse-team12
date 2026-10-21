@@ -130,3 +130,70 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!completed.includes(stopId)) completed.push(stopId);
       write("completedStops", completed);
       announce(
+        $("#proof-status"),
+        `Đã ghi nhận giao kiện ${stopId} trong bản demo. Không gửi bằng chứng ra máy chủ.`,
+        "success",
+      );
+      error.textContent = "";
+      $("#stop-detail-state").textContent = "Đã giao";
+      $("#stop-detail-state").className = "chip green";
+    });
+  }
+
+  /* ===== Driver: create an exception with a manual fallback ===== */
+  const exceptionForm = $("#exception-form");
+  if (exceptionForm) {
+    const note = $("#exception-note");
+    const category = $("#exception-category");
+    exceptionForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!category.value) {
+        announce(
+          $("#exception-status"),
+          "Chọn loại ngoại lệ trước khi gửi.",
+          "error",
+        );
+        category.focus();
+        return;
+      }
+      if (note.value.trim().length < 8) {
+        announce(
+          $("#exception-status"),
+          "Mô tả sự cố cần ít nhất 8 ký tự.",
+          "error",
+        );
+        note.focus();
+        return;
+      }
+      const exceptions = read("driverExceptions", []);
+      const id = `EX-DEMO-${String(Date.now()).slice(-5)}`;
+      exceptions.unshift({
+        id,
+        stop: $("#exception-stop").value,
+        category: category.value,
+        note: note.value.trim(),
+        createdAt: new Date().toISOString(),
+      });
+      write("driverExceptions", exceptions.slice(0, 20));
+      announce(
+        $("#exception-status"),
+        `Đã tạo ngoại lệ ${id} trong dữ liệu demo và giữ nguyên quyền chỉnh sửa trước khi xử lý.`,
+        "success",
+      );
+      exceptionForm.reset();
+      $("#exception-evidence-name").textContent = "Chưa chọn ảnh.";
+    });
+
+    $("#exception-evidence").addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      $("#exception-evidence-name").textContent = file
+        ? `Đã chọn ${file.name}. Ảnh chỉ được giữ trên thiết bị khi xem trước.`
+        : "Chưa chọn ảnh.";
+      if (file && !file.type.startsWith("image/")) {
+        event.target.value = "";
+        $("#exception-evidence-name").textContent =
+          "Tệp không phải ảnh. Chọn JPG, PNG hoặc ảnh phù hợp.";
+      }
+    });
+  }
+});
