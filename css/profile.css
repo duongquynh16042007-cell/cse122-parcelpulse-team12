@@ -1,0 +1,121 @@
+.nav a.settings-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav a.settings-trigger:hover {
+  background: var(--pink-bg);
+}
+
+.nav a.settings-trigger::before {
+  display: none;
+}
+
+.nav a.settings-trigger .nav-icon {
+  color: #9b7a8a;
+}
+
+.user[role="button"] {
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.user[role="button"]:hover,
+.user[role="button"]:focus-visible {
+  border-color: var(--pink);
+  background: var(--pink-bg);
+}
+
+.profile-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(440px, 100vw);
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 24px;
+  overflow-y: auto;
+  border: 0;
+  border-radius: 22px 0 0 22px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: -16px 0 48px rgb(51 24 42 / 18%);
+  transform: translateX(100%);
+  transition: transform 0.24s ease;
+}
+
+.profile-drawer.is-open {
+  transform: translateX(0);
+}
+
+.profile-drawer::backdrop {
+  background: rgb(35 18 28 / 42%);
+}
+
+.profile-drawer__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.profile-drawer__header .eyebrow {
+  margin-bottom: 3px;
+}
+
+.profile-drawer__header h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.profile-drawer__close {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid var(--pink-soft);
+  border-radius: 14px;
+  background: var(--pink-bg);
+}
+
+.profile-avatar {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--pink);
+  color: #fff;
+  font-size: 14px;
