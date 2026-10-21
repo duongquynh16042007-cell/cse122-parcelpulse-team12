@@ -64,3 +64,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
     filters.forEach((button) =>
       button.addEventListener("click", () => {
+        activeFilter = button.dataset.stopFilter;
+        filters.forEach((item) =>
+          item.setAttribute("aria-pressed", String(item === button)),
+        );
+        renderStops();
+      }),
+    );
+    search?.addEventListener("input", renderStops);
+
+    routeStops.forEach((stop) => {
+      const completeButton = $("[data-stop-complete]", stop);
+      completeButton?.addEventListener("click", () => {
+        stop.dataset.status =
+          stop.dataset.status === "completed" ? "pending" : "completed";
+        const completedStops = read("completedStops", []);
+        const isComplete = stop.dataset.status === "completed";
+        write(
+          "completedStops",
+          isComplete
+            ? [...new Set([...completedStops, stop.dataset.stop])]
+            : completedStops.filter((id) => id !== stop.dataset.stop),
+        );
+        renderStops();
+        toast(
+          stop.dataset.status === "completed"
+            ? `Đã cập nhật ${stop.dataset.stop} thành đã giao.`
+            : `Đã mở lại ${stop.dataset.stop}.`,
+        );
+      });
+    });
+    renderStops();
+  }
+
+  /* ===== Driver: delivery proof ===== */
+  const proofForm = $("#delivery-proof-form");
+  if (proofForm) {
+    const stopId =
+      new URLSearchParams(location.search).get("stop") || "STP-10462";
+    $("#detail-stop-id").textContent = stopId;
+    $("#stop-route-link").href =
+      `driver-route-stops.html#${encodeURIComponent(stopId)}`;
+
+    $("#start-navigation").addEventListener("click", () =>
+      toast("Đã mở hướng dẫn tuyến mẫu trong bản demo."),
+    );
+
+    proofForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const name = $("#recipient-name").value.trim();
+      const code = $("#handover-code").value.trim();
+      const error = $("#proof-error");
+      if (!name) {
+        announce(error, "Nhập tên người nhận.", "error");
+        $("#recipient-name").focus();
+        return;
+      }
+      if (!/^\d{6}$/.test(code)) {
+        announce(error, "Mã bàn giao demo gồm 6 chữ số.", "error");
+        $("#handover-code").focus();
+        return;
+      }
+
+      const completed = read("completedStops", []);
+      if (!completed.includes(stopId)) completed.push(stopId);
+      write("completedStops", completed);
+      announce(
