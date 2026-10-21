@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         admin: "Quản trị viên",
       };
       const rolePages = {
-        recipient: "theo-doi-kien-hang.html",
+        recipient: "track-parcel.html",
         driver: "driver-route-stops.html",
         dispatcher: "dispatcher-overview.html",
         admin: "admin-status-management.html",

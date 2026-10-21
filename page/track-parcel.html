@@ -6,23 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#fff4f6">
   <title>ParcelPulse - Theo dõi đơn hàng</title>
-<script src="../js/trang-vai-tro.js" defer></script>
-  <script src="../js/trang-nguoi-nhan.js" defer></script>
-  <link rel="stylesheet" href="../css/ung-dung-nguoi-nhan.css">
-  <link rel="stylesheet" href="../css/theo-doi-kien-hang.css">
+<script src="../js/role-pages.js" defer></script>
+  <script src="../js/recipient-pages.js" defer></script>
+  <link rel="stylesheet" href="../css/recipient-app.css">
+  <link rel="stylesheet" href="../css/track-parcel.css">
 </head>
 <body class="app-page tracking-page">
   <div class="app-shell app">
   <aside class="app-sidebar">
-    <a class="app-brand" href="theo-doi-kien-hang.html" aria-label="ParcelPulse">
+    <a class="app-brand" href="track-parcel.html" aria-label="ParcelPulse">
       <span class="app-brand-mark" aria-hidden="true">P</span>
       <span>ParcelPulse</span>
     </a>
     <span class="app-role-tag role-chip">Người nhận</span>
     <nav class="app-side-nav" aria-label="Điều hướng chính">
-      <a class="side-link active" href="theo-doi-kien-hang.html" aria-current="page"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg> Kiện hàng</a>
-      <a class="side-link" href="tuy-chon-giao-nhan.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9.5"/><circle cx="16.8" cy="7" r="2.6"/><path d="M20 17h-9.5"/><circle cx="7.2" cy="17" r="2.6"/></svg> Tuỳ chọn</a>
-      <a class="side-link" href="phan-hoi-giao-hang.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/></svg> Phản hồi</a>
+      <a class="side-link active" href="track-parcel.html" aria-current="page"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg> Kiện hàng</a>
+      <a class="side-link" href="delivery-preferences.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9.5"/><circle cx="16.8" cy="7" r="2.6"/><path d="M20 17h-9.5"/><circle cx="7.2" cy="17" r="2.6"/></svg> Tuỳ chọn</a>
+      <a class="side-link" href="delivery-feedback.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/></svg> Phản hồi</a>
     </nav>
     <a class="side-link side-settings" href="settings.html?role=recipient"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.2 2h-.4a2 2 0 0 0-2 2v.2a2 2 0 0 1-1 1.7l-.4.3a2 2 0 0 1-2 0l-.2-.1a2 2 0 0 0-2.7.7l-.2.4a2 2 0 0 0 .7 2.7l.2.1a2 2 0 0 1 1 1.7v.5a2 2 0 0 1-1 1.8l-.2.1a2 2 0 0 0-.7 2.7l.2.4a2 2 0 0 0 2.7.7l.2-.1a2 2 0 0 1 2 0l.4.3a2 2 0 0 1 1 1.7v.2a2 2 0 0 0 2 2h.4a2 2 0 0 0 2-2v-.2a2 2 0 0 1 1-1.7l.4-.3a2 2 0 0 1 2 0l.2.1a2 2 0 0 0 2.7-.7l.2-.4a2 2 0 0 0-.7-2.7l-.2-.1a2 2 0 0 1-1-1.8v-.5a2 2 0 0 1 1-1.7l.2-.1a2 2 0 0 0 .7-2.7l-.2-.4a2 2 0 0 0-2.7-.7l-.2.1a2 2 0 0 1-2 0l-.4-.3a2 2 0 0 1-1-1.7V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></svg> Cài đặt</a>
     <div class="side-user user">
@@ -131,7 +131,7 @@
                 <span class="eta-tag">Dự kiến</span>
               </div>
               <p class="app-card-copy">Thời gian có thể thay đổi theo tình hình giao thông và điều kiện thực tế.</p>
-              <a class="app-button eta-action" href="tuy-chon-giao-nhan.html">Tùy chọn giao hàng</a>
+              <a class="app-button eta-action" href="delivery-preferences.html">Tùy chọn giao hàng</a>
             </article>
 
             <article class="app-card tracking-support-card">
@@ -143,8 +143,8 @@
               </div>
               <p class="app-card-copy">Nếu không có người nhận, hãy cập nhật khung giờ hoặc điểm nhận trước thời hạn.</p>
               <div class="tracking-actions">
-                <a class="app-button" href="tuy-chon-giao-nhan.html">Cập nhật cách nhận</a>
-                <a class="app-button app-button-secondary" href="phan-hoi-giao-hang.html">Gửi phản hồi</a>
+                <a class="app-button" href="delivery-preferences.html">Cập nhật cách nhận</a>
+                <a class="app-button app-button-secondary" href="delivery-feedback.html">Gửi phản hồi</a>
               </div>
             </article>
           </div>

@@ -4,20 +4,20 @@ ParcelPulse là giao diện demo cho quy trình giao nhận bưu kiện. Thư m�
 
 ## Chạy dự án
 
-Mở thư mục dự án bằng VS Code, bật Live Server và truy cập `page/trang-chu.html`. Các trang HTML khác có thể mở từ liên kết trên giao diện hoặc bằng đường dẫn tương ứng trong thư mục `page/`.
+Mở thư mục dự án bằng VS Code, bật Live Server và truy cập `page/index.html`. Các trang HTML khác có thể mở từ liên kết trên giao diện hoặc bằng đường dẫn tương ứng trong thư mục `page/`.
 
 ## Trang dùng chung
 
-- `page/trang-chu.html`: giới thiệu ParcelPulse, tra cứu/nhận hàng dành cho khách và điều hướng đến đăng nhập, đăng ký.
-- `page/dang-nhap.html`: đăng nhập demo, cho phép chọn người nhận, nhân viên giao hàng, điều phối viên hoặc quản trị viên.
-- `page/dang-ky.html`: biểu mẫu đăng ký tài khoản demo.
-- `page/quen-mat-khau.html`: biểu mẫu khôi phục quyền truy cập demo.
+- `page/index.html`: giới thiệu ParcelPulse, tra cứu/nhận hàng dành cho khách và điều hướng đến đăng nhập, đăng ký.
+- `page/login.html`: đăng nhập demo, cho phép chọn người nhận, nhân viên giao hàng, điều phối viên hoặc quản trị viên.
+- `page/register.html`: biểu mẫu đăng ký tài khoản demo.
+- `page/forgot-password.html`: biểu mẫu khôi phục quyền truy cập demo.
 
 ## Chức năng người nhận
 
-- `page/theo-doi-kien-hang.html`: nhập mã để xem trạng thái và hành trình minh họa.
-- `page/tuy-chon-giao-nhan.html`: chọn hình thức, thời gian và địa điểm nhận hàng.
-- `page/phan-hoi-giao-hang.html`: gửi đánh giá và góp ý về giao hàng.
+- `page/track-parcel.html`: nhập mã để xem trạng thái và hành trình minh họa.
+- `page/delivery-preferences.html`: chọn hình thức, thời gian và địa điểm nhận hàng.
+- `page/delivery-feedback.html`: gửi đánh giá và góp ý về giao hàng.
 
 ## Cấu trúc mã nguồn
 
@@ -25,7 +25,7 @@ Mở thư mục dự án bằng VS Code, bật Live Server và truy cập `page/
 - `css/`: kiểu dáng dùng chung và theo từng trang.
 - `js/`: tương tác dùng chung, xác thực demo và chức năng theo vai trò.
 
-Các trang đăng nhập, đăng ký và khôi phục mật khẩu dùng `css/xac-thuc.css` và `js/xac-thuc.js`. Mỗi file HTML, CSS và JavaScript có ghi chú ngắn về chức năng.
+Các trang đăng nhập, đăng ký và khôi phục mật khẩu dùng `css/auth.css` và `js/auth.js`. Mỗi file HTML, CSS và JavaScript có ghi chú ngắn về chức năng.
 
 ## Ghép phần của nhóm
 
