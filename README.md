@@ -51,3 +51,30 @@ Trang Cài đặt nhận vai trò từ tham số URL `role` hoặc phiên demo �
 
 Trang không có bộ chọn vai trò. Trong thư mục hiện tại chỉ có các trang của nhân viên giao hàng và trang Cài đặt; các trang người nhận, điều phối viên và quản trị viên được tham chiếu trong menu nhưng chưa có ở đây.
 
+## Cách chạy
+
+1. Mở thư mục `CODE` trong VS Code.
+2. Dùng tiện ích **Live Server** để mở `pages/driver-route-stops.html` (cổng `5501` được cấu hình trong `.vscode/settings.json`). Không cần cài thư viện hay chạy lệnh build.
+3. Dùng menu trong trang để chuyển giữa Tuyến giao, Điểm giao, Ngoại lệ và Cài đặt.
+
+Một số thao tác để xem thử:
+
+- Trên Tuyến giao, tìm kiếm điểm dừng, đổi bộ lọc, rồi bấm **Đã giao** hoặc **Hoàn tác**.
+- Trên Chi tiết điểm giao, nhập tên người nhận và một mã 6 chữ số, chẳng hạn `482910`.
+- Trên Tạo ngoại lệ, chọn loại, nhập mô tả từ 8 ký tự trở lên rồi gửi biểu mẫu.
+- Trên Cài đặt, thay đổi tên, số điện thoại, thông báo hoặc giao diện rồi bấm **Lưu thay đổi**.
+- Mở Trợ lý AI bằng nút nổi để thử các câu hỏi gợi ý.
+
+## Giới hạn bản demo
+
+- Không có đăng nhập thật, backend hoặc đồng bộ dữ liệu. Tùy chọn, trạng thái giao và ngoại lệ được lưu cục bộ theo trình duyệt và địa chỉ trang đang chạy.
+- Ảnh bằng chứng chỉ được chọn trên thiết bị; ứng dụng không tải ảnh lên máy chủ. Ảnh đại diện trong Cài đặt cũng chỉ được chọn để minh họa, không được tải lên hay lưu làm hồ sơ.
+- Trợ lý AI chạy bằng quy tắc và từ khóa trong JavaScript, không gọi dịch vụ AI hoặc dữ liệu vận chuyển trực tiếp.
+- Tùy chọn xác thực hai bước chỉ đổi trạng thái hiển thị; chức năng đổi mật khẩu chỉ hiện thông báo demo. Tiếng Anh chưa được hỗ trợ.
+- Nút đăng xuất chuyển tới `login.html`, nhưng trang đăng nhập hiện chưa có trong thư mục `pages`.
+
+## Tài liệu và liên kết nhóm
+
+- Figma: https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=EPEoUSwKIyWGywfV-0
+- Video trình bày: https://www.youtube.com/playlist?list=PLFuFhj5IUmMU
+- GitHub: https://github.com/duongquynh16042007-cell/cse122-parcelpulse-team12
