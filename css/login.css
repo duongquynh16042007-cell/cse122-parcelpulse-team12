@@ -1,0 +1,8 @@
+/* Kiểu dáng riêng cho trang đăng nhập. */
+.between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+}
