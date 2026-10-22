@@ -1,0 +1,78 @@
+.portal-card dl.kv {
+  margin: 0;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--line);
+}
+
+.portal-card dl.kv dt,
+.portal-card dl.kv dd {
+  margin: 0;
+}
+
+.portal-card dl.kv dd {
+  max-width: 62%;
+  text-align: right;
+}
+.route-list {
+  display: grid;
+  gap: 10px;
+}
+
+.route-stop {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+
+.route-stop[hidden] {
+  display: none;
+}
+
+.route-stop.is-complete {
+  background: #f6fbf8;
+}
+
+html[data-theme="dark"] .route-stop.is-complete {
+  background: var(--pink-bg);
+}
+
+.route-stop .avatar {
+  width: 34px;
+  height: 34px;
+}
+
+.route-stop strong {
+  display: block;
+  font-size: 13px;
+}
+
+.route-stop small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.route-stop .stop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+@media (max-width: 560px) {
+  .route-stop {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .route-stop .stop-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+}
