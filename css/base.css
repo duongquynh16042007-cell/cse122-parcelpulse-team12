@@ -62,9 +62,7 @@ body {
 
 button,
 input,
-
-select,
-textarea {
+select {
   font: inherit;
   color: inherit;
 }
@@ -91,6 +89,7 @@ p {
   white-space: nowrap;
 }
 
+/* ===== Khung ứng dụng: sidebar + nội dung ===== */
 .app {
   display: grid;
   grid-template-columns: 236px minmax(0, 1fr);
@@ -164,8 +163,7 @@ p {
 .nav-icon {
   display: inline-grid;
   flex: none;
-  width: 15px;
-  height: 15px;
+  width: 16px;
   place-items: center;
   color: #9b7a8a;
   font-size: 15px;
