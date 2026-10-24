@@ -12,20 +12,89 @@ document.addEventListener("DOMContentLoaded", () => {
       "Minh Anh";
   }
 
+  // Quản lý mã bưu kiện đang hoạt động (lưu qua LocalStorage và URL query)
+  const DEFAULT_PARCEL_CODE = "PPVN-4829-1024";
+  const urlParcelCode = new URLSearchParams(location.search).get("code");
+  const storedParcelCode = read("trackedParcel", null);
+  let activeCode = (urlParcelCode || storedParcelCode || DEFAULT_PARCEL_CODE).trim().toUpperCase();
+
+  // Đồng bộ vào LocalStorage nếu được truyền từ trang khác qua URL
+  if (urlParcelCode && urlParcelCode.trim()) {
+    write("trackedParcel", activeCode);
+  }
+
+  // Cập nhật tất cả các vị trí hiển thị mã đơn hàng trên trang hiện tại
+  const updateParcelCodeDisplay = (code) => {
+    $$("[data-parcel-code]").forEach((el) => {
+      el.textContent = code;
+    });
+
+    // Cập nhật các liên kết điều hướng nội bộ để luôn giữ mã đơn hàng khi chuyển trang
+    $$("a[href*='track-parcel.html'], a[href*='delivery-preferences.html'], a[href*='delivery-feedback.html']").forEach((link) => {
+      try {
+        const href = link.getAttribute("href");
+        if (!href) return;
+        const [path] = href.split("?");
+        link.setAttribute("href", `${path}?code=${encodeURIComponent(code)}`);
+      } catch (e) {}
+    });
+  };
+
+  updateParcelCodeDisplay(activeCode);
+
+  // Xử lý trang Tra cứu kiện hàng
   const trackForm = $("#parcel-track-form");
   if (trackForm) {
     const input = $("#parcel-code");
     const status = $("#track-status");
     const results = $$(".track-result");
-    const parcelCode = new URLSearchParams(location.search).get("code");
-    if (parcelCode) input.value = parcelCode.toUpperCase();
+
+    // Hàm hiển thị kết quả và lưu trạng thái
+    const displayTrackingResult = (code, announcementText, tone = "success") => {
+      input.value = code;
+      input.removeAttribute("aria-invalid");
+      results.forEach((result) => {
+        result.hidden = false;
+      });
+      activeCode = code;
+      write("trackedParcel", code);
+      updateParcelCodeDisplay(code);
+
+      // Cập nhật URL không reload để lưu lại lịch sử duyệt
+      try {
+        const url = new URL(location);
+        url.searchParams.set("code", code);
+        history.replaceState(null, "", url);
+      } catch (e) {}
+
+      if (announcementText) {
+        announce(status, announcementText, tone);
+      }
+    };
+
+    // Khi mở trang: tự động khôi phục mã đã tìm kiếm trước đó, không bị mất kết quả
+    if (activeCode) {
+      const message = urlParcelCode
+        ? `Đã hiển thị thông tin bưu kiện ${activeCode}.`
+        : (storedParcelCode
+            ? `Đang lưu và hiển thị bưu kiện đã tra cứu: ${activeCode}.`
+            : "");
+      displayTrackingResult(activeCode, message);
+    }
+
+    // Cho phép bấm vào mã thử nghiệm để tự động điền và tra cứu ngay
+    const demoHint = $(".demo-hint strong");
+    if (demoHint) {
+      demoHint.style.cursor = "pointer";
+      demoHint.title = "Bấm để tra cứu mã mẫu này";
+      demoHint.addEventListener("click", () => {
+        displayTrackingResult(demoHint.textContent.trim().toUpperCase(), "Đang tra cứu mã mẫu...");
+      });
+    }
 
     input.addEventListener("input", () => {
       input.removeAttribute("aria-invalid");
-      results.forEach((result) => {
-        result.hidden = true;
-      });
-      announce(status, "");
+      if (status) announce(status, "");
     });
 
     trackForm.addEventListener("submit", (event) => {
@@ -42,21 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      input.removeAttribute("aria-invalid");
-      results.forEach((result) => {
-        result.hidden = false;
-        $$("[data-parcel-code]", result).forEach((codeElement) => {
-          codeElement.textContent = code;
-        });
-      });
-      announce(
-        status,
-        "Đã hiển thị bản xem trước cho mã này. Trạng thái và hành trình bên dưới là dữ liệu minh họa.",
+      displayTrackingResult(
+        code,
+        `Đã hiển thị thông tin cho mã ${code}. Trạng thái sẽ được lưu khi chuyển sang các tác vụ khác.`,
         "success",
       );
     });
   }
 
+  // Xử lý trang Tùy chọn giao nhận
   const preferencesForm = $("#preferences-form");
   if (preferencesForm) {
     const modeInputs = $$('input[name="delivery-mode"]', preferencesForm);
@@ -111,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       write("deliveryPreferences", {
+        parcel: activeCode,
         mode,
         window: $("#delivery-window").value,
         address: mode === "home" ? details : "",
@@ -119,12 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       announce(
         $("#preferences-status"),
-        "Đã lưu tùy chọn trên thiết bị này (dữ liệu demo, chưa gửi đến đơn vị vận chuyển).",
+        `Đã lưu tùy chọn cho đơn hàng ${activeCode} trên thiết bị này.`,
         "success",
       );
     });
   }
 
+  // Xử lý trang Đánh giá và phản hồi
   const feedbackForm = $("#feedback-form");
   if (feedbackForm) {
     const ratingCaptions = {
@@ -172,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const feedback = read("feedback", []);
       feedback.unshift({
-        parcel: "PPVN-4829-1024",
+        parcel: activeCode,
         rating: Number(rating.value),
         reason:
           $('input[name="feedback-reason"]:checked', feedbackForm)?.value || "",
@@ -182,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
       write("feedback", feedback.slice(0, 20));
       announce(
         $("#feedback-status"),
-        "Cảm ơn bạn! Phản hồi đã được lưu trong bản demo trên thiết bị này.",
+        `Cảm ơn bạn! Phản hồi cho đơn hàng ${activeCode} đã được lưu trên thiết bị này.`,
         "success",
       );
       feedbackForm.reset();

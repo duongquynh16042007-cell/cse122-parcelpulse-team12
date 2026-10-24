@@ -123,8 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
     status.textContent =
       "Xác minh thành công trong bản demo. Đang mở hành trình...";
     status.dataset.tone = "success";
-    window.location.href = `track-parcel.html?code=${encodeURIComponent(
-      codeInput.value.trim().toUpperCase(),
-    )}`;
+    const validCode = codeInput.value.trim().toUpperCase();
+    localStorage.setItem("parcelpulse.trackedParcel", JSON.stringify(validCode));
+    window.location.href = `track-parcel.html?code=${encodeURIComponent(validCode)}`;
   });
 });
