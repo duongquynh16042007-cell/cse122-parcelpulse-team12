@@ -44,9 +44,10 @@
             ><span class="nav-icon" aria-hidden="true">⇄</span>Phân công</a
           >
         </nav>
-
-        <div class="nav">
-        </div>
+        <nav class="role-switcher" aria-label="Chuyển vai trò demo">
+          <span>Khu vực demo</span>
+          <a href="admin-status-management.html">Mở Quản trị viên</a>
+        </nav>
 
         <div class="user">
           <strong>Minh Anh</strong>
@@ -63,6 +64,22 @@
             Sức khỏe mạng lưới và điểm nghẽn theo thời gian thực.
           </p>
         </header>
+
+        <section class="card ai-panel" data-ai-feature="overview" aria-labelledby="ai-overview-title">
+          <div class="card-head"><div><h2 id="ai-overview-title">Gợi ý ưu tiên vận hành</h2><p class="sub">Mô phỏng quy tắc cục bộ; không gọi dịch vụ AI.</p></div></div>
+          <label class="ai-label" for="ai-overview-input">Ngữ cảnh điều hành
+            <textarea id="ai-overview-input" data-ai-input rows="2">Rà soát 12 ngoại lệ cần xử lý và các cảnh báo SLA trong ngày.</textarea>
+          </label>
+          <div class="actions"><button class="btn primary" type="button" data-ai-run>Phân tích</button></div>
+          <p class="ai-state" data-ai-state role="status" aria-live="polite">Nhập ngữ cảnh rồi chọn Phân tích.</p>
+          <div data-ai-output hidden>
+            <p data-ai-summary></p><p data-ai-confidence class="sub"></p><ul data-ai-factors></ul>
+            <label class="ai-label" for="ai-overview-edit">Chỉnh gợi ý trước khi lưu
+              <textarea id="ai-overview-edit" data-ai-edit rows="2"></textarea>
+            </label>
+            <div class="actions"><button class="btn primary" type="button" data-ai-accept>Chấp nhận</button><button class="btn" type="button" data-ai-edit-action>Chỉnh sửa</button><button class="btn" type="button" data-ai-reject>Từ chối</button><button class="btn" type="button" data-ai-regenerate>Tạo lại</button><button class="btn" type="button" data-ai-save disabled>Lưu gợi ý</button></div>
+          </div>
+        </section>
 
         <section class="kpis" aria-label="Chỉ số chính">
           <article class="card kpi">
@@ -215,11 +232,14 @@
             </section>
           </div>
         </div>
+
+        <footer class="app-footer">ParcelPulse · Dữ liệu demo lưu trên trình duyệt</footer>
       </main>
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="../js/dispatcher.js" defer></script>
     <script src="../js/role-pages.js" defer></script>
+    <script src="../js/decision-support.js" defer></script>
   </body>
 </html>

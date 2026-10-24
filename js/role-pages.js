@@ -4,11 +4,21 @@ document.addEventListener("DOMContentLoaded", () => {
     ...root.querySelectorAll(selector),
   ];
   const read = (key, fallback) => {
-    const value = localStorage.getItem(`parcelpulse.${key}`);
-    return value === null ? fallback : JSON.parse(value);
+    try {
+      const value = localStorage.getItem(`parcelpulse.${key}`);
+      return value === null ? fallback : JSON.parse(value);
+    } catch {
+      return fallback;
+    }
   };
-  const write = (key, value) =>
-    localStorage.setItem(`parcelpulse.${key}`, JSON.stringify(value));
+  const write = (key, value) => {
+    try {
+      localStorage.setItem(`parcelpulse.${key}`, JSON.stringify(value));
+      return true;
+    } catch {
+      return false;
+    }
+  };
   const toast = (message) => {
     if (
       read("profileSettings", { notifications: true }).notifications === false

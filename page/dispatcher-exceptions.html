@@ -44,9 +44,10 @@
             ><span class="nav-icon" aria-hidden="true">⇄</span>Phân công</a
           >
         </nav>
-
-        <div class="nav">
-        </div>
+        <nav class="role-switcher" aria-label="Chuyển vai trò demo">
+          <span>Khu vực demo</span>
+          <a href="admin-status-management.html">Mở Quản trị viên</a>
+        </nav>
 
         <div class="user">
           <strong>Minh Anh</strong>
@@ -61,6 +62,22 @@
           <h1>Hàng đợi ngoại lệ</h1>
           <p class="lead">Ưu tiên ngoại lệ và xử lý theo thời hạn SLA.</p>
         </header>
+
+        <section class="card ai-panel" data-ai-feature="exception" aria-labelledby="ai-exception-title">
+          <div class="card-head"><div><h2 id="ai-exception-title">Gợi ý xử lý ngoại lệ đang chọn</h2><p class="sub">Dựa trên loại, mức ưu tiên và SLA mẫu; cần điều phối viên kiểm tra.</p></div></div>
+          <label class="ai-label" for="ai-exception-input">Ghi chú bổ sung
+            <textarea id="ai-exception-input" data-ai-input rows="2" placeholder="Bổ sung thông tin đã xác minh (không nhập dữ liệu nhạy cảm)"></textarea>
+          </label>
+          <div class="actions"><button class="btn primary" type="button" data-ai-run>Phân tích ngoại lệ đang chọn</button></div>
+          <p class="ai-state" data-ai-state role="status" aria-live="polite">Chọn một ngoại lệ trong bảng để bắt đầu.</p>
+          <div data-ai-output hidden>
+            <p data-ai-summary></p><p data-ai-confidence class="sub"></p><ul data-ai-factors></ul>
+            <label class="ai-label" for="ai-exception-edit">Chỉnh gợi ý trước khi lưu
+              <textarea id="ai-exception-edit" data-ai-edit rows="2"></textarea>
+            </label>
+            <div class="actions"><button class="btn primary" type="button" data-ai-accept>Chấp nhận</button><button class="btn" type="button" data-ai-edit-action>Chỉnh sửa</button><button class="btn" type="button" data-ai-reject>Từ chối</button><button class="btn" type="button" data-ai-regenerate>Tạo lại</button><button class="btn" type="button" data-ai-save disabled>Lưu/áp dụng</button></div>
+          </div>
+        </section>
 
         <section class="card" aria-label="Danh sách ngoại lệ">
           <div class="toolbar">
@@ -199,7 +216,7 @@
           </div>
 
           <div class="pager">
-            <span id="count">Hiển thị 1–5 trong 36 ngoại lệ</span>
+            <span id="count">Hiển thị 5 trong 5 ngoại lệ mẫu</span>
             <nav aria-label="Phân trang">
               <button class="step" type="button">Trước</button>
               <button class="page" type="button" aria-current="page">1</button>
@@ -254,23 +271,26 @@
 
           <section class="card" aria-labelledby="sla-title">
             <h2 id="sla-title">Phân bổ SLA</h2>
-            <p class="sub">36 ngoại lệ đang mở</p>
+            <p class="sub">5 ngoại lệ mẫu trong trang này</p>
             <div
               class="sla-bar"
               role="img"
-              aria-label="Trong SLA 22, sắp quá hạn 10, quá hạn 4"
+              aria-label="Trong SLA 2, sắp quá hạn 2, quá hạn 1"
             >
               <span class="ok"></span><span class="soon"></span
               ><span class="late"></span>
             </div>
-            <p class="sla-note">Trong SLA 22 · Sắp quá hạn 10 · Quá hạn 4</p>
+            <p class="sla-note">Mẫu: 2 trong hạn · 2 sắp hạn · 1 quá hạn</p>
           </section>
         </div>
+
+        <footer class="app-footer">ParcelPulse · Dữ liệu demo lưu trên trình duyệt</footer>
       </main>
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="../js/dispatcher.js" defer></script>
     <script src="../js/role-pages.js" defer></script>
+    <script src="../js/decision-support.js" defer></script>
   </body>
 </html>

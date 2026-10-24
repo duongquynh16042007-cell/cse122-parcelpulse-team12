@@ -38,8 +38,10 @@
             logistics</a
           >
         </nav>
-        <div class="nav">
-        </div>
+        <nav class="role-switcher" aria-label="Chuyển vai trò demo">
+          <span>Khu vực demo</span>
+          <a href="dispatcher-overview.html">Mở Điều hành</a>
+        </nav>
         <div class="user">
           <strong>Minh Anh</strong><span>Quản trị viên · Môi trường demo</span
           ><span class="chip amber">Không có tài khoản thật</span>
@@ -60,19 +62,19 @@
         <!-- 4 muc thong ke -->
         <section class="metric-grid" aria-label="Tổng quan tài khoản">
           <article class="card metric">
-            <span>Tổng người dùng mẫu</span><strong id="users-total">4</strong
+            <span>Tổng người dùng mẫu</span><strong id="users-total">15</strong
             ><small>Trong bộ dữ liệu cục bộ</small>
           </article>
           <article class="card metric">
-            <span>Đang hoạt động</span><strong id="users-active">2</strong
+            <span>Đang hoạt động</span><strong id="users-active">10</strong
             ><small>Vai trò đã gán</small>
           </article>
           <article class="card metric">
-            <span>Chờ kích hoạt</span><strong id="users-pending">1</strong
+            <span>Chờ kích hoạt</span><strong id="users-pending">3</strong
             ><small>Cần được duyệt</small>
           </article>
           <article class="card metric">
-            <span>Tạm khóa</span><strong id="users-suspended">1</strong
+            <span>Tạm khóa</span><strong id="users-suspended">2</strong
             ><small>Có thể mở khóa</small>
           </article>
         </section>
@@ -167,6 +169,9 @@
             </table>
             <p class="portal-empty" id="user-empty" hidden>
               Không có tài khoản khớp với bộ lọc hiện tại.
+              <button class="btn" type="button" id="clear-user-filters">
+                Xóa bộ lọc
+              </button>
             </p>
           </div>
           <p
@@ -243,6 +248,10 @@
             Đây là bản demo giao diện.
           </p>
         </section>
+
+        <footer class="app-footer">
+          ParcelPulse · Dữ liệu demo lưu trên trình duyệt
+        </footer>
       </main>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>

@@ -131,6 +131,11 @@ document.addEventListener("DOMContentLoaded", () => {
       editingCode = null;
     });
     query.addEventListener("input", render);
+    $("#clear-status-search").addEventListener("click", () => {
+      query.value = "";
+      render();
+      query.focus();
+    });
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const code = $("#status-code").value.trim().toUpperCase();
@@ -221,8 +226,35 @@ document.addEventListener("DOMContentLoaded", () => {
         role: "driver",
         status: "suspended",
       },
+      ...[
+        ["USR-005", "Lan Anh", "driver", "active"],
+        ["USR-006", "Hoàng Nam", "recipient", "active"],
+        ["USR-007", "Khánh Linh", "recipient", "pending"],
+        ["USR-008", "Phạm Tuấn", "driver", "active"],
+        ["USR-009", "Hương Giang", "admin", "active"],
+        ["USR-010", "Đức Long", "driver", "active"],
+        ["USR-011", "Mai Phương", "recipient", "suspended"],
+        ["USR-012", "Thành Công", "dispatcher", "active"],
+        ["USR-013", "Thanh Hà", "recipient", "active"],
+        ["USR-014", "Gia Hân", "driver", "pending"],
+        ["USR-015", "Minh Khoa", "recipient", "active"],
+      ].map(([id, name, role, status]) => ({
+        id,
+        name,
+        email: `${id.toLowerCase()}@parcelpulse.demo`,
+        role,
+        status,
+      })),
     ];
     const users = read("users", defaults);
+    // Một lần bổ sung dữ liệu mẫu để bản cài cũ cũng có đủ 15 bản ghi demo.
+    if (!read("usersSeeded15", false)) {
+      defaults.forEach((sample) => {
+        if (!users.some((user) => user.id === sample.id)) users.push(sample);
+      });
+      write("users", users);
+      write("usersSeeded15", true);
+    }
     const form = $("#user-form");
     const editor = $("#user-editor");
     let editingId = null;
@@ -357,6 +389,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     $("#user-search").addEventListener("input", render);
     $("#user-role-filter").addEventListener("change", render);
+    $("#clear-user-filters").addEventListener("click", () => {
+      $("#user-search").value = "";
+      $("#user-role-filter").value = "";
+      filter = "all";
+      $$('[data-user-filter="all"]').forEach((button) => button.setAttribute("aria-pressed", "true"));
+      $$('[data-user-filter]:not([data-user-filter="all"])').forEach((button) => button.setAttribute("aria-pressed", "false"));
+      render();
+      $("#user-search").focus();
+    });
     $$("[data-user-filter]").forEach((button) =>
       button.addEventListener("click", () => {
         filter = button.dataset.userFilter;
