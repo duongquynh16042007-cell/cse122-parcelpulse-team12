@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Quản lý tài khoản và vai trò ParcelPulse."
+    />
+    <title>Quản lý người dùng — ParcelPulse</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <script src="../js/role-pages.js" defer></script>
+    <script src="../js/admin-pages.js" defer></script>
+  </head>
+  <body>
+    <!-- toan bo trang -->
+    <div class="app">
+      <!-- sidebar: chuc nang -->
+      <aside class="side">
+        <a class="brand" href="admin-status-management.html"
+          ><span class="logo" aria-hidden="true">P</span>ParcelPulse</a
+        >
+        <span class="role-chip">Quản trị viên</span>
+        <nav class="nav" aria-label="Điều hướng quản trị">
+          <a class="nav-item--icon" href="admin-status-management.html"
+            ><span class="nav-icon" aria-hidden="true">◷</span>Trạng thái</a
+          >
+          <a
+            class="nav-item--icon"
+            href="admin-user-management.html"
+            aria-current="page"
+            ><span class="nav-icon" aria-hidden="true">♙</span>Người dùng</a
+          >
+          <a class="nav-item--icon" href="admin-logistics-report.html"
+            ><span class="nav-icon" aria-hidden="true">▤</span>Báo cáo
+            logistics</a
+          >
+        </nav>
+        <div class="nav">
+        </div>
+        <div class="user">
+          <strong>Minh Anh</strong><span>Quản trị viên · Môi trường demo</span
+          ><span class="chip amber">Không có tài khoản thật</span>
+        </div>
+      </aside>
+
+      <!-- noi dung -->
+      <main class="main">
+        <!-- tieu de -->
+        <header>
+          <p class="eyebrow">Quản trị viên · Tài khoản &amp; quyền</p>
+          <h1>Quản lý người dùng</h1>
+          <p class="lead">
+            Thêm, cập nhật vai trò, kích hoạt hoặc tạm khóa tài khoản mẫu.
+          </p>
+        </header>
+
+        <!-- 4 muc thong ke -->
+        <section class="metric-grid" aria-label="Tổng quan tài khoản">
+          <article class="card metric">
+            <span>Tổng người dùng mẫu</span><strong id="users-total">4</strong
+            ><small>Trong bộ dữ liệu cục bộ</small>
+          </article>
+          <article class="card metric">
+            <span>Đang hoạt động</span><strong id="users-active">2</strong
+            ><small>Vai trò đã gán</small>
+          </article>
+          <article class="card metric">
+            <span>Chờ kích hoạt</span><strong id="users-pending">1</strong
+            ><small>Cần được duyệt</small>
+          </article>
+          <article class="card metric">
+            <span>Tạm khóa</span><strong id="users-suspended">1</strong
+            ><small>Có thể mở khóa</small>
+          </article>
+        </section>
+
+        <!-- muc noi dung -->
+        <section class="card portal-card" aria-labelledby="users-title">
+          <div class="card-head">
+            <div>
+              <h2 id="users-title">Tài khoản</h2>
+              <p class="sub">
+                Email và tên dưới đây là dữ liệu minh họa, không phải thông tin
+                nhân sự thật.
+              </p>
+            </div>
+            <button class="btn primary" id="add-user" type="button">
+              Thêm người dùng
+            </button>
+          </div>
+          <div class="portal-grid" style="align-items: end">
+            <label class="portal-label" for="user-search"
+              >Tìm tên, email hoặc mã
+              <input
+                class="portal-search"
+                id="user-search"
+                type="search"
+                placeholder="Tìm trong tài khoản demo"
+              />
+            </label>
+            <label class="portal-label" for="user-role-filter"
+              >Lọc theo vai trò
+              <select class="portal-select" id="user-role-filter">
+                <option value="">Tất cả vai trò</option>
+                <option value="recipient">Người nhận</option>
+                <option value="driver">Nhân viên giao hàng</option>
+                <option value="dispatcher">Điều phối viên</option>
+                <option value="admin">Quản trị viên</option>
+              </select>
+            </label>
+          </div>
+          <div
+            class="filters"
+            role="group"
+            aria-label="Lọc trạng thái tài khoản"
+            style="margin-top: 12px"
+          >
+            <button
+              class="chip"
+              type="button"
+              data-user-filter="all"
+              aria-pressed="true"
+            >
+              Tất cả
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-user-filter="active"
+              aria-pressed="false"
+            >
+              Đang hoạt động
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-user-filter="pending"
+              aria-pressed="false"
+            >
+              Chờ kích hoạt
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-user-filter="suspended"
+              aria-pressed="false"
+            >
+              Tạm khóa
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th scope="col">Mã</th>
+                  <th scope="col">Họ tên</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Vai trò</th>
+                  <th scope="col">Trạng thái</th>
+                  <th scope="col">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="user-body"></tbody>
+            </table>
+            <p class="portal-empty" id="user-empty" hidden>
+              Không có tài khoản khớp với bộ lọc hiện tại.
+            </p>
+          </div>
+          <p
+            class="portal-message"
+            id="user-page-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+
+          <!-- them nguoi dung -->
+          <section
+            class="editor-panel"
+            id="user-editor"
+            hidden
+            aria-labelledby="user-editor-title"
+          >
+            <h2 id="user-editor-title">Thêm người dùng</h2>
+            <form class="portal-form" id="user-form" novalidate>
+              <div class="portal-row">
+                <label for="user-name"
+                  >Họ và tên
+                  <input
+                    id="user-name"
+                    name="name"
+                    maxlength="80"
+                    required
+                    placeholder="Nguyễn Văn An"
+                  />
+                </label>
+                <label for="user-email"
+                  >Email
+                  <input
+                    id="user-email"
+                    name="email"
+                    type="email"
+                    maxlength="120"
+                    required
+                    placeholder="ten@example.demo"
+                  />
+                </label>
+              </div>
+              <div class="portal-row">
+                <label for="user-role"
+                  >Vai trò
+                  <select class="portal-select" id="user-role" name="role">
+                    <option value="recipient">Người nhận</option>
+                    <option value="driver">Nhân viên giao hàng</option>
+                    <option value="dispatcher">Điều phối viên</option>
+                    <option value="admin">Quản trị viên</option>
+                  </select>
+                </label>
+                <label for="user-status"
+                  >Trạng thái
+                  <select class="portal-select" id="user-status" name="status">
+                    <option value="pending">Chờ kích hoạt</option>
+                    <option value="active">Đang hoạt động</option>
+                    <option value="suspended">Tạm khóa</option>
+                  </select>
+                </label>
+              </div>
+              <p
+                class="portal-message"
+                id="user-form-message"
+                role="status"
+                aria-live="polite"
+              ></p>
+              <div class="portal-actions">
+                <button class="btn primary" type="submit">Lưu tài khoản</button
+                ><button class="btn" id="cancel-user" type="button">Hủy</button>
+              </div>
+            </form>
+          </section>
+          <p class="form-help" style="margin-top: 12px">
+            Đây là bản demo giao diện.
+          </p>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

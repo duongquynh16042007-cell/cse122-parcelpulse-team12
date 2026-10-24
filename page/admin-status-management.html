@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Quản lý taxonomy trạng thái ParcelPulse."
+    />
+    <title>Quản lý trạng thái — ParcelPulse</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <script src="../js/role-pages.js" defer></script>
+    <script src="../js/admin-pages.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="side">
+        <a class="brand" href="admin-status-management.html"
+          ><span class="logo" aria-hidden="true">P</span>ParcelPulse</a
+        >
+        <span class="role-chip">Quản trị viên</span>
+        <nav class="nav" aria-label="Điều hướng quản trị">
+          <a
+            class="nav-item--icon"
+            href="admin-status-management.html"
+            aria-current="page"
+            ><span class="nav-icon" aria-hidden="true">◷</span>Trạng thái</a
+          >
+          <a class="nav-item--icon" href="admin-user-management.html"
+            ><span class="nav-icon" aria-hidden="true">♙</span>Người dùng</a
+          >
+          <a class="nav-item--icon" href="admin-logistics-report.html"
+            ><span class="nav-icon" aria-hidden="true">▤</span>Báo cáo
+            logistics</a
+          >
+        </nav>
+        <div class="nav">
+        </div>
+        <div class="user">
+          <strong>Minh Anh</strong><span>Quản trị viên · Môi trường demo</span
+          ><span class="chip amber">Thao tác chỉ lưu cục bộ</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header>
+          <p class="eyebrow">Quản trị viên · Cấu hình nghiệp vụ</p>
+          <h1>Taxonomy &amp; luồng trạng thái</h1>
+          <p class="lead">
+            Quản lý mã chuẩn và trạng thái tiếp theo có thể chuyển tới.
+          </p>
+        </header>
+
+        <section class="metric-grid" aria-label="Tóm tắt trạng thái">
+          <article class="card metric">
+            <span>Trạng thái đang dùng</span><strong id="status-total">6</strong
+            ><small>Danh mục mẫu</small>
+          </article>
+          <article class="card metric">
+            <span>Nhóm nghiệp vụ</span><strong>5</strong
+            ><small>Đang chờ · Vận chuyển · Hoàn tất · Ngoại lệ · Hủy</small>
+          </article>
+          <article class="card metric">
+            <span>Mã hệ thống</span><strong>6</strong
+            ><small>Được bảo vệ trong bản demo</small>
+          </article>
+          <article class="card metric">
+            <span>Phiên bản cấu hình</span><strong>1.0</strong
+            ><small>Lưu cục bộ trên trình duyệt</small>
+          </article>
+        </section>
+
+        <section class="card portal-card" aria-labelledby="taxonomy-title">
+          <div class="card-head">
+            <div>
+              <h2 id="taxonomy-title">Danh sách trạng thái</h2>
+              <p class="sub">
+                Không thể xóa các mã mẫu đang gắn với luồng vận hành.
+              </p>
+            </div>
+            <button class="btn primary" type="button" id="add-status">
+              Thêm trạng thái
+            </button>
+          </div>
+          <div class="portal-row">
+            <label class="portal-label" for="status-search"
+              >Tìm mã hoặc tên
+              <input
+                class="portal-search"
+                id="status-search"
+                type="search"
+                placeholder="Ví dụ: IN_TRANSIT, Đang giao"
+              />
+            </label>
+            <p class="form-help" style="align-self: end">
+              Mã viết hoa, bắt đầu bằng chữ và dùng dấu gạch dưới.
+            </p>
+          </div>
+          <p
+            class="portal-message"
+            id="status-page-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th scope="col">Mã</th>
+                  <th scope="col">Tên trạng thái</th>
+                  <th scope="col">Nhóm</th>
+                  <th scope="col">Chuyển tiếp</th>
+                  <th scope="col">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="status-body"></tbody>
+            </table>
+            <p class="portal-empty" id="status-empty" hidden>
+              Không tìm thấy trạng thái phù hợp.
+            </p>
+          </div>
+
+          <section
+            class="editor-panel"
+            id="status-editor"
+            hidden
+            aria-labelledby="status-editor-title"
+          >
+            <h2 id="status-editor-title">Tạo trạng thái mới</h2>
+            <form class="portal-form" id="status-form" novalidate>
+              <div class="portal-row">
+                <label for="status-code"
+                  >Mã trạng thái
+                  <input
+                    id="status-code"
+                    name="code"
+                    maxlength="32"
+                    pattern="[A-Z][A-Z0-9_]{2,31}"
+                    placeholder="ĐANG_CHO_LAY"
+                    required
+                  />
+                </label>
+                <label for="status-name"
+                  >Tên hiển thị
+                  <input
+                    id="status-name"
+                    name="name"
+                    maxlength="60"
+                    required
+                    placeholder="Ví dụ: Chờ xác nhận"
+                  />
+                </label>
+              </div>
+              <div class="portal-row">
+                <label for="status-category"
+                  >Nhóm nghiệp vụ
+                  <select id="status-category" name="category">
+                    <option>Đang chờ</option>
+                    <option>Đang vận chuyển</option>
+                    <option>Hoàn thành</option>
+                    <option>Ngoại lệ</option>
+                    <option>Đã hủy</option>
+                  </select>
+                </label>
+                <label for="status-flow"
+                  >Bước có thể chuyển tới
+                  <input
+                    id="status-flow"
+                    name="flow"
+                    maxlength="80"
+                    required
+                    placeholder="Ví dụ: Đang xử lý"
+                  />
+                </label>
+              </div>
+              <p
+                class="portal-message"
+                id="status-form-message"
+                role="status"
+                aria-live="polite"
+              ></p>
+              <div class="portal-actions">
+                <button class="btn primary" type="submit">Lưu trạng thái</button
+                ><button class="btn" type="button" id="cancel-status">
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </section>
+          <p class="form-help" style="margin-top: 12px">
+            Đây là bản demo giao diện.
+          </p>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
