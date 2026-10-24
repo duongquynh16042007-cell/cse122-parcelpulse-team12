@@ -922,3 +922,28 @@ td.empty {
     transition: none;
   }
 }
+
+/* Liên kết chuyển giữa hai khu vực demo và chân trang ngữ nghĩa. */
+.role-switcher {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.role-switcher a {
+  color: var(--pink);
+  font-weight: 650;
+}
+.role-switcher a:hover {
+  text-decoration: underline;
+}
+.app-footer {
+  margin-top: 28px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+}

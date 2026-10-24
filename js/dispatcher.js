@@ -8,16 +8,38 @@ const fmt = (n) =>
     minimumFractionDigits: 1,
     maximumFractionDigits: 1,
   });
+const readStore = (key, fallback) => {
+  try {
+    const value = localStorage.getItem(`parcelpulse.${key}`);
+    return value === null ? fallback : JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+};
+const writeStore = (key, value) => {
+  try {
+    localStorage.setItem(`parcelpulse.${key}`, JSON.stringify(value));
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 /* ===== Thông báo nổi (toast) ===== */
 let toastTimer;
 function toast(message) {
-  const settings = JSON.parse(
-    localStorage.getItem("parcelpulse.profileSettings") ||
-      '{"notifications":true}',
-  );
+  let settings = { notifications: true };
+  try {
+    settings = JSON.parse(
+      localStorage.getItem("parcelpulse.profileSettings") ||
+        '{"notifications":true}',
+    );
+  } catch {
+    // A corrupted preference must not prevent the page interaction.
+  }
   if (settings.notifications === false) return;
   const el = $("#toast");
+  if (!el) return;
   el.textContent = message;
   el.classList.add("show");
   clearTimeout(toastTimer);
@@ -116,7 +138,7 @@ if (exBody) {
   };
 
   const rows = $$("tr[data-id]", exBody);
-  const decisions = {}; // lưu quyết định của điều phối viên theo mã ngoại lệ
+  const decisions = readStore("exceptionDecisions", {});
   let currentId = null;
 
   function renderException(id) {
@@ -142,6 +164,8 @@ if (exBody) {
   }
 
   rows.forEach((row) => {
+    const saved = decisions[row.dataset.id];
+    if (saved?.type) $(".t-type", row).textContent = saved.type;
     row.addEventListener("click", () => selectRow(row));
     row.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -157,6 +181,10 @@ if (exBody) {
 
   function decide(status, message) {
     decisions[currentId] = { ...decisions[currentId], status };
+    if (!writeStore("exceptionDecisions", decisions)) {
+      toast("Không thể lưu quyết định. Kiểm tra quyền lưu của trình duyệt.");
+      return;
+    }
     renderException(currentId);
     toast(message);
   }
@@ -177,6 +205,10 @@ if (exBody) {
 
   typeEdit.addEventListener("change", () => {
     decisions[currentId] = { status: "edited", type: typeEdit.value };
+    if (!writeStore("exceptionDecisions", decisions)) {
+      toast("Không thể lưu chỉnh sửa. Kiểm tra quyền lưu của trình duyệt.");
+      return;
+    }
     $(`tr[data-id="${currentId}"] .t-type`).textContent = typeEdit.value;
     renderException(currentId);
     toast(`Đã đổi loại của ${currentId} thành "${typeEdit.value}"`);
@@ -189,7 +221,7 @@ if (exBody) {
 
   const emptyRow = document.createElement("tr");
   emptyRow.innerHTML =
-    '<td class="empty" colspan="6">Không có ngoại lệ phù hợp. Thử đổi từ khóa hoặc bỏ bộ lọc.</td>';
+    '<td class="empty" colspan="6"><p>Không có ngoại lệ phù hợp. Thử đổi từ khóa hoặc bỏ bộ lọc.</p><button class="btn" type="button" data-clear-exception-filters>Xóa bộ lọc</button></td>';
   emptyRow.hidden = true;
   exBody.append(emptyRow);
 
@@ -208,10 +240,7 @@ if (exBody) {
       if (visible) shown++;
     });
     emptyRow.hidden = shown > 0;
-    $("#count").textContent =
-      quick === "all" && !query && !typeFilter
-        ? "Hiển thị 1–5 trong 36 ngoại lệ"
-        : `Hiển thị ${shown} ngoại lệ khớp bộ lọc ở trang này`;
+    $("#count").textContent = `Hiển thị ${shown} trong ${rows.length} ngoại lệ mẫu${quick !== "all" || query || typeFilter ? " khớp bộ lọc" : ""}`;
   }
 
   $$("[data-filter]").forEach((btn) =>
@@ -238,6 +267,17 @@ if (exBody) {
     applyFilters();
   });
 
+  $("[data-clear-exception-filters]").addEventListener("click", () => {
+    quick = "all";
+    query = "";
+    typeFilter = "";
+    $("#q").value = "";
+    typeSelect.value = "";
+    $$('[data-filter="all"]').forEach((button) => button.setAttribute("aria-pressed", "true"));
+    $$('[data-filter]:not([data-filter="all"])').forEach((button) => button.setAttribute("aria-pressed", "false"));
+    applyFilters();
+  });
+
   $("#filter-toggle").addEventListener("click", (e) => {
     typeSelect.hidden = !typeSelect.hidden;
     e.currentTarget.setAttribute("aria-expanded", String(!typeSelect.hidden));
@@ -250,13 +290,12 @@ if (exBody) {
     }
   });
 
-  // Phân trang: bản demo chỉ có dữ liệu mẫu ở trang 1
-  $$(".pager .page, .pager .step").forEach((btn) =>
-    btn.addEventListener("click", () => {
-      if (btn.textContent.trim() !== "1")
-        toast("Bản demo chỉ có dữ liệu mẫu ở trang 1");
-    }),
-  );
+  // Một trang dữ liệu mẫu hiện có; vô hiệu hóa nút trang chưa có dữ liệu.
+  $$(".pager .page, .pager .step").forEach((btn) => {
+    const current = btn.textContent.trim() === "1";
+    btn.disabled = !current;
+    if (!current) btn.title = "Trang này chưa có dữ liệu mẫu";
+  });
 
   selectRow($('tr[aria-current="true"]'));
 }
@@ -266,6 +305,7 @@ const stopsBox = $("#stops");
 if (stopsBox) {
   const driversBox = $("#drivers");
   const stops = () => $$(".stop", stopsBox);
+  const stopId = (stop) => $(".meta b", stop)?.textContent.trim();
   const checkedStops = () => stops().filter((s) => $("input", s).checked);
   const drivers = () => $$(".driver", driversBox);
   const pickedDriver = () => drivers().find((d) => $("input", d).checked);
@@ -321,14 +361,55 @@ if (stopsBox) {
       : "Trong bán kính 6 km";
   });
 
-  $("#draft").addEventListener("click", () => toast("Đã lưu nháp phân công"));
+  const completed = readStore("assignments", []);
+  stops().forEach((stop) => {
+    if (completed.some((assignment) => assignment.stopIds?.includes(stopId(stop)))) stop.remove();
+  });
+  const draft = readStore("assignmentDraft", null);
+  if (draft) {
+    stops().forEach((stop) => {
+      if (draft.stopIds?.includes(stopId(stop))) $("input", stop).checked = true;
+    });
+    const driver = drivers().find((item) => item.dataset.name === draft.driver);
+    if (driver) $("input", driver).checked = true;
+  }
+
+  $("#draft").addEventListener("click", () => {
+    const selected = checkedStops();
+    if (!selected.length) {
+      toast("Chọn ít nhất một điểm dừng trước khi lưu nháp.");
+      return;
+    }
+    const driver = pickedDriver();
+    const saved = writeStore("assignmentDraft", {
+      stopIds: selected.map(stopId),
+      driver: driver?.dataset.name || "",
+      savedAt: new Date().toISOString(),
+    });
+    if (!saved) {
+      toast("Không thể lưu nháp. Kiểm tra quyền lưu của trình duyệt.");
+      return;
+    }
+    toast("Đã lưu nháp phân công vào trình duyệt.");
+  });
 
   // --- Xác nhận: chuyển các điểm đã chọn đi và gỡ chúng khỏi danh sách ---
   $("#confirm").addEventListener("click", () => {
     const selected = checkedStops();
     const driver = pickedDriver();
     if (!selected.length || !driver) return;
+    const assignments = readStore("assignments", []);
+    assignments.push({
+      stopIds: selected.map(stopId),
+      driver: driver.dataset.name,
+      assignedAt: new Date().toISOString(),
+    });
+    if (!writeStore("assignments", assignments)) {
+      toast("Không thể lưu phân công; danh sách chưa được cập nhật.");
+      return;
+    }
     selected.forEach((s) => s.remove());
+    try { localStorage.removeItem("parcelpulse.assignmentDraft"); } catch { /* Storage may be unavailable. */ }
     toast(`Đã chuyển ${selected.length} điểm cho ${driver.dataset.name}`);
     update();
   });
