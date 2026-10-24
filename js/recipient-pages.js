@@ -12,34 +12,43 @@ document.addEventListener("DOMContentLoaded", () => {
       "Minh Anh";
   }
 
-  // Quản lý mã bưu kiện đang hoạt động (lưu qua LocalStorage và URL query)
-  const DEFAULT_PARCEL_CODE = "PPVN-4829-1024";
+  // Mã kiện hàng mẫu hợp lệ duy nhất của bản demo
+  const VALID_DEMO_CODE = "PPVN-4829-1024";
+
+  // Kiểm tra mã đã tra cứu thành công từ URL hoặc LocalStorage
   const urlParcelCode = new URLSearchParams(location.search).get("code");
   const storedParcelCode = read("trackedParcel", null);
-  let activeCode = (urlParcelCode || storedParcelCode || DEFAULT_PARCEL_CODE).trim().toUpperCase();
 
-  // Đồng bộ vào LocalStorage nếu được truyền từ trang khác qua URL
-  if (urlParcelCode && urlParcelCode.trim()) {
-    write("trackedParcel", activeCode);
+  // Chỉ kích hoạt mã nếu đúng mã mẫu demo hợp lệ
+  let activeCode = "";
+  if (urlParcelCode && urlParcelCode.trim().toUpperCase() === VALID_DEMO_CODE) {
+    activeCode = VALID_DEMO_CODE;
+    write("trackedParcel", VALID_DEMO_CODE);
+  } else if (storedParcelCode && storedParcelCode.trim().toUpperCase() === VALID_DEMO_CODE) {
+    activeCode = VALID_DEMO_CODE;
   }
 
-  // Cập nhật tất cả các vị trí hiển thị mã đơn hàng trên trang hiện tại
+  // Cập nhật hiển thị mã đơn hàng trên các trang
   const updateParcelCodeDisplay = (code) => {
+    const displayCode = code || VALID_DEMO_CODE;
     $$("[data-parcel-code]").forEach((el) => {
-      el.textContent = code;
+      el.textContent = displayCode;
     });
 
-    // Cập nhật các liên kết điều hướng nội bộ để luôn giữ mã đơn hàng khi chuyển trang
-    $$("a[href*='track-parcel.html'], a[href*='delivery-preferences.html'], a[href*='delivery-feedback.html']").forEach((link) => {
-      try {
-        const href = link.getAttribute("href");
-        if (!href) return;
-        const [path] = href.split("?");
-        link.setAttribute("href", `${path}?code=${encodeURIComponent(code)}`);
-      } catch (e) {}
-    });
+    // Cập nhật các liên kết điều hướng để luôn giữ mã đơn hàng khi chuyển trang
+    if (code) {
+      $$("a[href*='track-parcel.html'], a[href*='delivery-preferences.html'], a[href*='delivery-feedback.html']").forEach((link) => {
+        try {
+          const href = link.getAttribute("href");
+          if (!href) return;
+          const [path] = href.split("?");
+          link.setAttribute("href", `${path}?code=${encodeURIComponent(code)}`);
+        } catch (e) {}
+      });
+    }
   };
 
+  // Cập nhật hiển thị ban đầu
   updateParcelCodeDisplay(activeCode);
 
   // Xử lý trang Tra cứu kiện hàng
@@ -49,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const status = $("#track-status");
     const results = $$(".track-result");
 
-    // Hàm hiển thị kết quả và lưu trạng thái
-    const displayTrackingResult = (code, announcementText, tone = "success") => {
+    // Hàm hiển thị kết quả tra cứu
+    const showTrackingResult = (code, announcementText, tone = "success") => {
       input.value = code;
       input.removeAttribute("aria-invalid");
       results.forEach((result) => {
@@ -60,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       write("trackedParcel", code);
       updateParcelCodeDisplay(code);
 
-      // Cập nhật URL không reload để lưu lại lịch sử duyệt
+      // Cập nhật URL mà không reload trang
       try {
         const url = new URL(location);
         url.searchParams.set("code", code);
@@ -72,49 +81,100 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    // Khi mở trang: tự động khôi phục mã đã tìm kiếm trước đó, không bị mất kết quả
-    if (activeCode) {
-      const message = urlParcelCode
-        ? `Đã hiển thị thông tin bưu kiện ${activeCode}.`
-        : (storedParcelCode
-            ? `Đang lưu và hiển thị bưu kiện đã tra cứu: ${activeCode}.`
-            : "");
-      displayTrackingResult(activeCode, message);
+    // Hàm ẩn kết quả tra cứu khi mã chưa hợp lệ
+    const hideTrackingResult = (announcementText, tone = "error") => {
+      results.forEach((result) => {
+        result.hidden = true;
+      });
+      input.setAttribute("aria-invalid", "true");
+      write("trackedParcel", null);
+
+      try {
+        const url = new URL(location);
+        url.searchParams.delete("code");
+        history.replaceState(null, "", url);
+      } catch (e) {}
+
+      if (announcementText) {
+        announce(status, announcementText, tone);
+      }
+    };
+
+    // Khi người dùng mới vào trang:
+    // - Nếu ĐÃ tra cứu đúng mã trước đó: giữ nguyên kết quả hiển thị (không bị mất khi chuyển sidebar)
+    // - Nếu CHƯA tra cứu: chỉ hiển thị thanh nhập mã, ẩn hoàn toàn phần thông tin bên dưới
+    if (activeCode === VALID_DEMO_CODE) {
+      showTrackingResult(
+        VALID_DEMO_CODE,
+        urlParcelCode ? `Đang hiển thị thông tin bưu kiện ${VALID_DEMO_CODE}.` : "",
+        "success"
+      );
+    } else {
+      input.value = "";
+      results.forEach((result) => {
+        result.hidden = true;
+      });
+      announce(status, "");
     }
 
-    // Cho phép bấm vào mã thử nghiệm để tự động điền và tra cứu ngay
+    // Bấm vào mã mẫu để tự động điền và tra cứu ngay
     const demoHint = $(".demo-hint strong");
     if (demoHint) {
       demoHint.style.cursor = "pointer";
-      demoHint.title = "Bấm để tra cứu mã mẫu này";
+      demoHint.title = "Bấm để tra cứu mã mẫu";
       demoHint.addEventListener("click", () => {
-        displayTrackingResult(demoHint.textContent.trim().toUpperCase(), "Đang tra cứu mã mẫu...");
+        input.value = VALID_DEMO_CODE;
+        showTrackingResult(
+          VALID_DEMO_CODE,
+          `Đã tìm thấy kiện hàng mẫu ${VALID_DEMO_CODE}.`,
+          "success"
+        );
       });
     }
 
+    // Khi người dùng đang nhập thì xóa trạng thái lỗi
     input.addEventListener("input", () => {
       input.removeAttribute("aria-invalid");
-      if (status) announce(status, "");
+      announce(status, "");
     });
 
+    // Khi người dùng gửi form tra cứu
     trackForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const code = input.value.trim().toUpperCase();
-      if (!/^(?:PP|PPVN|PTVN)-[A-Z0-9-]{6,20}$/.test(code)) {
-        announce(
-          status,
-          "Nhập mã hợp lệ, ví dụ PPVN-4829-1024. Bản demo chỉ tra cứu dữ liệu mẫu.",
-          "error",
-        );
-        input.setAttribute("aria-invalid", "true");
+
+      // Kiểm tra rỗng
+      if (!code) {
+        hideTrackingResult("Vui lòng nhập mã vận đơn để tra cứu.", "error");
         input.focus();
         return;
       }
 
-      displayTrackingResult(
+      // Kiểm tra định dạng cơ bản
+      if (!/^(?:PP|PPVN|PTVN)-[A-Z0-9-]{6,20}$/.test(code)) {
+        hideTrackingResult(
+          "Định dạng mã không hợp lệ. Vui lòng thử mã mẫu: " + VALID_DEMO_CODE,
+          "error"
+        );
+        input.focus();
+        return;
+      }
+
+      // Kiểm tra mã có tồn tại trong hệ thống demo không
+      if (code !== VALID_DEMO_CODE) {
+        hideTrackingResult(
+          `Không tìm thấy kiện hàng "${code}" trong hệ thống. Vui lòng thử mã mẫu: ${VALID_DEMO_CODE}`,
+          "error"
+        );
+        input.focus();
+        return;
+      }
+
+      // Nhập đúng mã demo: Hiển thị phần thông tin ở dưới và lưu trạng thái
+      showTrackingResult(
         code,
-        `Đã hiển thị thông tin cho mã ${code}. Trạng thái sẽ được lưu khi chuyển sang các tác vụ khác.`,
-        "success",
+        `Đã tìm thấy kiện hàng ${code}. Thông tin hành trình hiển thị bên dưới.`,
+        "success"
       );
     });
   }
@@ -173,8 +233,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         return;
       }
+      const currentParcel = activeCode || VALID_DEMO_CODE;
       write("deliveryPreferences", {
-        parcel: activeCode,
+        parcel: currentParcel,
         mode,
         window: $("#delivery-window").value,
         address: mode === "home" ? details : "",
@@ -183,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       announce(
         $("#preferences-status"),
-        `Đã lưu tùy chọn cho đơn hàng ${activeCode} trên thiết bị này.`,
+        `Đã lưu tùy chọn cho đơn hàng ${currentParcel} trên thiết bị này.`,
         "success",
       );
     });
@@ -235,9 +296,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      const currentParcel = activeCode || VALID_DEMO_CODE;
       const feedback = read("feedback", []);
       feedback.unshift({
-        parcel: activeCode,
+        parcel: currentParcel,
         rating: Number(rating.value),
         reason:
           $('input[name="feedback-reason"]:checked', feedbackForm)?.value || "",
@@ -247,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
       write("feedback", feedback.slice(0, 20));
       announce(
         $("#feedback-status"),
-        `Cảm ơn bạn! Phản hồi cho đơn hàng ${activeCode} đã được lưu trên thiết bị này.`,
+        `Cảm ơn bạn! Phản hồi cho đơn hàng ${currentParcel} đã được lưu trên thiết bị này.`,
         "success",
       );
       feedbackForm.reset();

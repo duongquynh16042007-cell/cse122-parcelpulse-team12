@@ -22,9 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.timer = setTimeout(() => el.classList.remove("show"), 2600);
   };
   const announce = (element, message, tone = "") => {
+    if (!element) return;
     element.textContent = message;
-    if (tone) element.dataset.tone = tone;
-    else delete element.dataset.tone;
+    if (tone) {
+      element.dataset.tone = tone;
+      element.classList.remove("error", "success");
+      element.classList.add(tone);
+    } else {
+      delete element.dataset.tone;
+      element.classList.remove("error", "success");
+    }
   };
   window.ParcelPulseRolePages = Object.freeze({
     $,

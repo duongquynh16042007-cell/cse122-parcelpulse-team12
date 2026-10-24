@@ -93,6 +93,11 @@
   box-shadow: 0 0 0 3px rgba(216, 84, 128, 0.09);
 }
 
+.tracking-input-wrap:has(input[aria-invalid="true"]) {
+  border-color: #d76a89;
+  box-shadow: 0 0 0 3px rgba(215, 106, 137, 0.12);
+}
+
 .tracking-input-wrap input {
   width: 100%;
   min-width: 0;

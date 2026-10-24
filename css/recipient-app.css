@@ -394,12 +394,18 @@ html[data-theme="dark"] .side-link.active {
   display: none;
 }
 
-.app-message.error {
+.app-message.error, .app-message[data-tone="error"] {
   color: #d76a89;
+  font-weight: 500;
 }
 
-.app-message.success {
+.app-message.success, .app-message[data-tone="success"] {
   color: var(--app-green);
+  font-weight: 500;
+}
+
+input[aria-invalid="true"] {
+  border-color: #d76a89 !important;
 }
 
 .app-tag {

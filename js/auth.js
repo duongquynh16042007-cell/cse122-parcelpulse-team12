@@ -131,6 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
             name: "Minh Anh",
           }),
         );
+        if (selectedRole === "recipient") {
+          localStorage.removeItem("parcelpulse.trackedParcel");
+        }
       });
       status.append(entry);
     });
