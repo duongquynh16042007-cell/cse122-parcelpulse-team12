@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Quản lý hồ sơ và tùy chọn ParcelPulse." />
+    <title>Cài đặt — ParcelPulse</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/assistant.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+    <script src="../js/settings-page.js" defer></script>
+  </head>
+  <body>
+    <div class="app" id="settings-app">
+      <aside class="side">
+        <a class="brand" id="settings-brand" href="recipient-track-parcel.html"
+          ><span class="logo" aria-hidden="true">P</span>ParcelPulse</a
+        >
+        <span class="role-chip" id="settings-role">Người nhận</span>
+        <nav
+          class="nav"
+          id="settings-navigation"
+          aria-label="Điều hướng chính"
+        ></nav>
+        <div class="nav">
+          <a
+            class="settings-trigger"
+            href="settings.html?role=recipient"
+            aria-current="page"
+            ><svg
+              class="nav-icon"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M12.2 2h-.4a2 2 0 0 0-2 2v.2a2 2 0 0 1-1 1.7l-.4.3a2 2 0 0 1-2 0l-.2-.1a2 2 0 0 0-2.7.7l-.2.4a2 2 0 0 0 .7 2.7l.2.1a2 2 0 0 1 1 1.7v.5a2 2 0 0 1-1 1.8l-.2.1a2 2 0 0 0-.7 2.7l.2.4a2 2 0 0 0 2.7.7l.2-.1a2 2 0 0 1 2 0l.4.3a2 2 0 0 1 1 1.7v.2a2 2 0 0 0 2 2h.4a2 2 0 0 0 2-2v-.2a2 2 0 0 1 1-1.7l.4-.3a2 2 0 0 1 2 0l.2.1a2 2 0 0 0 2.7-.7l.2-.4a2 2 0 0 0-.7-2.7l-.2-.1a2 2 0 0 1-1-1.8v-.5a2 2 0 0 1 1-1.7l.2-.1a2 2 0 0 0 .7-2.7l-.2-.4a2 2 0 0 0-2.7-.7l-.2.1a2 2 0 0 1-2 0l-.4-.3a2 2 0 0 1-1-1.7V4a2 2 0 0 0-2-2Z"
+              /><circle cx="12" cy="12" r="3" /></svg
+            >Cài đặt</a
+          >
+        </div>
+        <div class="user settings-user">
+          <strong id="settings-side-name">Minh Anh</strong>
+          <span id="settings-side-role">Tài khoản demo</span>
+          <span class="chip side-user-badge">Cài đặt lưu trên thiết bị</span>
+        </div>
+      </aside>
+
+      <main class="main settings-main">
+        <header class="settings-heading">
+          <div>
+            <p class="eyebrow" id="settings-eyebrow">Tài khoản cá nhân</p>
+            <h1>Cài đặt</h1>
+            <p class="lead">
+              Quản lý thông tin, bảo mật và trải nghiệm ParcelPulse của bạn.
+            </p>
+          </div>
+        </header>
+
+        <div class="settings-grid">
+          <section class="card settings-card" aria-labelledby="account-title">
+            <div class="settings-card-head">
+              <span class="settings-icon" aria-hidden="true">♙</span>
+              <div>
+                <h2 id="account-title">Thông tin tài khoản</h2>
+                <p class="sub">Thông tin giúp nhận diện và liên hệ với bạn.</p>
+              </div>
+            </div>
+            <div class="avatar-row">
+              <span
+                id="avatar-initials"
+                class="avatar-circle"
+                aria-hidden="true"
+                >MA</span
+              >
+              <div class="avatar-copy">
+                <strong id="account-name">Minh Anh</strong>
+                <span>Ảnh JPG hoặc PNG, tối đa 2 MB</span>
+              </div>
+              <button
+                class="btn settings-ghost"
+                type="button"
+                id="change-avatar"
+              >
+                Đổi ảnh
+              </button>
+              <input
+                id="avatar-input"
+                type="file"
+                accept="image/png,image/jpeg"
+                hidden
+              />
+            </div>
+            <div class="settings-fields">
+              <label class="settings-field" for="display-name"
+                >Tên hiển thị<input
+                  id="display-name"
+                  name="displayName"
+                  autocomplete="name"
+                  placeholder="Tên của bạn"
+                  required
+                  minlength="2"
+              /></label>
+              <label class="settings-field" for="phone"
+                >Số điện thoại<input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="09xx xxx xxx"
+              /></label>
+              <label class="settings-field full" for="email"
+                >Địa chỉ email<input
+                  id="email"
+                  name="email"
+                  type="email"
+                  readonly
+              /></label>
+            </div>
+            <p class="verified-note">
+              <span aria-hidden="true">✓</span>Email đã được xác minh
+            </p>
+          </section>
+
+          <section
+            class="card settings-card"
+            aria-labelledby="notifications-title"
+          >
+            <div class="settings-card-head">
+              <span class="settings-icon" aria-hidden="true">♧</span>
+              <div>
+                <h2 id="notifications-title">Thông báo</h2>
+                <p class="sub">Chọn những cập nhật bạn muốn nhận.</p>
+              </div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <strong id="delivery-setting-label">Cập nhật kiện hàng</strong
+                ><span>Trạng thái vận chuyển và thời gian giao dự kiến.</span>
+              </div>
+              <label class="switch"
+                ><input
+                  type="checkbox"
+                  data-setting="delivery"
+                  aria-labelledby="delivery-setting-label"
+                /><span
+                  class="switch-track"
+                  aria-hidden="true"
+                ></span
+              ></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <strong id="exception-setting-label">Ngoại lệ &amp; việc cần xử lý</strong
+                ><span>Cảnh báo khi có sự cố hoặc cần bạn xác nhận.</span>
+              </div>
+              <label class="switch"
+                ><input
+                  type="checkbox"
+                  data-setting="exception"
+                  aria-labelledby="exception-setting-label"
+                /><span
+                  class="switch-track"
+                  aria-hidden="true"
+                ></span
+              ></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <strong id="ai-setting-label">Gợi ý từ Trợ lý AI</strong
+                ><span>Nhận phân tích và đề xuất hành động phù hợp.</span>
+              </div>
+              <label class="switch"
+                ><input
+                  type="checkbox"
+                  data-setting="ai"
+                  aria-labelledby="ai-setting-label"
+                /><span
+                  class="switch-track"
+                  aria-hidden="true"
+                ></span
+              ></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <strong id="news-setting-label">Tin tức &amp; tính năng mới</strong
+                ><span>Thông tin sản phẩm và mẹo sử dụng ParcelPulse.</span>
+              </div>
+              <label class="switch"
+                ><input
+                  type="checkbox"
+                  data-setting="news"
+                  aria-labelledby="news-setting-label"
+                /><span
+                  class="switch-track"
+                  aria-hidden="true"
+                ></span
+              ></label>
+            </div>
+            <p class="settings-footnote">
+              <span aria-hidden="true">ⓘ</span>Áp dụng cho thông báo trong ứng
+              dụng và qua email.
+            </p>
+          </section>
+        </div>
+
+        <div class="settings-grid settings-grid--second">
+          <section class="card settings-card" aria-labelledby="security-title">
+            <div class="settings-card-head">
+              <span class="settings-icon" aria-hidden="true">◇</span>
+              <div>
+                <h2 id="security-title">Bảo mật</h2>
+                <p class="sub">Giữ tài khoản và dữ liệu của bạn an toàn.</p>
+              </div>
+            </div>
+            <div class="setting-row">
+              <span
+                ><strong>Mật khẩu</strong
+                ><small id="password-changed"
+                  >Đổi lần gần nhất ngày 02/10/2026</small
+                ></span
+              >
+              <button class="btn" id="change-password" type="button">
+                Đổi mật khẩu
+              </button>
+            </div>
+            <div class="setting-row">
+              <div>
+                <strong id="two-factor-setting-label">Xác thực hai bước</strong
+                ><span
+                  >Yêu cầu mã xác minh khi đăng nhập trên thiết bị mới.</span
+                >
+              </div>
+              <div class="setting-line-control">
+                <span id="two-factor-state" class="state-label">Đang bật</span
+                ><label class="switch"
+                  ><input
+                    type="checkbox"
+                    data-setting="twoFactor"
+                    aria-labelledby="two-factor-setting-label"
+                  /><span
+                    class="switch-track"
+                    aria-hidden="true"
+                  ></span
+                ></label>
+              </div>
+            </div>
+            <p class="device-note">
+              <span aria-hidden="true">▣</span>Thiết bị hiện tại · Trình duyệt
+              hiện tại · Bản demo
+            </p>
+            <p
+              class="settings-inline-message"
+              id="security-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </section>
+
+          <section
+            class="card settings-card"
+            aria-labelledby="experience-title"
+          >
+            <div class="settings-card-head">
+              <span class="settings-icon" aria-hidden="true">☷</span>
+              <div>
+                <h2 id="experience-title">Ngôn ngữ &amp; giao diện</h2>
+                <p class="sub">Cá nhân hóa cách bạn dùng ứng dụng.</p>
+              </div>
+            </div>
+            <label class="settings-field" for="language"
+              >Ngôn ngữ hiển thị<select id="language" name="language">
+                <option value="vi">Tiếng Việt</option>
+                <option value="en">English (sắp ra mắt)</option>
+              </select></label
+            >
+            <div class="settings-field">
+              <span id="theme-label">Giao diện</span>
+              <div
+                class="theme-group"
+                role="group"
+                aria-labelledby="theme-label"
+              >
+                <button type="button" data-theme-option="light">
+                  <span aria-hidden="true">☀</span>Sáng</button
+                ><button type="button" data-theme-option="dark">
+                  <span aria-hidden="true">☾</span>Tối</button
+                ><button type="button" data-theme-option="system">
+                  <span aria-hidden="true">▣</span>Hệ thống
+                </button>
+              </div>
+            </div>
+            <p class="sub theme-copy">
+              Tùy chọn được giữ lại trên thiết bị này.
+            </p>
+          </section>
+        </div>
+
+        <section
+          class="card settings-session session-card"
+          aria-labelledby="session-title"
+        >
+          <div class="settings-card-head">
+            <span class="settings-icon danger" aria-hidden="true">↪</span>
+            <div>
+              <h2 id="session-title">Kết thúc phiên đăng nhập</h2>
+              <p class="sub">
+                Đăng xuất tài khoản trên thiết bị này. Bạn cần đăng nhập lại để
+                tiếp tục sử dụng. Hãy lưu các thay đổi trước khi đăng xuất.
+              </p>
+            </div>
+            <button class="btn session-logout" id="logout" type="button">
+              <span aria-hidden="true">↪</span>Đăng xuất khỏi tài khoản
+            </button>
+          </div>
+        </section>
+
+        <footer class="card settings-footer">
+          <div>
+            <strong>Chỉ áp dụng cho tài khoản của bạn</strong
+            ><span
+              >Không thay đổi quyền truy cập hoặc cài đặt của tổ chức.</span
+            >
+          </div>
+          <div class="settings-footer-actions">
+            <p
+              class="settings-inline-message"
+              id="settings-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+            <button
+              class="btn settings-ghost"
+              id="cancel-settings"
+              type="button"
+            >
+              Hủy
+            </button>
+            <button class="btn primary" id="save-settings" type="button">
+              <span aria-hidden="true">✓</span>Lưu thay đổi
+            </button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
