@@ -223,6 +223,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===== Shared profile and settings drawer ===== */
+  const currentPage = window.location.pathname.split("/").pop();
+  if (currentPage && currentPage !== "settings.html") {
+    $$('a[href*="settings.html"]').forEach((link) => {
+      const target = new URL(link.href, window.location.href);
+      if (!target.pathname.endsWith("/settings.html")) return;
+      target.searchParams.set("return", currentPage);
+      link.href = `settings.html?${target.searchParams.toString()}`;
+    });
+  }
+
   const settingsTrigger = $("[data-open-profile]");
   const roleElement = $(".role-chip");
   if (roleElement) {

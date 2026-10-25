@@ -2,13 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const roles = {
     recipient: {
       label: "Người nhận",
-      landing: "recipient-track-parcel.html",
+      landing: "track-parcel.html",
       email: "minhanh.recipient@parcelpulse.demo",
       phone: "0900000123",
       links: [
-        ["parcel", "Kiện hàng", "recipient-track-parcel.html"],
-        ["preferences", "Tuỳ chọn", "recipient-delivery-preferences.html"],
-        ["feedback", "Phản hồi", "recipient-delivery-feedback.html"],
+        ["parcel", "Kiện hàng", "track-parcel.html"],
+        ["preferences", "Tuỳ chọn", "delivery-preferences.html"],
+        ["feedback", "Phản hồi", "delivery-feedback.html"],
       ],
     },
     driver: {
@@ -69,6 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const queryRole = params.get("role");
   const role = roles[queryRole] ? queryRole : sessionRole || "recipient";
   const roleInfo = roles[role];
+  const requestedReturn = params.get("return");
+  const returnTarget = roleInfo.links.some(([, , href]) => href === requestedReturn)
+    ? requestedReturn
+    : roleInfo.landing;
   const recipientIcons = {
     parcel:
       '<path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="m4 7.2 8 4.3 8-4.3"/><path d="M12 11.5V21"/>',
@@ -92,7 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let profile = { name: "Minh Anh", phone: roleInfo.phone };
   let sessionData = session;
 
-  $("#settings-brand").href = roleInfo.landing;
+  $("#settings-brand").href = returnTarget;
+  const backLink = $("#settings-back-link");
+  if (backLink) {
+    backLink.href = returnTarget;
+    backLink.textContent = `← Quay lại ${
+      roleInfo.links.find(([, , href]) => href === returnTarget)?.[1] || "trang chính"
+    }`;
+  }
   $("#settings-role").textContent = roleInfo.label;
   $("#settings-side-role").textContent = roleInfo.label;
   $("#settings-eyebrow").textContent = `${roleInfo.label} · Tài khoản cá nhân`;

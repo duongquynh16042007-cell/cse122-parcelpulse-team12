@@ -49,6 +49,7 @@
   margin: 0;
   padding: 24px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   border: 0;
   border-radius: 22px 0 0 22px;
   background: #fff;
@@ -238,5 +239,21 @@
 @media (prefers-reduced-motion: reduce) {
   .profile-drawer {
     transition: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-drawer {
+    width: 100vw;
+    border-radius: 0;
+    padding: 20px;
+  }
+
+  .profile-details > div {
+    align-items: flex-start;
+  }
+
+  .profile-details dd {
+    max-width: 65%;
   }
 }
