@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!-- Trang phản hồi giao hàng của người nhận. -->
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff4f6">
+  <title>ParcelPulse - Phản hồi giao hàng</title>
+<script src="../js/role-pages.js" defer></script>
+  <script src="../js/recipient-pages.js" defer></script>
+  <link rel="stylesheet" href="../css/recipient-app.css">
+  <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="../css/recipient.css">
+  <link rel="stylesheet" href="../css/delivery-feedback.css">
+</head>
+<body class="app-page feedback-page">
+  <div class="app-shell app">
+    <aside class="app-sidebar">
+      <a class="app-brand" href="track-parcel.html" aria-label="ParcelPulse">
+        <span class="app-brand-mark" aria-hidden="true">P</span>
+        <span>ParcelPulse</span>
+      </a>
+      <span class="app-role-tag role-chip">Người nhận</span>
+      <nav class="app-side-nav" aria-label="Điều hướng chính">
+        <a class="side-link" href="track-parcel.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg> Kiện hàng</a>
+        <a class="side-link" href="delivery-preferences.html"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9.5"/><circle cx="16.8" cy="7" r="2.6"/><path d="M20 17h-9.5"/><circle cx="7.2" cy="17" r="2.6"/></svg> Tuỳ chọn</a>
+        <a class="side-link active" href="delivery-feedback.html" aria-current="page"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/></svg> Phản hồi</a>
+      </nav>
+      <a class="side-link side-settings" href="settings.html?role=recipient"><svg class="side-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.2 2h-.4a2 2 0 0 0-2 2v.2a2 2 0 0 1-1 1.7l-.4.3a2 2 0 0 1-2 0l-.2-.1a2 2 0 0 0-2.7.7l-.2.4a2 2 0 0 0 .7 2.7l.2.1a2 2 0 0 1 1 1.7v.5a2 2 0 0 1-1 1.8l-.2.1a2 2 0 0 0-.7 2.7l.2.4a2 2 0 0 0 2.7.7l.2-.1a2 2 0 0 1 2 0l.4.3a2 2 0 0 1 1 1.7v.2a2 2 0 0 0 2 2h.4a2 2 0 0 0 2-2v-.2a2 2 0 0 1 1-1.7l.4-.3a2 2 0 0 1 2 0l.2.1a2 2 0 0 0 2.7-.7l.2-.4a2 2 0 0 0-.7-2.7l-.2-.1a2 2 0 0 1-1-1.8v-.5a2 2 0 0 1 1-1.7l.2-.1a2 2 0 0 0 .7-2.7l-.2-.4a2 2 0 0 0-2.7-.7l-.2.1a2 2 0 0 1-2 0l-.4-.3a2 2 0 0 1-1-1.7V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></svg> Cài đặt</a>
+    <div class="side-user user">
+        <strong>Minh Anh</strong>
+        <span>Người nhận</span>
+        <span class="side-user-badge">Cài đặt lưu trên thiết bị</span>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <section class="app-heading">
+        <div>
+          <p class="app-eyebrow">NGƯỜI NHẬN</p>
+          <h1>Phản hồi giao hàng</h1>
+          <p>Góp ý của bạn giúp cải thiện chất lượng giao nhận và xử lý ngoại lệ.</p>
+        </div>
+        <span class="app-tag feedback-done-tag">Đã giao lúc 16:28</span>
+      </section>
+
+      <div class="feedback-layout">
+        <form id="feedback-form" class="app-card app-form feedback-form" novalidate>
+          <div class="parcel-card-heading feedback-parcel-heading">
+            <div class="parcel-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg>
+            </div>
+            <div>
+              <p class="app-eyebrow">KIỆN HÀNG ĐÃ GIAO</p>
+              <strong>PPVN-4829-1024</strong>
+              <small>Nắng Studio · Đã giao thành công</small>
+            </div>
+            <span class="app-tag">Hoàn thành</span>
+          </div>
+
+          <div class="rating-block">
+            <span class="rating-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/></svg>
+            </span>
+            <h2 class="app-card-heading">Chuyến giao hôm nay thế nào? <span aria-hidden="true">*</span></h2>
+            <div class="rating-options" role="group" aria-label="Chọn mức đánh giá">
+              <label class="rating-option"><input type="radio" name="rating" value="1" aria-label="1 sao" /><span aria-hidden="true">★</span></label>
+              <label class="rating-option"><input type="radio" name="rating" value="2" aria-label="2 sao" /><span aria-hidden="true">★</span></label>
+              <label class="rating-option"><input type="radio" name="rating" value="3" aria-label="3 sao" /><span aria-hidden="true">★</span></label>
+              <label class="rating-option"><input type="radio" name="rating" value="4" aria-label="4 sao" /><span aria-hidden="true">★</span></label>
+              <label class="rating-option"><input type="radio" name="rating" value="5" aria-label="5 sao" /><span aria-hidden="true">★</span></label>
+            </div>
+            <p class="rating-caption" id="rating-caption" aria-live="polite">Chọn số sao</p>
+          </div>
+
+          <fieldset class="feedback-reasons">
+            <legend>Điều gì cần cải thiện?</legend>
+            <label class="check"><input type="checkbox" name="feedback-reason" value="on-time"><span>Giao đúng hẹn</span></label>
+            <label class="check"><input type="checkbox" name="feedback-reason" value="communication"><span>Tài xế liên hệ rõ ràng</span></label>
+            <label class="check"><input type="checkbox" name="feedback-reason" value="parcel-condition"><span>Tình trạng kiện hàng</span></label>
+            <label class="check"><input type="checkbox" name="feedback-reason" value="delivery-location"><span>Đúng địa điểm nhận</span></label>
+          </fieldset>
+
+          <div class="app-field">
+            <label for="feedback-comment">Góp ý thêm</label>
+            <textarea id="feedback-comment" name="comment" maxlength="500" rows="4"
+              placeholder="Chia sẻ điều bạn muốn chúng tôi biết (tối đa 500 ký tự)."></textarea>
+          </div>
+          <p class="app-card-copy feedback-disclaimer">Không nhập thông tin thanh toán, mật khẩu hoặc dữ liệu cá nhân nhạy cảm.</p>
+
+          <div class="feedback-submit">
+            <p class="app-card-copy">Tên của bạn không hiển thị công khai.</p>
+            <div class="feedback-submit-right">
+              <p id="feedback-status" class="app-message" role="status" aria-live="polite"></p>
+              <button class="app-button" type="submit">Gửi phản hồi</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="feedback-aside-col">
+          <aside class="app-card feedback-detail">
+            <div class="detail-head">
+              <div>
+                <strong>Chi tiết giao hàng</strong>
+                <span>PPVN-4829-1024</span>
+              </div>
+              <span class="app-tag">Hoàn tất</span>
+            </div>
+            <div class="detail-body">
+              <div class="detail-photo" role="img" aria-label="Kiện hàng đã đặt tại quầy lễ tân">
+                <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4 7.2l8 4.3 8-4.3"/><path d="M12 11.5V21"/></svg></span>
+              </div>
+              <div class="detail-code">
+                <span>Mã xác nhận</span>
+                <strong>762 941</strong>
+                <em class="app-tag">Đã đối soát</em>
+              </div>
+            </div>
+            <dl class="detail-meta">
+              <div><dt>Tài xế</dt><dd>Nguyễn Minh Anh</dd></div>
+              <div><dt>Thời gian</dt><dd>16:28 · 02/10/2026</dd></div>
+              <div><dt>Vị trí</dt><dd>Lê Tấn Bảo B · GPS khớp 18 m</dd></div>
+            </dl>
+          </aside>
+
+          <aside class="app-card feedback-support">
+            <strong>Quyền riêng tư</strong>
+            <p class="app-card-copy feedback-support-copy">Nội dung thử nghiệm chỉ được lưu cục bộ trong trình duyệt này; chưa gửi tới dịch vụ bên ngoài.</p>
+            <span class="app-tag">Dữ liệu demo</span>
+
+            <div class="feedback-support-block">
+              <strong>Cần trợ giúp ngay?</strong>
+              <p class="app-card-copy feedback-support-copy">Phản hồi không thay thế yêu cầu hỗ trợ cho một đơn đang giao.</p>
+              <a class="app-button app-button-secondary" href="delivery-preferences.html">Cập nhật tùy chọn giao</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

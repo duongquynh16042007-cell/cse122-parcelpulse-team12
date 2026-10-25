@@ -5,21 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
     ...root.querySelectorAll(selector),
   ];
   const read = (key, fallback) => {
-    try {
-      const value = localStorage.getItem(`parcelpulse.${key}`);
-      return value === null ? fallback : JSON.parse(value);
-    } catch {
-      return fallback;
-    }
+    const value = localStorage.getItem(`parcelpulse.${key}`);
+    return value === null ? fallback : JSON.parse(value);
   };
-  const write = (key, value) => {
-    try {
-      localStorage.setItem(`parcelpulse.${key}`, JSON.stringify(value));
-      return true;
-    } catch {
-      return false;
-    }
-  };
+  const write = (key, value) =>
+    localStorage.setItem(`parcelpulse.${key}`, JSON.stringify(value));
   const toast = (message) => {
     if (
       read("profileSettings", { notifications: true }).notifications === false
@@ -112,6 +102,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===== Shared profile and settings drawer ===== */
+  const currentPage = window.location.pathname.split("/").pop();
+  if (currentPage && currentPage !== "settings.html") {
+    $$('a[href*="settings.html"]').forEach((link) => {
+      const target = new URL(link.href, window.location.href);
+      if (!target.pathname.endsWith("/settings.html")) return;
+      target.searchParams.set("return", currentPage);
+      link.href = `settings.html?${target.searchParams.toString()}`;
+    });
+  }
+
   const settingsTrigger = $("[data-open-profile]");
   const roleElement = $(".role-chip");
   if (roleElement) {
@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     $("[data-profile-logout]", dialog).addEventListener("click", () => {
       localStorage.removeItem("parcelpulse.demoSession");
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     });
   }
 });
