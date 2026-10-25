@@ -1,6 +1,6 @@
 # Vai trò và chức năng
 
-ParcelPulse có bốn vai trò nghiệp vụ. Trang chủ và xác thực là khu vực dùng chung, không phải vai trò nghiệp vụ. Các trang cho cả bốn vai trò đều có trong snapshot hiện tại của `mergebranch`. Trợ lý AI nếu xuất hiện chỉ là tiện ích mô phỏng, không phải vai trò.
+ParcelPulse có bốn vai trò nghiệp vụ. Trang chủ và xác thực là khu vực dùng chung, không phải vai trò nghiệp vụ. Các trang cho cả bốn vai trò đều có trong snapshot hiện tại của `mergebranch`. Pulse AI là tiện ích mô phỏng, không phải vai trò.
 
 ## Người nhận
 
@@ -34,9 +34,10 @@ ParcelPulse có bốn vai trò nghiệp vụ. Trang chủ và xác thực là kh
 - Tìm, thêm, sửa hoặc lưu trữ trạng thái giao nhận demo.
 - Tìm/lọc và mô phỏng quản lý tài khoản người dùng.
 - Xem số liệu báo cáo mẫu và tải CSV được tạo trong trình duyệt.
+- Xem bản ghi chờ xử lý do Người nhận, Nhân viên giao hàng hoặc Điều phối viên tạo; tìm kiếm/lọc, duyệt, hủy hoặc lưu trữ ngay trong trang quản lý trạng thái.
 - Truy cập trang Cài đặt dùng chung.
 
-**Màn hình:** `page/admin-status-management.html`, `page/admin-user-management.html`, `page/admin-logistics-report.html`. Trang Cài đặt dùng chung: `page/settings.html`.
+**Màn hình:** `page/admin-status-management.html` (có hàng đợi bản ghi liên vai trò), `page/admin-user-management.html`, `page/admin-logistics-report.html`. Trang Cài đặt dùng chung: `page/settings.html`.
 
 ## Khu vực dùng chung
 
@@ -46,4 +47,4 @@ ParcelPulse có bốn vai trò nghiệp vụ. Trang chủ và xác thực là kh
 
 ## Lưu ý về dữ liệu
 
-Toàn bộ chức năng nghiệp vụ hiện là mock phía trình duyệt. Dữ liệu không được gửi đến backend hoặc API logistics; dữ liệu lưu bằng Web Storage chỉ có trên trình duyệt/thiết bị hiện tại.
+Toàn bộ chức năng nghiệp vụ hiện là mock phía trình duyệt. Các bản ghi liên vai trò được ghi vào `parcelpulse.sharedRecords` trong `localStorage`, nên các trang cùng origin trên cùng trình duyệt có thể đọc chung và trang quản trị phản ánh thay đổi. Dữ liệu không được gửi đến backend hoặc API logistics, cũng không đồng bộ sang thiết bị/trình duyệt khác.

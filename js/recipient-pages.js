@@ -1,6 +1,8 @@
 // Tương tác cho các trang chức năng người nhận.
 document.addEventListener("DOMContentLoaded", () => {
-  const { $, $$, read, write, toast, announce } = window.ParcelPulseRolePages;
+  const {
+    $, $$, read, write, toast, announce, registerSharedRecord,
+  } = window.ParcelPulseRolePages;
   const recipientProfile = read("profile.recipient", {});
   const recipientSession = read("demoSession", null);
   const sideUserName = $(".side-user strong");
@@ -110,12 +112,23 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         return;
       }
-      write("deliveryPreferences", {
+      const preferences = {
         mode,
         window: $("#delivery-window").value,
         address: mode === "home" ? details : "",
         pickup: mode === "pickup" ? details : "",
         note: $("#delivery-note").value.trim(),
+      };
+      write("deliveryPreferences", preferences);
+      registerSharedRecord({
+        id: "recipient-preferences:demo",
+        sourceRole: "Người nhận",
+        sourceType: "Tùy chọn giao nhận",
+        reference: "PPVN-4829-1024",
+        title: "Cập nhật tùy chọn giao nhận",
+        summary: `${mode === "home" ? "Giao tận nhà" : "Nhận tại điểm lấy hàng"} · ${preferences.window} · ${details}${preferences.note ? ` · Ghi chú: ${preferences.note}` : ""}`,
+        status: "pending",
+        payload: preferences,
       });
       announce(
         $("#preferences-status"),
@@ -171,15 +184,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const feedback = read("feedback", []);
-      feedback.unshift({
+      const feedbackRecord = {
         parcel: "PPVN-4829-1024",
         rating: Number(rating.value),
         reason:
           $('input[name="feedback-reason"]:checked', feedbackForm)?.value || "",
         comment,
         createdAt: new Date().toISOString(),
-      });
+      };
+      feedback.unshift(feedbackRecord);
       write("feedback", feedback.slice(0, 20));
+      registerSharedRecord({
+        id: `recipient-feedback:${feedbackRecord.createdAt}`,
+        sourceRole: "Người nhận",
+        sourceType: "Phản hồi giao hàng",
+        reference: feedbackRecord.parcel,
+        title: `Đánh giá ${feedbackRecord.rating}/5 cho ${feedbackRecord.parcel}`,
+        summary: [feedbackRecord.reason, feedbackRecord.comment].filter(Boolean).join(" · ") || "Người nhận đã gửi đánh giá.",
+        status: "pending",
+        payload: feedbackRecord,
+        createdAt: feedbackRecord.createdAt,
+      });
       announce(
         $("#feedback-status"),
         "Cảm ơn bạn! Phản hồi đã được lưu trong bản demo trên thiết bị này.",

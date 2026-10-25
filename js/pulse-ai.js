@@ -1,4 +1,4 @@
-/* ParcelPulse Copilot demo.
+/* ParcelPulse Pulse AI demo.
    Local rule-based assistance only; no remote AI model or API is called. */
 (() => {
   "use strict";
@@ -14,31 +14,31 @@
     launcher.type = "button";
     launcher.setAttribute("aria-expanded", "false");
     launcher.setAttribute("aria-controls", "copilot-panel");
-    launcher.innerHTML = '<span aria-hidden="true">✦</span> AI Copilot';
+    launcher.innerHTML = '<span aria-hidden="true">✦</span> Pulse AI';
 
     const panel = document.createElement("section");
     panel.className = "copilot-panel";
     panel.id = "copilot-panel";
     panel.dataset.copilotRoot = "true";
     panel.hidden = true;
-    panel.setAttribute("aria-label", "Trợ lý AI vận hành ParcelPulse");
+    panel.setAttribute("aria-label", "Pulse AI vận hành ParcelPulse");
     panel.innerHTML = `
       <header class="copilot-header">
         <div class="copilot-mark" aria-hidden="true">✦</div>
         <div class="copilot-heading">
-          <strong>ParcelPulse Copilot</strong>
+          <strong>Pulse AI</strong>
           <span>Tính năng AI số 3 · ${escapeHTML(roleName)} · demo</span>
         </div>
         <button class="copilot-close" type="button" aria-label="Đóng trợ lý">×</button>
       </header>
-      <p class="copilot-disclaimer">Copilot phân tích dữ liệu mẫu bằng quy tắc cục bộ, chưa kết nối mô hình AI/API. Hãy xem lại đề xuất trước khi duyệt.</p>
+      <p class="copilot-disclaimer">Pulse AI phân tích dữ liệu mẫu bằng quy tắc cục bộ, chưa kết nối mô hình AI/API. Hãy xem lại đề xuất trước khi duyệt.</p>
       <div class="copilot-messages" id="copilot-messages" role="log" aria-live="polite" aria-relevant="additions text"></div>
       <div class="copilot-quick-actions" aria-label="Câu lệnh gợi ý">
         <button type="button" data-copilot-prompt="Phân tích màn hình này">Phân tích màn hình</button>
         <button type="button" data-copilot-prompt="Tìm việc cần duyệt">Tìm việc cần duyệt</button>
       </div>
       <form class="copilot-form" id="copilot-form">
-        <label class="sr-only" for="copilot-input">Hỏi AI Copilot</label>
+        <label class="sr-only" for="copilot-input">Hỏi Pulse AI</label>
         <input id="copilot-input" name="prompt" maxlength="240" autocomplete="off" placeholder="Hỏi về việc cần xử lý..." />
         <button type="submit" aria-label="Gửi câu hỏi">Gửi</button>
       </form>`;
@@ -350,7 +350,7 @@
       const subtitle = document.querySelector("#chart-sub")?.textContent.trim();
       const peak = document.querySelector("#chart .bar.peak")?.title;
       return {
-        text: `Tổng quan hiện dùng số liệu mẫu${subtitle ? `: ${subtitle}` : ""}${peak ? `. Cột cao nhất ${peak}` : ""}. Copilot không tự coi đây là số liệu thời gian thực. Nếu cần xử lý ngoại lệ, hãy mở hàng đợi và kiểm tra SLA.`,
+        text: `Tổng quan hiện dùng số liệu mẫu${subtitle ? `: ${subtitle}` : ""}${peak ? `. Cột cao nhất ${peak}` : ""}. Pulse AI không tự coi đây là số liệu thời gian thực. Nếu cần xử lý ngoại lệ, hãy mở hàng đợi và kiểm tra SLA.`,
         buttons: [
           {
             label: "Mở hàng đợi ngoại lệ",
@@ -368,7 +368,7 @@
     function analyzeStatuses(update, archive, cancel) {
       if (cancel && !document.querySelector("#status-editor")?.hidden) {
         return {
-          text: "Biểu mẫu trạng thái đang mở. Copilot có thể hủy phần nhập hiện tại; dữ liệu chưa lưu sẽ bị bỏ.",
+          text: "Biểu mẫu trạng thái đang mở. Pulse AI có thể hủy phần nhập hiện tại; dữ liệu chưa lưu sẽ bị bỏ.",
           buttons: [
             {
               label: "Hủy biểu mẫu",
@@ -474,7 +474,7 @@
         const id = cells[0]?.textContent.trim() || "tài khoản chờ";
         const name = cells[1]?.textContent.trim() || "người dùng";
         return {
-          text: `Tìm thấy ${id} (${name}) đang chờ kích hoạt. Kiểm tra danh tính và vai trò ngoài bản demo trước khi duyệt. Copilot không thể xác minh người thật từ dữ liệu mẫu.`,
+          text: `Tìm thấy ${id} (${name}) đang chờ kích hoạt. Kiểm tra danh tính và vai trò ngoài bản demo trước khi duyệt. Pulse AI không thể xác minh người thật từ dữ liệu mẫu.`,
           buttons: [
             {
               label: "Mở form duyệt",

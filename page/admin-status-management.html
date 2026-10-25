@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="../css/base.css" />
     <link rel="stylesheet" href="../css/profile.css" />
     <link rel="stylesheet" href="../css/admin.css" />
-    <link rel="stylesheet" href="../css/copilot.css" />
+    <link rel="stylesheet" href="../css/pulse-ai.css" />
     <script src="../js/role-pages.js" defer></script>
     <script src="../js/admin-pages.js" defer></script>
-    <script src="../js/copilot.js" defer></script>
+    <script src="../js/pulse-ai.js" defer></script>
   </head>
   <body>
     <div class="app">
@@ -202,9 +202,87 @@
           </p>
         </section>
 
-        <footer class="app-footer">
-          ParcelPulse · Dữ liệu demo lưu trên trình duyệt
-        </footer>
+        <section class="card portal-card" aria-labelledby="records-title">
+          <div class="card-head">
+            <div>
+              <h2 id="records-title">Dữ liệu chờ xử lý từ các vai trò</h2>
+              <p class="sub">
+                Bản ghi do Người nhận, Nhân viên giao hàng và Điều phối viên tạo
+                sẽ xuất hiện tại đây.
+              </p>
+            </div>
+          </div>
+          <div class="metric-grid" aria-label="Tổng quan dữ liệu liên vai trò">
+            <article class="card metric">
+              <span>Tổng bản ghi</span><strong id="records-total">0</strong
+              ><small>Lưu trong trình duyệt</small>
+            </article>
+            <article class="card metric">
+              <span>Chờ xử lý</span><strong id="records-pending">0</strong
+              ><small>Cần quản trị viên xem</small>
+            </article>
+          </div>
+          <div class="portal-grid" style="align-items: end">
+            <label class="portal-label" for="record-search"
+              >Tìm mã, nguồn hoặc nội dung
+              <input
+                class="portal-search"
+                id="record-search"
+                type="search"
+                placeholder="Ví dụ: EX-DEMO, PPVN, giao hàng"
+              />
+            </label>
+            <label class="portal-label" for="record-filter"
+              >Lọc trạng thái
+              <select class="portal-select" id="record-filter">
+                <option value="pending">Chờ xử lý</option>
+                <option value="all">Tất cả trạng thái</option>
+                <option value="approved">Đã duyệt</option>
+                <option value="cancelled">Đã hủy</option>
+                <option value="archived">Đã lưu trữ</option>
+              </select>
+            </label>
+          </div>
+          <p
+            class="portal-message"
+            id="records-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="table-wrap">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th scope="col">Mã / tham chiếu</th>
+                  <th scope="col">Nguồn</th>
+                  <th scope="col">Loại</th>
+                  <th scope="col">Nội dung</th>
+                  <th scope="col">Thời điểm</th>
+                  <th scope="col">Trạng thái</th>
+                  <th scope="col">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="shared-record-body"></tbody>
+            </table>
+            <div class="portal-empty" id="records-empty" hidden>
+              <p>
+                Chưa có bản ghi phù hợp. Tạo ngoại lệ, cập nhật giao hàng hoặc
+                gửi phản hồi ở vai trò tương ứng rồi quay lại trang này.
+              </p>
+              <div class="filters">
+                <a class="btn" href="driver-exception-create.html"
+                  >Tạo ngoại lệ giao hàng</a
+                ><a class="btn" href="delivery-feedback.html"
+                  >Gửi phản hồi người nhận</a
+                >
+              </div>
+            </div>
+          </div>
+          <p class="form-help" style="margin-top: 12px">
+            Dữ liệu demo chia sẻ qua localStorage trên cùng trình duyệt và cùng
+            origin; không đồng bộ giữa thiết bị.
+          </p>
+        </section>
       </main>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
