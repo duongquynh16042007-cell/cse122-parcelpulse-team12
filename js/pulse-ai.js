@@ -32,16 +32,63 @@
         <button class="copilot-close" type="button" aria-label="Đóng trợ lý">×</button>
       </header>
       <p class="copilot-disclaimer">Pulse AI phân tích dữ liệu mẫu bằng quy tắc cục bộ, chưa kết nối mô hình AI/API. Hãy xem lại đề xuất trước khi duyệt.</p>
-      <div class="copilot-messages" id="copilot-messages" role="log" aria-live="polite" aria-relevant="additions text"></div>
-      <div class="copilot-quick-actions" aria-label="Câu lệnh gợi ý">
-        <button type="button" data-copilot-prompt="Phân tích màn hình này">Phân tích màn hình</button>
-        <button type="button" data-copilot-prompt="Tìm việc cần duyệt">Tìm việc cần duyệt</button>
+      <div class="copilot-mode-switch" role="tablist" aria-label="Chế độ Pulse AI">
+        <button type="button" role="tab" aria-selected="true" class="is-active" data-ai-mode="chat">Trợ lý vận hành</button>
+        <button id="eta-mode-tab" type="button" role="tab" aria-selected="false" data-ai-mode="eta">AI-2 · Giải thích ETA</button>
       </div>
-      <form class="copilot-form" id="copilot-form">
-        <label class="sr-only" for="copilot-input">Hỏi Pulse AI</label>
-        <input id="copilot-input" name="prompt" maxlength="240" autocomplete="off" placeholder="Hỏi về việc cần xử lý..." />
-        <button type="submit" aria-label="Gửi câu hỏi">Gửi</button>
-      </form>`;
+      <div class="copilot-workspace">
+        <div class="copilot-chat-view" id="copilot-chat-view">
+          <div class="copilot-messages" id="copilot-messages" role="log" aria-live="polite" aria-relevant="additions text"></div>
+          <div class="copilot-quick-actions" aria-label="Câu lệnh gợi ý">
+            <button type="button" data-copilot-prompt="Phân tích màn hình này">Phân tích màn hình</button>
+            <button type="button" data-copilot-prompt="Tìm việc cần duyệt">Tìm việc cần duyệt</button>
+            <button type="button" data-copilot-prompt="Giải thích ETA">Giải thích ETA</button>
+          </div>
+          <form class="copilot-form" id="copilot-form">
+            <label class="sr-only" for="copilot-input">Hỏi Pulse AI</label>
+            <input id="copilot-input" name="prompt" maxlength="240" autocomplete="off" placeholder="Hỏi về việc cần xử lý..." />
+            <button type="submit" aria-label="Gửi câu hỏi">Gửi</button>
+          </form>
+        </div>
+        <section class="eta-workflow" id="eta-workflow" role="tabpanel" aria-labelledby="eta-mode-tab" hidden>
+          <div class="eta-workflow-scroll">
+            <div class="eta-title-row"><div><p class="eta-eyebrow">AI-2 · ETA EXPLAINABILITY</p><h2>Ước tính thời gian đến</h2></div><span class="eta-mock-badge">Mô phỏng</span></div>
+            <p class="eta-intro">Nhập thông tin tuyến. Pulse AI sẽ tính ETA theo quy tắc mẫu và nêu rõ yếu tố ảnh hưởng.</p>
+            <form class="eta-input-form" id="eta-input-form">
+              <label>Mã kiện<input id="eta-parcel-id" name="parcelId" value="PPVN-4829-1024" maxlength="32" required /></label>
+              <div class="eta-field-grid">
+                <label>Quãng đường (km)<input id="eta-distance" name="distanceKm" type="number" min="0.1" max="500" step="0.1" required /></label>
+                <label>Trạng thái kiện<select id="eta-status" name="status"><option value="out_for_delivery">Đang giao</option><option value="sorting">Đang phân loại</option><option value="handoff">Chờ bàn giao</option></select></label>
+                <label>Tình hình giao thông<select id="eta-traffic" name="traffic"><option value="low">Thông thoáng</option><option value="medium">Đông vừa</option><option value="high">Ùn tắc</option></select></label>
+                <label>Thời tiết<select id="eta-weather" name="weather"><option value="clear">Trời khô ráo</option><option value="rain">Mưa</option><option value="storm">Mưa lớn</option></select></label>
+                <label class="eta-full-field">Tải tuyến<select id="eta-load" name="routeLoad"><option value="low">Thấp</option><option value="medium">Vừa</option><option value="high">Cao</option></select></label>
+              </div>
+              <div class="eta-form-actions"><button class="copilot-action copilot-action--secondary" id="eta-use-sample" type="button">Nạp mẫu JSON</button><button class="copilot-action" type="submit">Phân tích ETA</button></div>
+              <details class="eta-json-details"><summary>Xem JSON giả lập được dùng</summary><pre id="eta-json-preview">Chọn “Nạp mẫu JSON” để xem dữ liệu mẫu.</pre></details>
+            </form>
+            <div class="eta-processing" id="eta-processing" role="status" aria-live="polite" hidden><span class="eta-spinner" aria-hidden="true"></span><span>Đang xử lý dữ liệu tuyến và tính ETA...</span></div>
+            <section class="eta-result" id="eta-result" aria-live="polite" hidden>
+              <div class="eta-result-heading"><div><p class="eta-eyebrow">KẾT QUẢ ĐỀ XUẤT</p><strong id="eta-result-time">--:--</strong></div><span id="eta-confidence" class="eta-confidence"></span></div>
+              <p class="eta-result-copy" id="eta-result-summary"></p>
+              <h3>Yếu tố ảnh hưởng</h3><ul class="eta-reason-list" id="eta-reasons"></ul>
+              <form id="eta-edit-form" class="eta-edit-form" hidden>
+                <label>Giờ đến đề xuất<input id="eta-edit-time" type="time" required /></label>
+                <label>Ghi chú điều chỉnh<textarea id="eta-edit-note" rows="2" maxlength="240" placeholder="Giải thích lý do sửa ETA..."></textarea></label>
+                <div class="eta-form-actions"><button class="copilot-action" type="submit">Áp dụng sửa</button><button class="copilot-action copilot-action--secondary" id="eta-cancel-edit" type="button">Bỏ sửa</button></div>
+              </form>
+              <p class="eta-decision" id="eta-decision" role="status" aria-live="polite" hidden></p>
+              <div class="eta-decision-actions" aria-label="Xử lý kết quả ETA">
+                <button class="copilot-action" id="eta-accept" type="button">Chấp nhận</button>
+                <button class="copilot-action copilot-action--secondary" id="eta-edit" type="button">Sửa</button>
+                <button class="copilot-action copilot-action--secondary" id="eta-reject" type="button">Từ chối</button>
+                <button class="copilot-action copilot-action--secondary" id="eta-regenerate" type="button">Tạo lại</button>
+                <button class="copilot-action copilot-action--secondary" id="eta-save" type="button">Lưu</button>
+              </div>
+            </section>
+            <p class="eta-disclaimer">ETA chỉ là ước tính từ JSON giả lập và quy tắc JavaScript; không dùng GPS, dữ liệu giao thông trực tiếp hoặc API thật.</p>
+          </div>
+        </section>
+      </div>`;
 
     document.body.append(launcher, panel);
 
@@ -49,6 +96,46 @@
     const input = panel.querySelector("#copilot-input");
     const form = panel.querySelector("#copilot-form");
     const closeButton = panel.querySelector(".copilot-close");
+    const chatView = panel.querySelector("#copilot-chat-view");
+    const etaView = panel.querySelector("#eta-workflow");
+    const etaForm = panel.querySelector("#eta-input-form");
+    const etaResult = panel.querySelector("#eta-result");
+    const etaProcessing = panel.querySelector("#eta-processing");
+    const etaEditForm = panel.querySelector("#eta-edit-form");
+
+    if (!["Điều phối viên", "Quản trị viên"].includes(roleName)) return;
+
+    const etaSamples = {
+      "PPVN-4829-1024": {
+        parcelId: "PPVN-4829-1024",
+        distanceKm: 8.4,
+        status: "out_for_delivery",
+        traffic: "medium",
+        weather: "rain",
+        routeLoad: "medium",
+      },
+      "PPVN-7730-3308": {
+        parcelId: "PPVN-7730-3308",
+        distanceKm: 17.2,
+        status: "sorting",
+        traffic: "high",
+        weather: "clear",
+        routeLoad: "high",
+      },
+    };
+    const etaFieldNames = {
+      status: {
+        out_for_delivery: "Đang giao",
+        sorting: "Đang phân loại",
+        handoff: "Chờ bàn giao",
+      },
+      traffic: { low: "Thông thoáng", medium: "Đông vừa", high: "Ùn tắc" },
+      weather: { clear: "Trời khô ráo", rain: "Mưa", storm: "Mưa lớn" },
+      routeLoad: { low: "Thấp", medium: "Vừa", high: "Cao" },
+    };
+    let currentEta = null;
+    let etaRevision = 0;
+    let etaTimer = null;
 
     function openPanel() {
       panel.hidden = false;
@@ -106,11 +193,204 @@
       }
     }
 
+    function setAiMode(mode) {
+      const showEta = mode === "eta";
+      chatView.hidden = showEta;
+      etaView.hidden = !showEta;
+      panel.querySelectorAll("[data-ai-mode]").forEach((button) => {
+        const selected = button.dataset.aiMode === mode;
+        button.setAttribute("aria-selected", String(selected));
+        button.classList.toggle("is-active", selected);
+      });
+      if (showEta) {
+        if (!etaForm.dataset.initialized) {
+          loadEtaSample();
+          etaForm.dataset.initialized = "true";
+        }
+        panel.querySelector("#eta-parcel-id").focus();
+      }
+    }
+
+    function loadEtaSample() {
+      const parcelId = panel.querySelector("#eta-parcel-id").value.trim().toUpperCase();
+      const sample = etaSamples[parcelId];
+      const notice = panel.querySelector("#eta-decision");
+      if (!sample) {
+        notice.hidden = false;
+        notice.textContent = "Không có mã này trong JSON mẫu. Nhập các thông tin tuyến thủ công rồi bấm Phân tích ETA.";
+        return;
+      }
+      Object.entries(sample).forEach(([key, value]) => {
+        const field = etaForm.elements.namedItem(key);
+        if (field) field.value = value;
+      });
+      panel.querySelector("#eta-json-preview").textContent = JSON.stringify(sample, null, 2);
+      notice.hidden = false;
+      notice.textContent = `Đã nạp JSON mẫu cho ${sample.parcelId}. Bạn có thể sửa dữ liệu trước khi phân tích.`;
+    }
+
+    function readEtaInputs() {
+      return {
+        parcelId: panel.querySelector("#eta-parcel-id").value.trim().toUpperCase(),
+        distanceKm: Number(panel.querySelector("#eta-distance").value),
+        status: panel.querySelector("#eta-status").value,
+        traffic: panel.querySelector("#eta-traffic").value,
+        weather: panel.querySelector("#eta-weather").value,
+        routeLoad: panel.querySelector("#eta-load").value,
+      };
+    }
+
+    function calculateEta(input) {
+      const driveMinutes = Math.ceil((input.distanceKm / 25) * 60);
+      const trafficMinutes = { low: 0, medium: 8, high: 20 }[input.traffic];
+      const weatherMinutes = { clear: 0, rain: 10, storm: 24 }[input.weather];
+      const loadMinutes = { low: 0, medium: 8, high: 16 }[input.routeLoad];
+      const statusMinutes = { out_for_delivery: 0, sorting: 12, handoff: 5 }[input.status];
+      const retryMinutes = etaRevision ? (etaRevision % 3) * 2 : 0;
+      const totalMinutes = driveMinutes + trafficMinutes + weatherMinutes + loadMinutes + statusMinutes + retryMinutes;
+      const arrival = new Date(Date.now() + totalMinutes * 60_000);
+      const etaTime = new Intl.DateTimeFormat("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(arrival);
+      const confidence = Math.max(65, 92 - (input.distanceKm > 80 ? 14 : input.distanceKm > 40 ? 8 : 0));
+
+      return {
+        id: `ETA-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+        parcelId: input.parcelId,
+        input,
+        etaTime,
+        totalMinutes,
+        confidence,
+        decision: "pending",
+        reasons: [
+          ["Thời gian di chuyển", `${input.distanceKm} km, giả định tốc độ trung bình 25 km/h`, driveMinutes],
+          ["Giao thông", etaFieldNames.traffic[input.traffic], trafficMinutes],
+          ["Thời tiết", etaFieldNames.weather[input.weather], weatherMinutes],
+          ["Tải tuyến", etaFieldNames.routeLoad[input.routeLoad], loadMinutes],
+          ["Trạng thái kiện", etaFieldNames.status[input.status], statusMinutes],
+          ...(retryMinutes ? [["Điều chỉnh khi tạo lại", "Biên độ mô phỏng của lần chạy lại", retryMinutes]] : []),
+        ],
+        createdAt: new Date().toISOString(),
+      };
+    }
+
+    function renderEtaResult() {
+      if (!currentEta) return;
+      panel.querySelector("#eta-result-time").textContent = currentEta.etaTime;
+      panel.querySelector("#eta-confidence").textContent = `Tin cậy mô phỏng ${currentEta.confidence}%`;
+      panel.querySelector("#eta-result-summary").textContent =
+        `Kiện ${currentEta.parcelId} dự kiến đến lúc ${currentEta.etaTime} (khoảng ${currentEta.totalMinutes} phút từ thời điểm phân tích).`;
+      const reasons = panel.querySelector("#eta-reasons");
+      reasons.replaceChildren();
+      currentEta.reasons.forEach(([title, description, minutes]) => {
+        const item = document.createElement("li");
+        const strong = document.createElement("strong");
+        strong.textContent = `${title}: `;
+        const detail = document.createElement("span");
+        detail.textContent = `${description} · +${minutes} phút`;
+        item.append(strong, detail);
+        reasons.append(item);
+      });
+      const decision = panel.querySelector("#eta-decision");
+      decision.hidden = !currentEta.decisionMessage;
+      decision.textContent = currentEta.decisionMessage || "";
+      etaResult.hidden = false;
+    }
+
+    function runEtaAnalysis() {
+      if (!etaForm.reportValidity()) return;
+      window.clearTimeout(etaTimer);
+      const input = readEtaInputs();
+      etaResult.hidden = true;
+      etaProcessing.hidden = false;
+      etaProcessing.setAttribute("aria-busy", "true");
+      etaForm.querySelector('[type="submit"]').disabled = true;
+      etaTimer = window.setTimeout(() => {
+        currentEta = calculateEta(input);
+        etaProcessing.hidden = true;
+        etaProcessing.removeAttribute("aria-busy");
+        etaForm.querySelector('[type="submit"]').disabled = false;
+        renderEtaResult();
+      }, 650);
+    }
+
+    function persistEta(message) {
+      if (!currentEta) return;
+      currentEta.decisionMessage = message;
+      const saved = readLocal("etaEstimates", []);
+      const estimates = Array.isArray(saved) ? saved : [];
+      const index = estimates.findIndex((item) => item.id === currentEta.id);
+      if (index >= 0) estimates[index] = currentEta;
+      else estimates.unshift(currentEta);
+      try {
+        localStorage.setItem("parcelpulse.etaEstimates", JSON.stringify(estimates.slice(0, 100)));
+        renderEtaResult();
+      } catch {
+        currentEta.decisionMessage = "Không lưu được trên thiết bị này. Kiểm tra quyền lưu localStorage.";
+        renderEtaResult();
+      }
+    }
+
+    panel.querySelectorAll("[data-ai-mode]").forEach((button) => {
+      button.addEventListener("click", () => setAiMode(button.dataset.aiMode));
+    });
+    panel.querySelector("#eta-use-sample").addEventListener("click", loadEtaSample);
+    etaForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      etaRevision = 0;
+      runEtaAnalysis();
+    });
+    panel.querySelector("#eta-accept").addEventListener("click", () => {
+      if (!currentEta || !window.confirm(`Chấp nhận ETA ${currentEta.etaTime} cho kiện ${currentEta.parcelId}?`)) return;
+      currentEta.decision = "accepted";
+      currentEta.acceptedAt = new Date().toISOString();
+      persistEta(`Đã chấp nhận ETA ${currentEta.etaTime} trong dữ liệu demo.`);
+    });
+    panel.querySelector("#eta-edit").addEventListener("click", () => {
+      if (!currentEta) return;
+      panel.querySelector("#eta-edit-time").value = currentEta.etaTime;
+      etaEditForm.hidden = false;
+      panel.querySelector("#eta-edit-time").focus();
+    });
+    etaEditForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!currentEta) return;
+      currentEta.etaTime = panel.querySelector("#eta-edit-time").value;
+      currentEta.editNote = panel.querySelector("#eta-edit-note").value.trim();
+      currentEta.decision = "edited";
+      etaEditForm.hidden = true;
+      persistEta(`Đã sửa ETA thành ${currentEta.etaTime}${currentEta.editNote ? ` · ${currentEta.editNote}` : ""}.`);
+    });
+    panel.querySelector("#eta-cancel-edit").addEventListener("click", () => {
+      etaEditForm.hidden = true;
+    });
+    panel.querySelector("#eta-reject").addEventListener("click", () => {
+      if (!currentEta || !window.confirm(`Từ chối đề xuất ETA cho kiện ${currentEta.parcelId}?`)) return;
+      currentEta.decision = "rejected";
+      currentEta.rejectedAt = new Date().toISOString();
+      persistEta("Đã từ chối đề xuất trong dữ liệu demo.");
+    });
+    panel.querySelector("#eta-regenerate").addEventListener("click", () => {
+      if (!currentEta) return;
+      etaRevision += 1;
+      runEtaAnalysis();
+    });
+    panel.querySelector("#eta-save").addEventListener("click", () => {
+      if (!currentEta) return;
+      currentEta.savedAt = new Date().toISOString();
+      persistEta("Đã lưu kết quả ETA vào localStorage của trình duyệt này.");
+    });
+
     function ask(prompt) {
       const question = prompt.trim();
       if (!question) return;
       addMessage("user", question);
       input.value = "";
+      if (/eta|thời gian đến|khi nào đến|bao giờ đến/.test(question.toLocaleLowerCase("vi-VN"))) {
+        setAiMode("eta");
+        return;
+      }
       const actions = analyzeCurrentScreen(question);
       if (!actions) {
         addMessage(

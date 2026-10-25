@@ -100,6 +100,226 @@
   line-height: 1.45;
 }
 
+.copilot-mode-switch {
+  display: flex;
+  gap: 6px;
+  padding: 9px 12px 0;
+  background: var(--card);
+}
+
+.copilot-mode-switch button {
+  min-height: 32px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 9px 9px 0 0;
+  color: var(--muted);
+  background: var(--bg);
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.copilot-mode-switch button.is-active {
+  border-color: var(--pink-soft);
+  color: var(--pink-dark);
+  background: var(--pink-soft);
+}
+
+.copilot-workspace,
+.copilot-chat-view,
+.eta-workflow {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.copilot-chat-view[hidden],
+.eta-workflow[hidden],
+.eta-processing[hidden],
+.eta-result[hidden],
+.eta-edit-form[hidden] {
+  display: none;
+}
+
+.eta-workflow {
+  background: var(--bg);
+}
+
+.eta-workflow-scroll {
+  min-height: 0;
+  padding: 13px 15px 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.eta-title-row,
+.eta-result-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.eta-eyebrow {
+  margin: 0 0 4px;
+  color: var(--pink-dark);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+
+.eta-title-row h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.eta-mock-badge,
+.eta-confidence {
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: var(--indigo);
+  background: var(--indigo-bg);
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.eta-intro,
+.eta-disclaimer {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.eta-intro { margin: 7px 0 11px; }
+
+.eta-input-form,
+.eta-edit-form {
+  display: grid;
+  gap: 9px;
+}
+
+.eta-input-form label,
+.eta-edit-form label {
+  display: grid;
+  gap: 5px;
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.eta-input-form input,
+.eta-input-form select,
+.eta-edit-form input,
+.eta-edit-form textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 34px;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--card);
+  font: inherit;
+  font-size: 11px;
+}
+
+.eta-edit-form textarea { resize: vertical; }
+
+.eta-input-form input:focus-visible,
+.eta-input-form select:focus-visible,
+.eta-edit-form input:focus-visible,
+.eta-edit-form textarea:focus-visible {
+  outline: 3px solid #f2a1bd;
+  outline-offset: 1px;
+}
+
+.eta-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.eta-full-field { grid-column: 1 / -1; }
+
+.eta-form-actions,
+.eta-decision-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.eta-form-actions .copilot-action,
+.eta-decision-actions .copilot-action {
+  min-height: 31px;
+  font-size: 10px;
+}
+
+.eta-json-details {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.eta-json-details summary { cursor: pointer; }
+
+.eta-json-details pre {
+  max-height: 100px;
+  margin: 7px 0 0;
+  padding: 8px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--card);
+  font-size: 9px;
+}
+
+.eta-processing {
+  min-height: 48px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  background: var(--card);
+  font-size: 10px;
+}
+
+.eta-spinner {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  border: 2px solid var(--pink-soft);
+  border-top-color: var(--pink);
+  border-radius: 50%;
+  animation: eta-spin .75s linear infinite;
+}
+
+@keyframes eta-spin { to { transform: rotate(360deg); } }
+
+.eta-result {
+  margin-top: 11px;
+  padding: 11px;
+  border: 1px solid var(--pink-soft);
+  border-radius: 11px;
+  background: var(--card);
+}
+
+.eta-result-heading { align-items: center; }
+.eta-result-heading strong { color: var(--pink-dark); font-size: 27px; line-height: 1.15; }
+.eta-result-copy { margin: 8px 0; color: var(--ink); font-size: 11px; line-height: 1.5; }
+.eta-result h3 { margin: 10px 0 5px; font-size: 11px; }
+.eta-reason-list { margin: 0; padding-left: 17px; color: var(--muted); font-size: 9px; line-height: 1.6; }
+.eta-reason-list strong { color: var(--ink); }
+.eta-edit-form { margin-top: 10px; padding: 9px; border: 1px dashed var(--line); border-radius: 9px; }
+.eta-decision { margin: 9px 0; padding: 8px; border-radius: 8px; color: var(--green); background: var(--green-bg); font-size: 10px; }
+.eta-decision[hidden] { display: none; }
+.eta-disclaimer { margin: 10px 0 0; font-size: 9px; }
+
 .copilot-messages {
   display: flex;
   flex: 1;
@@ -229,6 +449,9 @@
     width: calc(100vw - 20px);
     height: min(72vh, 620px);
   }
+
+  .eta-field-grid { grid-template-columns: 1fr; }
+  .eta-full-field { grid-column: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -239,4 +462,5 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  .eta-spinner { animation: none; }
 }
