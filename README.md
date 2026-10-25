@@ -67,11 +67,17 @@ git/
 
 ### Người nhận
 
-- [`page/track-parcel.html`](page/track-parcel.html): tra cứu kiện hàng và lịch sử trạng thái mẫu.
-- [`page/delivery-preferences.html`](page/delivery-preferences.html): cập nhật tùy chọn nhận hàng demo.
-- [`page/delivery-feedback.html`](page/delivery-feedback.html): gửi đánh giá và phản hồi demo.
+- [Quản lý trạng thái](page/admin-status-management.html): tìm, tạo, sửa, lưu trữ trạng thái; trạng thái mặc định được khóa; xem và duyệt các bản ghi do Điều hành tạo.
+- [Quản lý người dùng](page/admin-user-management.html): tìm/lọc, tạo, sửa, khóa/mở khóa và xóa tài khoản demo.
+- [Báo cáo logistics](page/admin-logistics-report.html): chọn kỳ báo cáo, xem số liệu, lưu lựa chọn và tải CSV.
 
-### Tính năng AI số 3 — Pulse AI dùng chung
+### Pulse AI
+
+- Có trên các màn hình Điều hành và Quản trị viên qua nút **Pulse AI**.
+- Đưa ra gợi ý theo dữ liệu demo và quy tắc cục bộ; người dùng xem lại trước khi xác nhận thao tác.
+- Không gọi mô hình AI hoặc API từ xa.
+
+## Chạy dự án
 
 - Có trên các màn hình Điều phối viên và Quản trị viên; mở bằng nút **Pulse AI** ở góc dưới.
 - Phân tích ngữ cảnh của màn đang mở, tìm ngoại lệ ưu tiên, gợi ý tài xế, duyệt người dùng chờ kích hoạt, cập nhật trạng thái hoặc lưu trữ trạng thái tùy chỉnh.
@@ -108,7 +114,7 @@ Mở thư mục dự án trong VS Code, chạy Live Server và truy cập `page/
 - HTML5 ngữ nghĩa, CSS thuần với design tokens, JavaScript thuần thao tác DOM.
 - Pulse AI demo chạy bằng JavaScript phía trình duyệt; chưa tích hợp LLM/backend.
 - `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ và nháp/phân công trên trình duyệt hiện tại.
-- Các thao tác tạo/cập nhật điểm giao, bằng chứng bàn giao, ngoại lệ, tùy chọn giao nhận, phản hồi và quyết định/phân công điều phối được đưa vào `parcelpulse.sharedRecords`. Quản trị viên xem và xử lý chúng trong trang quản lý trạng thái hiện có.
+- Quyết định ngoại lệ và phân công của Điều hành được thêm vào hàng đợi chung; Quản trị viên xem trong trang Quản lý trạng thái. Dùng cùng trình duyệt và cùng origin để chia sẻ dữ liệu.
 - Trang quản lý người dùng có 15 hồ sơ demo; hàng đợi ngoại lệ hiện gồm 5 hồ sơ mẫu.
 - CSV được tạo ở phía trình duyệt.
 

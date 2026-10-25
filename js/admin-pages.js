@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getSharedRecords, updateSharedRecord,
   } = window.ParcelPulseRolePages;
 
-  /* ===== Admin: shared records shown on the existing status page ===== */
+  /* ===== Shared work created from dispatcher actions ===== */
   const sharedRecordBody = $("#shared-record-body");
   if (sharedRecordBody) {
     const search = $("#record-search");
@@ -18,24 +18,21 @@ document.addEventListener("DOMContentLoaded", () => {
       cancelled: ["Đã hủy", "red"],
       archived: ["Đã lưu trữ", "indigo"],
     };
+    const button = (label, action, primary = false) => {
+      const element = document.createElement("button");
+      element.type = "button";
+      element.className = primary ? "btn primary" : "btn";
+      element.textContent = label;
+      element.addEventListener("click", action);
+      return element;
+    };
     const formatDate = (value) => {
       const date = new Date(value);
       return Number.isNaN(date.getTime())
         ? "—"
-        : new Intl.DateTimeFormat("vi-VN", {
-            dateStyle: "short",
-            timeStyle: "short",
-          }).format(date);
+        : new Intl.DateTimeFormat("vi-VN", { dateStyle: "short", timeStyle: "short" }).format(date);
     };
-    const actionButton = (label, action, primary = false) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = primary ? "btn primary" : "btn";
-      button.textContent = label;
-      button.addEventListener("click", action);
-      return button;
-    };
-    const changeStatus = (record, status, label) => {
+    const setStatus = (record, status, label) => {
       updateSharedRecord(record.id, { status });
       announce(message, `${label} bản ghi ${record.id}.`, "success");
     };
@@ -44,15 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const records = getSharedRecords().sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
-      const pendingCount = records.filter((record) => record.status === "pending").length;
       $("#records-total").textContent = String(records.length);
-      $("#records-pending").textContent = String(pendingCount);
+      $("#records-pending").textContent = String(records.filter((record) => record.status === "pending").length);
       const query = search.value.trim().toLocaleLowerCase("vi");
       const shown = records.filter((record) => {
         const matchesStatus = filter.value === "all" || record.status === filter.value;
-        const text = [record.id, record.reference, record.sourceRole, record.sourceType, record.title, record.summary]
+        const searchable = [record.id, record.reference, record.sourceRole, record.sourceType, record.title, record.summary]
           .join(" ").toLocaleLowerCase("vi");
-        return matchesStatus && text.includes(query);
+        return matchesStatus && searchable.includes(query);
       });
       sharedRecordBody.replaceChildren();
       shown.forEach((record) => {
@@ -77,23 +73,23 @@ document.addEventListener("DOMContentLoaded", () => {
         created.textContent = formatDate(record.createdAt);
         row.append(created);
         const statusCell = document.createElement("td");
-        const [label, tone] = statusLabels[record.status] || statusLabels.pending;
+        const [statusText, tone] = statusLabels[record.status] || statusLabels.pending;
         const chip = document.createElement("span");
         chip.className = `chip ${tone}`;
-        chip.textContent = label;
+        chip.textContent = statusText;
         statusCell.append(chip);
         row.append(statusCell);
         const actions = document.createElement("td");
         actions.className = "row-actions";
         if (record.status === "pending") {
-          actions.append(actionButton("Duyệt", () => changeStatus(record, "approved", "Đã duyệt"), true));
-          actions.append(actionButton("Hủy", () => {
-            if (window.confirm(`Hủy bản ghi ${record.id}?`)) changeStatus(record, "cancelled", "Đã hủy");
+          actions.append(button("Duyệt", () => setStatus(record, "approved", "Đã duyệt"), true));
+          actions.append(button("Hủy", () => {
+            if (window.confirm(`Hủy bản ghi ${record.id}?`)) setStatus(record, "cancelled", "Đã hủy");
           }));
         }
         if (record.status !== "archived") {
-          actions.append(actionButton("Lưu trữ", () => {
-            if (window.confirm(`Lưu trữ bản ghi ${record.id}?`)) changeStatus(record, "archived", "Đã lưu trữ");
+          actions.append(button("Lưu trữ", () => {
+            if (window.confirm(`Lưu trữ bản ghi ${record.id}?`)) setStatus(record, "archived", "Đã lưu trữ");
           }));
         }
         row.append(actions);
