@@ -110,6 +110,7 @@ Các tài liệu bổ sung nằm trong `docs/`, gồm đề xuất dự án, vai
 
 ## Liên kết dự án
 
+- [Chạy thử demo](https://duongquynh16042007-cell.github.io/cse122-parcelpulse-team12/page/index.html)
 - [Figma](https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=zDJNyxMIUbNaoNGI-1)
 - [YouTube — Playlist 1](https://www.youtube.com/playlist?list=PLdwaB8kTRTB0)
 - [YouTube — Playlist 2](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
