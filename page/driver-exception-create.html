@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Ghi nhận ngoại lệ giao hàng ParcelPulse."
+    />
+    <title>Tạo ngoại lệ giao hàng — ParcelPulse</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/assistant.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <link rel="stylesheet" href="../css/driver.css" />
+    <script src="../js/role-pages.js" defer></script>
+    <script src="../js/driver-pages.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="side">
+        <a class="brand" href="driver-route-stops.html"
+          ><span class="logo" aria-hidden="true">P</span>ParcelPulse</a
+        >
+        <span class="role-chip">Nhân viên giao hàng</span>
+        <nav class="nav" aria-label="Điều hướng tài xế">
+          <a class="nav-item--icon" href="driver-route-stops.html"
+            ><span class="nav-icon" aria-hidden="true">➤</span>Tuyến giao</a
+          >
+          <a class="nav-item--icon" href="driver-stop-detail.html"
+            ><span class="nav-icon" aria-hidden="true">◉</span>Điểm giao</a
+          >
+          <a
+            class="nav-item--icon"
+            href="driver-exception-create.html"
+            aria-current="page"
+            ><span class="nav-icon" aria-hidden="true">⚠</span>Ngoại lệ</a
+          >
+        </nav>
+        <div class="nav">
+          <a class="settings-trigger" href="settings.html?role=driver"
+            ><span class="nav-icon" aria-hidden="true">⚙</span>Cài đặt</a
+          >
+        </div>
+        <div class="user">
+          <strong>Minh Anh</strong
+          ><span>Ngoại lệ được gửi đến điều phối · Demo</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header>
+          <p class="eyebrow">Nhân viên giao hàng · Báo sự cố</p>
+          <h1>Tạo ngoại lệ giao hàng</h1>
+          <p class="lead">
+            Ghi nhận tình huống tại điểm giao để điều phối viên có đủ dữ liệu xử
+            lý.
+          </p>
+        </header>
+
+        <div class="portal-grid portal-grid--wide">
+          <section class="card portal-card">
+            <div class="parcel-highlight">
+              <div>
+                <p class="eyebrow">Tuyến CG-14</p>
+                <strong>Ghi nhận tình huống</strong
+                ><small>Chỉ dữ liệu mô phỏng; không gửi đến máy chủ.</small>
+              </div>
+              <span class="chip amber">Đang chờ xử lý</span>
+            </div>
+            <form class="portal-form" id="exception-form" novalidate>
+              <label for="exception-stop"
+                >Điểm dừng / kiện hàng
+                <select id="exception-stop" name="stop">
+                  <option value="STP-10462">STP-10462 · PPVN-4829-1024</option>
+                  <option value="STP-10463">STP-10463 · PTVN-5821-0112</option>
+                  <option value="STP-10469">STP-10469 · PTVN-7730-3308</option>
+                  <option value="STP-10492">STP-10492 · PTVN-0294-7751</option>
+                </select>
+              </label>
+              <label for="exception-category"
+                >Loại ngoại lệ
+                <select id="exception-category" name="category" required>
+                  <option value="">Chọn loại để phân loại thủ công</option>
+                  <option>Không liên hệ được</option>
+                  <option>Địa chỉ không hợp lệ</option>
+                  <option>Khách đổi lịch</option>
+                  <option>Kiện hàng hư hỏng</option>
+                  <option>Xe gặp sự cố</option>
+                  <option>Loại khác</option>
+                </select>
+              </label>
+              <label for="exception-note"
+                ><span>Mô tả tình huống <span aria-hidden="true">*</span></span>
+                <textarea
+                  id="exception-note"
+                  name="note"
+                  minlength="8"
+                  maxlength="400"
+                  required
+                  placeholder="Nêu điều đã xảy ra, thời điểm và cách liên hệ đã thử."
+                ></textarea>
+              </label>
+              <label for="exception-evidence"
+                >Ảnh hiện trường (không bắt buộc)
+                <input
+                  id="exception-evidence"
+                  name="evidence"
+                  type="file"
+                  accept="image/*"
+                />
+              </label>
+              <p class="form-help" id="exception-evidence-name">
+                Chưa chọn ảnh. Tệp không rời khỏi thiết bị trong bản demo.
+              </p>
+              <p
+                class="portal-message"
+                id="exception-status"
+                role="status"
+                aria-live="polite"
+              ></p>
+              <div class="portal-actions">
+                <button class="btn primary" type="submit">Tạo ngoại lệ</button>
+                <a class="btn" href="driver-route-stops.html"
+                  >Quay lại tuyến giao</a
+                >
+              </div>
+            </form>
+          </section>
+
+          <aside class="stack">
+            <section class="card portal-card">
+              <h2>Thông tin hữu ích</h2>
+              <ul class="rows">
+                <li>
+                  <span>Không có người nhận</span
+                  ><span class="chip amber">Ghi số lần liên hệ</span>
+                </li>
+                <li>
+                  <span>Địa chỉ không rõ</span
+                  ><span class="chip indigo">Không đoán vị trí</span>
+                </li>
+                <li>
+                  <span>Kiện hư hỏng</span
+                  ><span class="chip red">Giữ nguyên hiện trạng</span>
+                </li>
+              </ul>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
