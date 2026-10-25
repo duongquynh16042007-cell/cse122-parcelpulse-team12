@@ -210,25 +210,6 @@ html[data-theme="dark"] .side .nav a:focus-visible .nav-icon {
   color: #fff;
 }
 
-.ai-group {
-  border: 1px solid var(--pink-soft);
-  border-radius: 14px;
-  padding: 10px;
-}
-.ai-group h2 {
-  margin-bottom: 6px;
-  padding: 0 4px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--pink);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.ai-group .nav a {
-  padding: 8px 10px;
-  font-size: 13px;
-}
-
 .user {
   margin-top: auto;
   padding: 12px;
