@@ -185,6 +185,17 @@ if (exBody) {
       toast("Không thể lưu quyết định. Kiểm tra quyền lưu của trình duyệt.");
       return;
     }
+    const details = EXCEPTION_DETAILS[currentId];
+    window.ParcelPulseRolePages?.registerSharedRecord({
+      id: `dispatcher-exception:${currentId}`,
+      sourceRole: "Điều phối viên",
+      sourceType: "Quyết định ngoại lệ",
+      reference: currentId,
+      title: `${status === "confirmed" ? "Đã duyệt" : "Đã bỏ qua"} ${currentId}`,
+      summary: `${decisions[currentId]?.type || details?.type || "Ngoại lệ"}: ${details?.text || ""}`,
+      status: "pending",
+      payload: { exceptionId: currentId, decision: status },
+    });
     renderException(currentId);
     toast(message);
   }
@@ -209,6 +220,16 @@ if (exBody) {
       toast("Không thể lưu chỉnh sửa. Kiểm tra quyền lưu của trình duyệt.");
       return;
     }
+    window.ParcelPulseRolePages?.registerSharedRecord({
+      id: `dispatcher-exception:${currentId}`,
+      sourceRole: "Điều phối viên",
+      sourceType: "Cập nhật loại ngoại lệ",
+      reference: currentId,
+      title: `Cập nhật ngoại lệ ${currentId}`,
+      summary: `${typeEdit.value}: ${EXCEPTION_DETAILS[currentId]?.text || ""}`,
+      status: "pending",
+      payload: { exceptionId: currentId, type: typeEdit.value },
+    });
     $(`tr[data-id="${currentId}"] .t-type`).textContent = typeEdit.value;
     renderException(currentId);
     toast(`Đã đổi loại của ${currentId} thành "${typeEdit.value}"`);
@@ -399,15 +420,28 @@ if (stopsBox) {
     const driver = pickedDriver();
     if (!selected.length || !driver) return;
     const assignments = readStore("assignments", []);
-    assignments.push({
+    const assignment = {
+      id: `ASG-${Date.now()}`,
       stopIds: selected.map(stopId),
       driver: driver.dataset.name,
       assignedAt: new Date().toISOString(),
-    });
+    };
+    assignments.push(assignment);
     if (!writeStore("assignments", assignments)) {
       toast("Không thể lưu phân công; danh sách chưa được cập nhật.");
       return;
     }
+    window.ParcelPulseRolePages?.registerSharedRecord({
+      id: `dispatcher-assignment:${assignment.id}`,
+      sourceRole: "Điều phối viên",
+      sourceType: "Phân công lại điểm giao",
+      reference: assignment.stopIds.join(", "),
+      title: `Phân ${assignment.stopIds.length} điểm cho ${assignment.driver}`,
+      summary: `Điểm giao: ${assignment.stopIds.join(", ")}`,
+      status: "pending",
+      payload: assignment,
+      createdAt: assignment.assignedAt,
+    });
     selected.forEach((s) => s.remove());
     try { localStorage.removeItem("parcelpulse.assignmentDraft"); } catch { /* Storage may be unavailable. */ }
     toast(`Đã chuyển ${selected.length} điểm cho ${driver.dataset.name}`);

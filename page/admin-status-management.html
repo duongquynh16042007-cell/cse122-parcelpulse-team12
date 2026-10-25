@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="../css/base.css" />
     <link rel="stylesheet" href="../css/profile.css" />
     <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="stylesheet" href="../css/pulse-ai.css" />
     <script src="../js/role-pages.js" defer></script>
     <script src="../js/admin-pages.js" defer></script>
+    <script src="../js/pulse-ai.js" defer></script>
   </head>
   <body>
     <div class="app">
@@ -199,9 +201,39 @@
           </p>
         </section>
 
-        <footer class="app-footer">
-          ParcelPulse · Dữ liệu demo lưu trên trình duyệt
-        </footer>
+        <section class="card portal-card" aria-labelledby="records-title">
+          <div class="card-head">
+            <div>
+              <h2 id="records-title">Danh sách chờ xử lý</h2>
+              <p class="sub">Bản ghi tác nghiệp do Điều phối viên tạo sẽ được lưu tại đây để Quản trị viên kiểm tra.</p>
+            </div>
+          </div>
+          <div class="metric-grid" aria-label="Tóm tắt bản ghi">
+            <article class="card metric"><span>Tổng bản ghi</span><strong id="records-total">0</strong><small>Dữ liệu demo</small></article>
+            <article class="card metric"><span>Chờ xử lý</span><strong id="records-pending">0</strong><small>Cần xem xét</small></article>
+          </div>
+          <div class="portal-grid" style="align-items: end">
+            <label class="portal-label" for="record-search">Tìm mã, nguồn hoặc nội dung
+              <input class="portal-search" id="record-search" type="search" placeholder="Ví dụ: EX-10482, ngoại lệ" />
+            </label>
+            <label class="portal-label" for="record-filter">Lọc trạng thái
+              <select class="portal-select" id="record-filter">
+                <option value="pending">Chờ xử lý</option><option value="all">Tất cả trạng thái</option>
+                <option value="approved">Đã duyệt</option><option value="cancelled">Đã hủy</option><option value="archived">Đã lưu trữ</option>
+              </select>
+            </label>
+          </div>
+          <p class="portal-message" id="records-message" role="status" aria-live="polite"></p>
+          <div class="table-wrap">
+            <table class="portal-table">
+              <thead><tr><th scope="col">Mã / tham chiếu</th><th scope="col">Nguồn</th><th scope="col">Loại</th><th scope="col">Nội dung</th><th scope="col">Thời điểm</th><th scope="col">Trạng thái</th><th scope="col">Thao tác</th></tr></thead>
+              <tbody id="shared-record-body"></tbody>
+            </table>
+            <p class="portal-empty" id="records-empty" hidden>Chưa có bản ghi phù hợp. Hãy xác nhận hoặc cập nhật một ngoại lệ trong màn hình Điều phối viên rồi quay lại đây.</p>
+          </div>
+          <p class="form-help" style="margin-top: 12px">Dữ liệu demo lưu bằng localStorage trên cùng trình duyệt và cùng origin.</p>
+        </section>
+
       </main>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>

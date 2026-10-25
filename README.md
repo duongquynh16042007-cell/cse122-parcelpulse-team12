@@ -12,9 +12,15 @@ ParcelPulse là bản demo giao diện cho quy trình giao nhận, tập trung v
 
 ### Quản trị viên
 
-- [Quản lý trạng thái](page/admin-status-management.html): tìm, tạo, sửa, lưu trữ trạng thái; trạng thái mặc định được khóa.
+- [Quản lý trạng thái](page/admin-status-management.html): tìm, tạo, sửa, lưu trữ trạng thái; trạng thái mặc định được khóa; xem và duyệt các bản ghi do Điều hành tạo.
 - [Quản lý người dùng](page/admin-user-management.html): tìm/lọc, tạo, sửa, khóa/mở khóa và xóa tài khoản demo.
 - [Báo cáo logistics](page/admin-logistics-report.html): chọn kỳ báo cáo, xem số liệu, lưu lựa chọn và tải CSV.
+
+### Pulse AI
+
+- Có trên các màn hình Điều hành và Quản trị viên qua nút **Pulse AI**.
+- Đưa ra gợi ý theo dữ liệu demo và quy tắc cục bộ; người dùng xem lại trước khi xác nhận thao tác.
+- Không gọi mô hình AI hoặc API từ xa.
 
 ## Chạy dự án
 
@@ -32,6 +38,7 @@ js/     Tương tác điều hành, quản trị và hồ sơ
 
 - HTML5 ngữ nghĩa, CSS thuần với design tokens, JavaScript thuần thao tác DOM.
 - `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ và nháp/phân công trên trình duyệt hiện tại.
+- Quyết định ngoại lệ và phân công của Điều hành được thêm vào hàng đợi chung; Quản trị viên xem trong trang Quản lý trạng thái. Dùng cùng trình duyệt và cùng origin để chia sẻ dữ liệu.
 - Trang quản lý người dùng có 15 hồ sơ demo; hàng đợi ngoại lệ hiện gồm 5 hồ sơ mẫu.
 - CSV được tạo ở phía trình duyệt.
 

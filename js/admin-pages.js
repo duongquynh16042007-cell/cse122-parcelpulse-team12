@@ -1,6 +1,111 @@
 /* ParcelPulse role-specific interactions. */
 document.addEventListener("DOMContentLoaded", () => {
-  const { $, $$, read, write, toast, announce } = window.ParcelPulseRolePages;
+  const {
+    $, $$, read, write, toast, announce,
+    getSharedRecords, updateSharedRecord,
+  } = window.ParcelPulseRolePages;
+
+  /* ===== Shared work created from dispatcher actions ===== */
+  const sharedRecordBody = $("#shared-record-body");
+  if (sharedRecordBody) {
+    const search = $("#record-search");
+    const filter = $("#record-filter");
+    const empty = $("#records-empty");
+    const message = $("#records-message");
+    const statusLabels = {
+      pending: ["Chờ xử lý", "amber"],
+      approved: ["Đã duyệt", "green"],
+      cancelled: ["Đã hủy", "red"],
+      archived: ["Đã lưu trữ", "indigo"],
+    };
+    const button = (label, action, primary = false) => {
+      const element = document.createElement("button");
+      element.type = "button";
+      element.className = primary ? "btn primary" : "btn";
+      element.textContent = label;
+      element.addEventListener("click", action);
+      return element;
+    };
+    const formatDate = (value) => {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime())
+        ? "—"
+        : new Intl.DateTimeFormat("vi-VN", { dateStyle: "short", timeStyle: "short" }).format(date);
+    };
+    const setStatus = (record, status, label) => {
+      updateSharedRecord(record.id, { status });
+      announce(message, `${label} bản ghi ${record.id}.`, "success");
+    };
+
+    function renderSharedRecords() {
+      const records = getSharedRecords().sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      );
+      $("#records-total").textContent = String(records.length);
+      $("#records-pending").textContent = String(records.filter((record) => record.status === "pending").length);
+      const query = search.value.trim().toLocaleLowerCase("vi");
+      const shown = records.filter((record) => {
+        const matchesStatus = filter.value === "all" || record.status === filter.value;
+        const searchable = [record.id, record.reference, record.sourceRole, record.sourceType, record.title, record.summary]
+          .join(" ").toLocaleLowerCase("vi");
+        return matchesStatus && searchable.includes(query);
+      });
+      sharedRecordBody.replaceChildren();
+      shown.forEach((record) => {
+        const row = document.createElement("tr");
+        [record.reference ? `${record.id} · ${record.reference}` : record.id,
+          record.sourceRole, record.sourceType].forEach((value) => {
+          const cell = document.createElement("td");
+          cell.textContent = value || "—";
+          row.append(cell);
+        });
+        const content = document.createElement("td");
+        const title = document.createElement("strong");
+        title.textContent = record.title || "Bản ghi mới";
+        content.append(title);
+        if (record.summary) {
+          const summary = document.createElement("small");
+          summary.textContent = record.summary;
+          content.append(document.createElement("br"), summary);
+        }
+        row.append(content);
+        const created = document.createElement("td");
+        created.textContent = formatDate(record.createdAt);
+        row.append(created);
+        const statusCell = document.createElement("td");
+        const [statusText, tone] = statusLabels[record.status] || statusLabels.pending;
+        const chip = document.createElement("span");
+        chip.className = `chip ${tone}`;
+        chip.textContent = statusText;
+        statusCell.append(chip);
+        row.append(statusCell);
+        const actions = document.createElement("td");
+        actions.className = "row-actions";
+        if (record.status === "pending") {
+          actions.append(button("Duyệt", () => setStatus(record, "approved", "Đã duyệt"), true));
+          actions.append(button("Hủy", () => {
+            if (window.confirm(`Hủy bản ghi ${record.id}?`)) setStatus(record, "cancelled", "Đã hủy");
+          }));
+        }
+        if (record.status !== "archived") {
+          actions.append(button("Lưu trữ", () => {
+            if (window.confirm(`Lưu trữ bản ghi ${record.id}?`)) setStatus(record, "archived", "Đã lưu trữ");
+          }));
+        }
+        row.append(actions);
+        sharedRecordBody.append(row);
+      });
+      empty.hidden = shown.length > 0;
+    }
+
+    search.addEventListener("input", renderSharedRecords);
+    filter.addEventListener("change", renderSharedRecords);
+    window.addEventListener("parcelpulse:records-changed", renderSharedRecords);
+    window.addEventListener("storage", (event) => {
+      if (event.key === "parcelpulse.sharedRecords") renderSharedRecords();
+    });
+    renderSharedRecords();
+  }
 
   /* ===== Admin: status taxonomy ===== */
   const statusBody = $("#status-body");
