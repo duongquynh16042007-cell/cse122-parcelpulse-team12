@@ -1,80 +1,116 @@
-# ParcelPulse — Giao diện mô phỏng giao hàng
+# ParcelPulse — Hệ thống mô phỏng giao nhận
 
-ParcelPulse là bản giao diện HTML, CSS và JavaScript mô phỏng một số thao tác trong quy trình giao hàng. Phạm vi hiện có gồm ba trang dành cho nhân viên giao hàng và một trang Cài đặt dùng chung. Dữ liệu đều là dữ liệu mẫu chạy trong trình duyệt; dự án không có backend, cơ sở dữ liệu hay bước build.
-
-Đây là phần Sinh viên 2 phụ trách trong dự án nhóm, tập trung vào luồng Nhân viên giao hàng.
+ParcelPulse là bản demo giao diện HTML, CSS và JavaScript cho quy trình giao nhận. Nhánh này có các màn hình cho **Người nhận, Nhân viên giao hàng, Điều phối viên và Quản trị viên**, cùng trang công khai, xác thực và Cài đặt dùng chung. Dữ liệu là dữ liệu mẫu lưu cục bộ trên trình duyệt; dự án chưa có backend hoặc API logistics thật.
 
 ## Cấu trúc thư mục
 
 ```text
-CODE/
-├── .vscode/
-│   └── settings.json             # Cấu hình Live Server, cổng 5501
+git/
 ├── README.md
+├── docs/                         # Tài liệu dự án
 ├── css/
-│   ├── base.css                  # Bố cục và thành phần giao diện dùng chung
-│   ├── driver.css                # Giao diện các trang nhân viên giao hàng
-│   ├── assistant.css             # Giao diện Trợ lý AI
-│   ├── profile.css               # Ngăn hồ sơ người dùng
-│   └── settings.css              # Giao diện trang Cài đặt
+│   ├── base.css                  # Kiểu và thành phần dùng chung
+│   ├── profile.css               # Hồ sơ dùng chung
+│   ├── home.css                  # Trang chủ
+│   ├── auth.css                  # Giao diện xác thực
+│   ├── login.css                 # Đăng nhập
+│   ├── register.css              # Đăng ký
+│   ├── forgot-password.css       # Khôi phục mật khẩu
+│   ├── recipient.css             # Giao diện Người nhận
+│   ├── recipient-app.css         # Khung ứng dụng Người nhận
+│   ├── track-parcel.css          # Theo dõi kiện hàng
+│   ├── delivery-preferences.css  # Tùy chọn giao nhận
+│   ├── delivery-feedback.css     # Phản hồi giao hàng
+│   ├── driver.css                # Nhân viên giao hàng
+│   ├── dispatcher.css            # Điều phối viên
+│   ├── admin.css                 # Quản trị viên
+│   ├── assistant.css             # Tiện ích trợ lý mô phỏng
+│   └── settings.css              # Cài đặt
 ├── js/
-│   ├── role-pages.js             # Trợ lý AI, hồ sơ và tiện ích dùng chung
-│   ├── driver-pages.js           # Tương tác tuyến giao, điểm giao, ngoại lệ
-│   ├── settings-page.js          # Hồ sơ và tùy chọn trên trang Cài đặt
-│   └── assistant.js              # Panel AI độc lập; các trang hiện tại không nạp tệp này
-└── pages/
+│   ├── home.js                   # Tương tác trang chủ
+│   ├── auth.js                   # Đăng nhập, đăng ký, khôi phục demo
+│   ├── role-pages.js             # Tiện ích và tương tác dùng chung
+│   ├── recipient-pages.js        # Chức năng Người nhận
+│   ├── driver-pages.js           # Chức năng Nhân viên giao hàng
+│   ├── dispatcher.js             # Chức năng Điều phối viên
+│   ├── admin-pages.js            # Chức năng Quản trị viên
+│   ├── assistant.js              # Tiện ích trợ lý mô phỏng
+│   └── settings-page.js          # Cài đặt dùng chung
+└── page/                         # Tất cả trang HTML
+    ├── index.html
+    ├── login.html
+    ├── register.html
+    ├── forgot-password.html
+    ├── track-parcel.html
+    ├── delivery-preferences.html
+    ├── delivery-feedback.html
     ├── driver-route-stops.html
     ├── driver-stop-detail.html
     ├── driver-exception-create.html
-    └── settings.html
+    ├── settings.html
+    ├── dispatcher-overview.html
+    ├── dispatcher-exceptions.html
+    ├── dispatcher-reassign.html
+    ├── admin-status-management.html
+    ├── admin-user-management.html
+    └── admin-logistics-report.html
 ```
 
-## Các trang hiện có
+## Vai trò và màn hình
 
-| Trang | Tệp | Chức năng |
-| --- | --- | --- |
-| Tuyến giao hôm nay | [`pages/driver-route-stops.html`](pages/driver-route-stops.html) | Xem 5 điểm dừng mẫu, tìm kiếm theo nội dung điểm giao, lọc trạng thái và đánh dấu đã giao hoặc hoàn tác. Số điểm hoàn tất và còn lại được cập nhật; quãng đường 12,4 km là số liệu mẫu. |
-| Chi tiết điểm giao | [`pages/driver-stop-detail.html`](pages/driver-stop-detail.html) | Xem thông tin kiện hàng mẫu, nhập tên người nhận và mã gồm 6 chữ số để ghi nhận giao thành công. Mã `482910` là ví dụ hiển thị trên trang; bản demo chỉ kiểm tra đủ 6 chữ số. |
-| Tạo ngoại lệ | [`pages/driver-exception-create.html`](pages/driver-exception-create.html) | Chọn điểm dừng và loại ngoại lệ, nhập mô tả (8–400 ký tự), chọn ảnh tùy chọn và lưu ngoại lệ mẫu. Mã ngoại lệ được tạo sau khi gửi. |
-| Cài đặt | [`pages/settings.html`](pages/settings.html) | Chỉnh sửa tên và số điện thoại, tùy chọn thông báo, giao diện sáng/tối/theo hệ thống, ngôn ngữ và trạng thái xác thực hai bước mô phỏng. Email chỉ đọc. |
+### Khu vực công khai và xác thực
 
-Các trạng thái giao hàng và ngoại lệ được lưu trong `localStorage` của trình duyệt. Trợ lý AI xuất hiện trên các trang nghiệp vụ; đây là mô phỏng theo từ khóa, có thể trả lời về ETA, gợi ý loại ngoại lệ hoặc bước tiếp theo. Gợi ý ngoại lệ không tự chọn loại hay gửi biểu mẫu.
+- [`page/index.html`](page/index.html): trang chủ, điểm vào các khu vực và tra cứu demo.
+- [`page/login.html`](page/login.html): chọn vai trò và mô phỏng đăng nhập.
+- [`page/register.html`](page/register.html): biểu mẫu đăng ký demo.
+- [`page/forgot-password.html`](page/forgot-password.html): mô phỏng yêu cầu khôi phục tài khoản.
 
-## Vai trò trong trang Cài đặt
+### Người nhận
 
-Trang Cài đặt nhận vai trò từ tham số URL `role` hoặc phiên demo đã lưu. Có thể mở trực tiếp bằng các URL như:
+- [`page/track-parcel.html`](page/track-parcel.html): tra cứu kiện hàng và lịch sử trạng thái mẫu.
+- [`page/delivery-preferences.html`](page/delivery-preferences.html): cập nhật tùy chọn nhận hàng demo.
+- [`page/delivery-feedback.html`](page/delivery-feedback.html): gửi đánh giá và phản hồi demo.
 
-- `pages/settings.html?role=driver`
-- `pages/settings.html?role=recipient`
-- `pages/settings.html?role=dispatcher`
-- `pages/settings.html?role=admin`
+### Nhân viên giao hàng
 
-Trang không có bộ chọn vai trò. Trong thư mục hiện tại chỉ có các trang của nhân viên giao hàng và trang Cài đặt; các trang người nhận, điều phối viên và quản trị viên được tham chiếu trong menu nhưng chưa có ở đây.
+- [`page/driver-route-stops.html`](page/driver-route-stops.html): xem, tìm kiếm, lọc và cập nhật điểm giao mẫu.
+- [`page/driver-stop-detail.html`](page/driver-stop-detail.html): xem chi tiết điểm giao và mô phỏng xác nhận bàn giao.
+- [`page/driver-exception-create.html`](page/driver-exception-create.html): tạo ngoại lệ giao nhận demo.
 
-## Cách chạy
+### Điều phối viên
 
-1. Mở thư mục `CODE` trong VS Code.
-2. Dùng tiện ích **Live Server** để mở `pages/driver-route-stops.html` (cổng `5501` được cấu hình trong `.vscode/settings.json`). Không cần cài thư viện hay chạy lệnh build.
-3. Dùng menu trong trang để chuyển giữa Tuyến giao, Điểm giao, Ngoại lệ và Cài đặt.
+- [`page/dispatcher-overview.html`](page/dispatcher-overview.html): KPI, biểu đồ và cảnh báo vận hành mẫu.
+- [`page/dispatcher-exceptions.html`](page/dispatcher-exceptions.html): tìm/lọc ngoại lệ và mô phỏng quyết định xử lý.
+- [`page/dispatcher-reassign.html`](page/dispatcher-reassign.html): mô phỏng phân công lại điểm giao/tài xế.
 
-Một số thao tác để xem thử:
+### Quản trị viên
 
-- Trên Tuyến giao, tìm kiếm điểm dừng, đổi bộ lọc, rồi bấm **Đã giao** hoặc **Hoàn tác**.
-- Trên Chi tiết điểm giao, nhập tên người nhận và một mã 6 chữ số, chẳng hạn `482910`.
-- Trên Tạo ngoại lệ, chọn loại, nhập mô tả từ 8 ký tự trở lên rồi gửi biểu mẫu.
-- Trên Cài đặt, thay đổi tên, số điện thoại, thông báo hoặc giao diện rồi bấm **Lưu thay đổi**.
-- Mở Trợ lý AI bằng nút nổi để thử các câu hỏi gợi ý.
+- [`page/admin-status-management.html`](page/admin-status-management.html): quản lý trạng thái giao nhận mẫu.
+- [`page/admin-user-management.html`](page/admin-user-management.html): tìm/lọc và quản lý tài khoản demo.
+- [`page/admin-logistics-report.html`](page/admin-logistics-report.html): báo cáo dữ liệu mẫu và tải CSV được tạo trên trình duyệt.
 
-## Giới hạn bản demo
+### Cài đặt dùng chung
 
-- Không có đăng nhập thật, backend hoặc đồng bộ dữ liệu. Tùy chọn, trạng thái giao và ngoại lệ được lưu cục bộ theo trình duyệt và địa chỉ trang đang chạy.
-- Ảnh bằng chứng chỉ được chọn trên thiết bị; ứng dụng không tải ảnh lên máy chủ. Ảnh đại diện trong Cài đặt cũng chỉ được chọn để minh họa, không được tải lên hay lưu làm hồ sơ.
-- Trợ lý AI chạy bằng quy tắc và từ khóa trong JavaScript, không gọi dịch vụ AI hoặc dữ liệu vận chuyển trực tiếp.
-- Tùy chọn xác thực hai bước chỉ đổi trạng thái hiển thị; chức năng đổi mật khẩu chỉ hiện thông báo demo. Tiếng Anh chưa được hỗ trợ.
-- Nút đăng xuất chuyển tới `login.html`, nhưng trang đăng nhập hiện chưa có trong thư mục `pages`.
+- [`page/settings.html`](page/settings.html): hồ sơ và tùy chọn mô phỏng; nhận vai trò qua URL hoặc phiên demo.
 
-## Tài liệu và liên kết nhóm
+## Chạy thử
 
-- Figma: https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=EPEoUSwKIyWGywfV-0
-- Video trình bày: https://www.youtube.com/playlist?list=PLFuFhj5IUmMU
-- GitHub: https://github.com/duongquynh16042007-cell/cse122-parcelpulse-team12
+Mở thư mục dự án trong VS Code, chạy Live Server và truy cập `page/index.html`. Có thể mở trực tiếp từng trang trong danh sách trên. Không cần cài thư viện hoặc chạy bước build.
+
+## Công nghệ và giới hạn
+
+- HTML5, CSS thuần và JavaScript thuần; không sử dụng framework giao diện.
+- Một số dữ liệu demo được lưu bằng `localStorage` hoặc `sessionStorage` trên trình duyệt hiện tại.
+- Đăng nhập, giao nhận, điều phối, quản trị, cài đặt và trợ lý (nếu hiển thị) chỉ mô phỏng; không có backend, API logistics thật hoặc đồng bộ dữ liệu.
+- Báo cáo CSV được tạo ngay trong trình duyệt. Ảnh được chọn trong biểu mẫu không được tải lên máy chủ.
+
+## Tài liệu dự án
+
+Các tài liệu bổ sung nằm trong `docs/`, gồm đề xuất dự án, vai trò và chức năng, danh sách màn hình, phân công nhóm và báo cáo sử dụng AI.
+
+## Liên kết dự án
+
+- [Figma](https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=zDJNyxMIUbNaoNGI-1)
+- [YouTube — Playlist 1](https://www.youtube.com/playlist?list=PLdwaB8kTRTB0)
+- [YouTube — Playlist 2](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
+- [GitHub](https://github.com/duongquynh16042007-cell/cse122-parcelpulse-team12)
