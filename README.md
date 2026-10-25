@@ -74,7 +74,6 @@ Trang chủ / Đăng nhập
   - `SV1-01-track-parcel.mp4`: Màn hình Tra cứu bưu kiện & AI-ETA
   - `SV1-02-delivery-preferences.mp4`: Màn hình Tùy chọn giao nhận
   - `SV1-03-delivery-feedback.mp4`: Màn hình Phản hồi & Đánh giá sao
-  - `SV1-04-shared-navigation.mp4`: Giao diện dùng chung & Điều hướng
 
 ---
 
