@@ -71,6 +71,13 @@ git/
 - [`page/delivery-preferences.html`](page/delivery-preferences.html): cập nhật tùy chọn nhận hàng demo.
 - [`page/delivery-feedback.html`](page/delivery-feedback.html): gửi đánh giá và phản hồi demo.
 
+### Tính năng AI số 3 — Copilot dùng chung
+
+- Có trên cả sáu màn hình Điều hành và Quản trị viên; mở bằng nút **AI Copilot** ở góc dưới.
+- Phân tích ngữ cảnh của màn đang mở, tìm ngoại lệ ưu tiên, gợi ý tài xế, duyệt người dùng chờ kích hoạt, cập nhật trạng thái hoặc lưu trữ trạng thái tùy chỉnh.
+- Copilot yêu cầu người dùng xem lại và xác nhận các thao tác quan trọng; thao tác được chuyển qua các luồng CRUD hiện có.
+- Đây là bản demo dùng quy tắc cục bộ và dữ liệu mẫu. Không gọi mô hình AI hoặc API từ xa; không xác minh danh tính, không tự quyết định vận hành thật.
+
 ### Nhân viên giao hàng
 
 - [`page/driver-route-stops.html`](page/driver-route-stops.html): xem, tìm kiếm, lọc và cập nhật điểm giao mẫu.
@@ -96,6 +103,12 @@ git/
 ## Chạy thử
 
 Mở thư mục dự án trong VS Code, chạy Live Server và truy cập `page/index.html`. Có thể mở trực tiếp từng trang trong danh sách trên. Không cần cài thư viện hoặc chạy bước build.
+
+- HTML5 ngữ nghĩa, CSS thuần với design tokens, JavaScript thuần thao tác DOM.
+- AI Copilot demo chạy bằng JavaScript phía trình duyệt; chưa tích hợp LLM/backend.
+- `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ và nháp/phân công trên trình duyệt hiện tại.
+- Trang quản lý người dùng có 15 hồ sơ demo; hàng đợi ngoại lệ hiện gồm 5 hồ sơ mẫu.
+- CSV được tạo ở phía trình duyệt.
 
 ## Công nghệ và giới hạn
 
