@@ -41,7 +41,6 @@ html[data-theme="dark"] {
 * {
   box-sizing: border-box;
 }
-
 [hidden] {
   display: none !important;
 }
@@ -63,22 +62,20 @@ body {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
   color: inherit;
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
-
 h1,
 h2,
 p {
   margin: 0;
 }
-
 :focus-visible {
   outline: 3px solid #f2a1bd;
   outline-offset: 2px;
@@ -120,7 +117,6 @@ p {
   font-size: 16px;
   font-weight: 600;
 }
-
 .logo {
   display: grid;
   place-items: center;
@@ -146,7 +142,6 @@ p {
   flex-direction: column;
   gap: 4px;
 }
-
 .nav a {
   display: flex;
   align-items: center;
@@ -155,7 +150,6 @@ p {
   border-radius: 10px;
   font-weight: 500;
 }
-
 .nav a::before {
   content: "";
   flex: none;
@@ -164,39 +158,33 @@ p {
   border: 1.5px solid #9b7a8a;
   border-radius: 50%;
 }
-
 .nav a.nav-item--icon::before {
   display: none;
 }
-
 .nav-icon {
   display: inline-grid;
   flex: none;
-  width: 16px;
+  width: 15px;
+  height: 15px;
   place-items: center;
   color: #9b7a8a;
   font-size: 15px;
   line-height: 1;
 }
-
 .nav a:hover {
   background: var(--pink-bg);
 }
-
 .nav a[aria-current="page"] {
   background: var(--pink-soft);
   color: #7d1f46;
 }
-
 .nav a[aria-current="page"] .nav-icon {
   color: var(--pink);
 }
-
 .nav a[aria-current="page"]::before {
   border-color: var(--pink);
   background: radial-gradient(circle, var(--pink) 38%, transparent 42%);
 }
-
 .nav a[aria-disabled="true"] {
   color: var(--muted);
 }
@@ -224,18 +212,35 @@ html[data-theme="dark"] .side .nav a:focus-visible .nav-icon {
   color: #fff;
 }
 
+.ai-group {
+  border: 1px solid var(--pink-soft);
+  border-radius: 14px;
+  padding: 10px;
+}
+.ai-group h2 {
+  margin-bottom: 6px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pink);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ai-group .nav a {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
 .user {
   margin-top: auto;
   padding: 12px;
   border: 1px solid var(--pink-soft);
   border-radius: 14px;
 }
-
 .user strong {
   display: block;
   font-size: 16px;
 }
-
 .user span {
   display: block;
   margin: 2px 0 8px;
@@ -257,13 +262,11 @@ html[data-theme="dark"] .side .nav a:focus-visible .nav-icon {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
 h1 {
   font-size: 28px;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
-
 .lead {
   margin: 2px 0 18px;
   color: var(--muted);
@@ -275,18 +278,15 @@ h1 {
   border-radius: var(--radius);
   padding: 18px;
 }
-
 .card h2 {
   font-size: 15px;
   font-weight: 600;
 }
-
 .sub {
   margin-top: 2px;
   font-size: 12px;
   color: var(--muted);
 }
-
 .card-head {
   display: flex;
   justify-content: space-between;
@@ -294,7 +294,6 @@ h1 {
   gap: 12px;
   margin-bottom: 14px;
 }
-
 .stack {
   display: grid;
   gap: 16px;
@@ -308,7 +307,6 @@ h1 {
   gap: 6px;
   align-items: center;
 }
-
 .chip {
   display: inline-flex;
   align-items: center;
@@ -322,36 +320,29 @@ h1 {
   font-weight: 600;
   white-space: nowrap;
 }
-
 .chip.green {
   background: var(--green-bg);
   color: var(--green);
 }
-
 .chip.amber {
   background: var(--amber-bg);
   color: var(--amber);
 }
-
 .chip.indigo {
   background: var(--indigo-bg);
   color: var(--indigo);
 }
-
 .chip.red {
   background: var(--red-bg);
   color: var(--red);
 }
-
 .chip.big {
   padding: 5px 12px;
   font-size: 12.5px;
 }
-
 button.chip {
   cursor: pointer;
 }
-
 button.chip[aria-pressed="true"] {
   box-shadow: 0 0 0 2px var(--pink);
 }
@@ -365,26 +356,21 @@ button.chip[aria-pressed="true"] {
   cursor: pointer;
   transition: background-color 0.15s;
 }
-
 .btn:hover {
   background: var(--pink-bg);
 }
-
 .btn.primary {
   background: var(--pink);
   border-color: var(--pink);
   color: #fff;
 }
-
 .btn.primary:hover {
   background: var(--pink-dark);
 }
-
 .btn.ghost {
   border-color: transparent;
   background: none;
 }
-
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -401,7 +387,6 @@ html[data-theme="dark"] textarea {
   background-color: var(--card);
   color: var(--ink);
 }
-
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -426,7 +411,6 @@ html[data-theme="dark"] textarea {
   padding: 0;
   list-style: none;
 }
-
 .rows li {
   display: flex;
   justify-content: space-between;
@@ -445,18 +429,14 @@ html[data-theme="dark"] textarea {
   gap: 8px;
   margin-left: auto;
 }
-
 .table-wrap {
-  width: 100%;
   overflow-x: auto;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 12.5px;
 }
-
 th {
   padding: 10px 12px;
   background: var(--pink-bg);
@@ -467,28 +447,23 @@ th {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-
 td {
   padding: 14px 12px;
   border-bottom: 1px solid var(--line);
 }
-
 tbody tr {
   cursor: pointer;
 }
-
 tbody tr:hover,
 tbody tr[aria-current="true"] {
   background: var(--pink-bg);
 }
-
 td.empty {
   padding: 28px;
   text-align: center;
   color: var(--muted);
   cursor: default;
 }
-
 .avatar {
   display: grid;
   place-items: center;
@@ -500,7 +475,6 @@ td.empty {
   font-size: 11px;
   font-weight: 700;
 }
-
 .kv {
   display: flex;
   justify-content: space-between;
@@ -508,7 +482,6 @@ td.empty {
   padding: 6px 0;
   font-size: 12.5px;
 }
-
 .kv b {
   font-weight: 600;
 }
@@ -759,6 +732,11 @@ td.empty {
   color: var(--muted);
 }
 
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .portal-table {
   width: 100%;
   border-collapse: collapse;
@@ -903,7 +881,6 @@ td.empty {
     opacity 0.25s,
     transform 0.25s;
 }
-
 .toast.show {
   opacity: 1;
   transform: translate(-50%, 0);
@@ -914,27 +891,22 @@ td.empty {
   .app {
     grid-template-columns: 1fr;
   }
-
   .side {
     position: static;
     height: auto;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
-
   .side .nav {
     flex-direction: row;
     flex-wrap: wrap;
   }
-
   .user {
     display: none;
   }
-
   .main {
     padding: 18px 16px 40px;
   }
-
   .filters {
     margin-left: 0;
   }
@@ -951,29 +923,4 @@ td.empty {
   .btn {
     transition: none;
   }
-}
-
-/* Liên kết chuyển giữa hai khu vực demo và chân trang ngữ nghĩa. */
-.role-switcher {
-  display: grid;
-  gap: 4px;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  color: var(--muted);
-  font-size: 11px;
-}
-.role-switcher a {
-  color: var(--pink);
-  font-weight: 650;
-}
-.role-switcher a:hover {
-  text-decoration: underline;
-}
-.app-footer {
-  margin-top: 28px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 11px;
 }
