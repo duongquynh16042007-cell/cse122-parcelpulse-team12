@@ -6,8 +6,8 @@ ParcelPulse là bản demo giao diện cho quy trình giao nhận, tập trung v
 
 ### Điều hành
 
-- [Tổng quan điều hành](page/dispatcher-overview.html): KPI, biểu đồ sản lượng, cảnh báo và gợi ý ưu tiên theo quy tắc.
-- [Hàng đợi ngoại lệ](page/dispatcher-exceptions.html): tìm kiếm, lọc, xem chi tiết, cập nhật quyết định và gợi ý xử lý.
+- [Tổng quan điều hành](page/dispatcher-overview.html): KPI, biểu đồ sản lượng và cảnh báo.
+- [Hàng đợi ngoại lệ](page/dispatcher-exceptions.html): tìm kiếm, lọc, xem chi tiết và cập nhật quyết định xử lý.
 - [Phân công lại](page/dispatcher-reassign.html): chọn điểm dừng/tài xế, so sánh tải và ETA, lưu nháp hoặc xác nhận điều chuyển.
 
 ### Quản trị viên
@@ -25,26 +25,17 @@ Mở thư mục bằng VS Code, chạy Live Server rồi vào `page/dispatcher-o
 ```text
 page/   Sáu trang HTML theo hai vai trò
 css/    Token và kiểu dùng chung, điều hành, quản trị, hồ sơ
-js/     Tương tác điều hành, quản trị, hồ sơ và gợi ý cục bộ
-docs/   Đề xuất sản phẩm, luồng người dùng, kiểm kê màn hình, khai báo AI
+js/     Tương tác điều hành, quản trị và hồ sơ
 ```
 
 ## Công nghệ và dữ liệu
 
 - HTML5 ngữ nghĩa, CSS thuần với design tokens, JavaScript thuần thao tác DOM.
-- `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ, nháp/phân công và lịch sử gợi ý trên trình duyệt hiện tại.
+- `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ và nháp/phân công trên trình duyệt hiện tại.
 - Trang quản lý người dùng có 15 hồ sơ demo; hàng đợi ngoại lệ hiện gồm 5 hồ sơ mẫu.
 - CSV được tạo ở phía trình duyệt.
-- Ba vùng gợi ý Điều hành là **mô phỏng quy tắc**, không gọi API AI/LLM và không dùng dữ liệu giao nhận trực tiếp. Người dùng phải kiểm tra trước khi áp dụng.
 
-## Tài liệu dự án
-
-- [Đề xuất sản phẩm và phạm vi](docs/project-proposal.md)
-- [Sơ đồ trang và luồng người dùng](docs/user-flows.md)
-- [Bảng kiểm kê màn hình](docs/screen-inventory.md)
-- [Báo cáo sử dụng AI](docs/ai-usage-report.md)
-
-Barem đính kèm khuyến nghị nhiều vai trò hơn; phạm vi hiện tại giữ hai vai trò theo yêu cầu trước đó, cần xác nhận với giảng viên. Các ô “Nhóm bổ sung” trong kiểm kê chưa có minh chứng thật. Nhóm cần thêm Task ID, người phụ trách, PR/reviewer, link deploy và video OBS có người trình bày cho từng màn hình. Playlist YouTube bên dưới là tài liệu tham khảo, không phải video OBS của dự án.
+Barem đính kèm khuyến nghị nhiều vai trò hơn; phạm vi hiện tại giữ hai vai trò theo yêu cầu trước đó. Nhóm cần xác nhận phạm vi này với giảng viên và tự bổ sung minh chứng Task, PR/reviewer, deploy và OBS thực tế nếu được yêu cầu. Playlist YouTube bên dưới là tài liệu tham khảo.
 
 ## Giới hạn
 

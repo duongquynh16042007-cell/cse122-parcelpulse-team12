@@ -62,23 +62,6 @@
           <h1>Phân công lại</h1>
           <p class="lead">So sánh năng lực tài xế trước khi điều chuyển.</p>
         </header>
-
-        <section class="card ai-panel" data-ai-feature="route" aria-labelledby="ai-route-title">
-          <div class="card-head"><div><h2 id="ai-route-title">Gợi ý tài xế điều chuyển</h2><p class="sub">So sánh dữ liệu tải và ETA mẫu; kết quả không tự điều chuyển.</p></div></div>
-          <label class="ai-label" for="ai-route-input">Ràng buộc bổ sung
-            <textarea id="ai-route-input" data-ai-input rows="2" placeholder="Ví dụ: ưu tiên tài xế có ETA thấp hơn 10 phút"></textarea>
-          </label>
-          <div class="actions"><button class="btn primary" type="button" data-ai-run>Đề xuất tài xế</button></div>
-          <p class="ai-state" data-ai-state role="status" aria-live="polite">Chọn điểm dừng trước khi đề xuất.</p>
-          <div data-ai-output hidden>
-            <p data-ai-summary></p><p data-ai-confidence class="sub"></p><ul data-ai-factors></ul>
-            <label class="ai-label" for="ai-route-edit">Ghi chú điều chuyển (có thể chỉnh)
-              <textarea id="ai-route-edit" data-ai-edit rows="2"></textarea>
-            </label>
-            <div class="actions"><button class="btn primary" type="button" data-ai-accept>Chấp nhận</button><button class="btn" type="button" data-ai-edit-action>Chỉnh sửa</button><button class="btn" type="button" data-ai-reject>Từ chối</button><button class="btn" type="button" data-ai-regenerate>Tạo lại</button><button class="btn" type="button" data-ai-save disabled>Áp dụng gợi ý</button></div>
-          </div>
-        </section>
-
         <div class="re">
           <!-- Cột 1: đơn cần chuyển -->
           <section class="card" aria-labelledby="stops-title">
@@ -282,6 +265,5 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="../js/dispatcher.js" defer></script>
     <script src="../js/role-pages.js" defer></script>
-    <script src="../js/decision-support.js" defer></script>
   </body>
 </html>

@@ -358,63 +358,6 @@
   height: auto;
 }
 
-/* Gợi ý quy tắc nghiệp vụ: công khai nguồn và cho phép kiểm soát kết quả. */
-.ai-panel {
-  margin: 16px 0;
-}
-.ai-panel .card-head {
-  margin-bottom: 10px;
-}
-.ai-label {
-  display: grid;
-  gap: 6px;
-  color: var(--ink);
-  font-size: 12px;
-  font-weight: 600;
-}
-.ai-panel textarea {
-  width: 100%;
-  min-height: 52px;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--card);
-  color: var(--ink);
-  font: inherit;
-  resize: vertical;
-}
-.ai-panel textarea:focus-visible {
-  outline: 3px solid #f2a1bd;
-  outline-offset: 1px;
-}
-.ai-state {
-  margin-top: 10px;
-  color: var(--muted);
-}
-.ai-state[data-tone="loading"] {
-  color: var(--indigo);
-}
-.ai-state[data-tone="error"] {
-  color: var(--red);
-}
-.ai-state[data-tone="success"] {
-  color: var(--green);
-}
-.ai-panel [data-ai-output] {
-  display: grid;
-  gap: 8px;
-  margin-top: 12px;
-}
-.ai-panel [data-ai-output] ul {
-  margin: 0;
-  padding-left: 20px;
-  color: var(--muted);
-}
-.ai-panel button:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
 @media (max-width: 1180px) {
   .kpis {
     grid-template-columns: repeat(2, 1fr);

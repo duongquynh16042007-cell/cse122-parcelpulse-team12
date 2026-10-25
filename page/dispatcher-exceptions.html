@@ -62,23 +62,6 @@
           <h1>Hàng đợi ngoại lệ</h1>
           <p class="lead">Ưu tiên ngoại lệ và xử lý theo thời hạn SLA.</p>
         </header>
-
-        <section class="card ai-panel" data-ai-feature="exception" aria-labelledby="ai-exception-title">
-          <div class="card-head"><div><h2 id="ai-exception-title">Gợi ý xử lý ngoại lệ đang chọn</h2><p class="sub">Dựa trên loại, mức ưu tiên và SLA mẫu; cần điều phối viên kiểm tra.</p></div></div>
-          <label class="ai-label" for="ai-exception-input">Ghi chú bổ sung
-            <textarea id="ai-exception-input" data-ai-input rows="2" placeholder="Bổ sung thông tin đã xác minh (không nhập dữ liệu nhạy cảm)"></textarea>
-          </label>
-          <div class="actions"><button class="btn primary" type="button" data-ai-run>Phân tích ngoại lệ đang chọn</button></div>
-          <p class="ai-state" data-ai-state role="status" aria-live="polite">Chọn một ngoại lệ trong bảng để bắt đầu.</p>
-          <div data-ai-output hidden>
-            <p data-ai-summary></p><p data-ai-confidence class="sub"></p><ul data-ai-factors></ul>
-            <label class="ai-label" for="ai-exception-edit">Chỉnh gợi ý trước khi lưu
-              <textarea id="ai-exception-edit" data-ai-edit rows="2"></textarea>
-            </label>
-            <div class="actions"><button class="btn primary" type="button" data-ai-accept>Chấp nhận</button><button class="btn" type="button" data-ai-edit-action>Chỉnh sửa</button><button class="btn" type="button" data-ai-reject>Từ chối</button><button class="btn" type="button" data-ai-regenerate>Tạo lại</button><button class="btn" type="button" data-ai-save disabled>Lưu/áp dụng</button></div>
-          </div>
-        </section>
-
         <section class="card" aria-label="Danh sách ngoại lệ">
           <div class="toolbar">
             <div class="search">
@@ -291,6 +274,5 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="../js/dispatcher.js" defer></script>
     <script src="../js/role-pages.js" defer></script>
-    <script src="../js/decision-support.js" defer></script>
   </body>
 </html>
