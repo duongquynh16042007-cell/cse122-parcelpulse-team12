@@ -36,9 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const registerSharedRecord = (record) => {
     const records = getSharedRecords();
     const now = new Date().toISOString();
-    const id =
-      record.id ||
-      `REC-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    const id = record.id || `REC-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     const previous = records.find((item) => item.id === id);
     const next = {
       id,
