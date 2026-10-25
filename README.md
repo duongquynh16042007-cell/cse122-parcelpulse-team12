@@ -16,6 +16,13 @@ ParcelPulse là bản demo giao diện cho quy trình giao nhận, tập trung v
 - [Quản lý người dùng](page/admin-user-management.html): tìm/lọc, tạo, sửa, khóa/mở khóa và xóa tài khoản demo.
 - [Báo cáo logistics](page/admin-logistics-report.html): chọn kỳ báo cáo, xem số liệu, lưu lựa chọn và tải CSV.
 
+### Tính năng AI số 3 — Copilot dùng chung
+
+- Có trên cả sáu màn hình Điều hành và Quản trị viên; mở bằng nút **AI Copilot** ở góc dưới.
+- Phân tích ngữ cảnh của màn đang mở, tìm ngoại lệ ưu tiên, gợi ý tài xế, duyệt người dùng chờ kích hoạt, cập nhật trạng thái hoặc lưu trữ trạng thái tùy chỉnh.
+- Copilot yêu cầu người dùng xem lại và xác nhận các thao tác quan trọng; thao tác được chuyển qua các luồng CRUD hiện có.
+- Đây là bản demo dùng quy tắc cục bộ và dữ liệu mẫu. Không gọi mô hình AI hoặc API từ xa; không xác minh danh tính, không tự quyết định vận hành thật.
+
 ## Chạy dự án
 
 Mở thư mục bằng VS Code, chạy Live Server rồi vào `page/dispatcher-overview.html`. Các trang quản trị có thể mở từ `page/admin-status-management.html`. Không cần cài thư viện ngoài.
@@ -31,6 +38,7 @@ js/     Tương tác điều hành, quản trị và hồ sơ
 ## Công nghệ và dữ liệu
 
 - HTML5 ngữ nghĩa, CSS thuần với design tokens, JavaScript thuần thao tác DOM.
+- AI Copilot demo chạy bằng JavaScript phía trình duyệt; chưa tích hợp LLM/backend.
 - `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ và nháp/phân công trên trình duyệt hiện tại.
 - Trang quản lý người dùng có 15 hồ sơ demo; hàng đợi ngoại lệ hiện gồm 5 hồ sơ mẫu.
 - CSV được tạo ở phía trình duyệt.
