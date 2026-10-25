@@ -1,6 +1,8 @@
 /* ParcelPulse role-specific interactions. */
 document.addEventListener("DOMContentLoaded", () => {
-  const { $, $$, read, write, toast, announce } = window.ParcelPulseRolePages;
+  const {
+    $, $$, read, write, toast, announce, registerSharedRecord,
+  } = window.ParcelPulseRolePages;
 
   /* ===== Driver: route and stops ===== */
   const routeStops = $$(".route-stop");
@@ -86,6 +88,18 @@ document.addEventListener("DOMContentLoaded", () => {
             ? [...new Set([...completedStops, stop.dataset.stop])]
             : completedStops.filter((id) => id !== stop.dataset.stop),
         );
+        registerSharedRecord({
+          id: `driver-stop:${stop.dataset.stop}`,
+          sourceRole: "Nhân viên giao hàng",
+          sourceType: "Cập nhật điểm giao",
+          reference: stop.dataset.stop,
+          title: `${isComplete ? "Xác nhận đã giao" : "Mở lại"} ${stop.dataset.stop}`,
+          summary: isComplete
+            ? "Nhân viên giao hàng đã đánh dấu điểm giao hoàn tất; chờ quản trị viên đối soát."
+            : "Điểm giao đã được mở lại trong dữ liệu demo.",
+          status: isComplete ? "pending" : "cancelled",
+          payload: { stop: stop.dataset.stop, completed: isComplete },
+        });
         renderStops();
         toast(
           stop.dataset.status === "completed"
@@ -129,6 +143,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const completed = read("completedStops", []);
       if (!completed.includes(stopId)) completed.push(stopId);
       write("completedStops", completed);
+      registerSharedRecord({
+        id: `driver-proof:${stopId}`,
+        sourceRole: "Nhân viên giao hàng",
+        sourceType: "Bằng chứng bàn giao",
+        reference: stopId,
+        title: `Xác nhận bàn giao ${stopId}`,
+        summary: `Đã ghi nhận người nhận ${name}. Mã bàn giao được kiểm tra trong bản demo và không lưu vào hồ sơ quản trị.`,
+        status: "pending",
+        payload: { stop: stopId, recipientName: name, verified: true },
+      });
       announce(
         $("#proof-status"),
         `Đã ghi nhận giao kiện ${stopId} trong bản demo. Không gửi bằng chứng ra máy chủ.`,
@@ -175,6 +199,17 @@ document.addEventListener("DOMContentLoaded", () => {
         createdAt: new Date().toISOString(),
       });
       write("driverExceptions", exceptions.slice(0, 20));
+      registerSharedRecord({
+        id: `driver-exception:${id}`,
+        sourceRole: "Nhân viên giao hàng",
+        sourceType: "Ngoại lệ giao hàng",
+        reference: $("#exception-stop").value,
+        title: `${category.value} tại ${$("#exception-stop").value}`,
+        summary: note.value.trim(),
+        status: "pending",
+        payload: { exceptionId: id, stop: $("#exception-stop").value, category: category.value },
+        createdAt: exceptions[0].createdAt,
+      });
       announce(
         $("#exception-status"),
         `Đã tạo ngoại lệ ${id} trong dữ liệu demo và giữ nguyên quyền chỉnh sửa trước khi xử lý.`,

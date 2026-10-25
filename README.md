@@ -24,7 +24,7 @@ git/
 │   ├── driver.css                # Nhân viên giao hàng
 │   ├── dispatcher.css            # Điều phối viên
 │   ├── admin.css                 # Quản trị viên
-│   ├── assistant.css             # Tiện ích trợ lý mô phỏng
+│   ├── pulse-ai.css              # Giao diện Pulse AI
 │   └── settings.css              # Cài đặt
 ├── js/
 │   ├── home.js                   # Tương tác trang chủ
@@ -34,7 +34,7 @@ git/
 │   ├── driver-pages.js           # Chức năng Nhân viên giao hàng
 │   ├── dispatcher.js             # Chức năng Điều phối viên
 │   ├── admin-pages.js            # Chức năng Quản trị viên
-│   ├── assistant.js              # Tiện ích trợ lý mô phỏng
+│   ├── pulse-ai.js               # Trợ lý Pulse AI
 │   └── settings-page.js          # Cài đặt dùng chung
 └── page/                         # Tất cả trang HTML
     ├── index.html
@@ -71,6 +71,13 @@ git/
 - [`page/delivery-preferences.html`](page/delivery-preferences.html): cập nhật tùy chọn nhận hàng demo.
 - [`page/delivery-feedback.html`](page/delivery-feedback.html): gửi đánh giá và phản hồi demo.
 
+### Tính năng AI số 3 — Pulse AI dùng chung
+
+- Có trên các màn hình Điều phối viên và Quản trị viên; mở bằng nút **Pulse AI** ở góc dưới.
+- Phân tích ngữ cảnh của màn đang mở, tìm ngoại lệ ưu tiên, gợi ý tài xế, duyệt người dùng chờ kích hoạt, cập nhật trạng thái hoặc lưu trữ trạng thái tùy chỉnh.
+- Pulse AI yêu cầu người dùng xem lại và xác nhận các thao tác quan trọng; thao tác được chuyển qua các luồng CRUD hiện có.
+- Đây là bản demo dùng quy tắc cục bộ và dữ liệu mẫu. Không gọi mô hình AI hoặc API từ xa; không xác minh danh tính, không tự quyết định vận hành thật.
+
 ### Nhân viên giao hàng
 
 - [`page/driver-route-stops.html`](page/driver-route-stops.html): xem, tìm kiếm, lọc và cập nhật điểm giao mẫu.
@@ -87,6 +94,7 @@ git/
 
 - [`page/admin-status-management.html`](page/admin-status-management.html): quản lý trạng thái giao nhận mẫu.
 - [`page/admin-user-management.html`](page/admin-user-management.html): tìm/lọc và quản lý tài khoản demo.
+- [`page/admin-status-management.html`](page/admin-status-management.html): ngoài quản lý trạng thái, trang này hiển thị hàng đợi dữ liệu từ các vai trò; quản trị viên có thể lọc, duyệt, hủy hoặc lưu trữ.
 - [`page/admin-logistics-report.html`](page/admin-logistics-report.html): báo cáo dữ liệu mẫu và tải CSV được tạo trên trình duyệt.
 
 ### Cài đặt dùng chung
@@ -97,10 +105,17 @@ git/
 
 Mở thư mục dự án trong VS Code, chạy Live Server và truy cập `page/index.html`. Có thể mở trực tiếp từng trang trong danh sách trên. Không cần cài thư viện hoặc chạy bước build.
 
+- HTML5 ngữ nghĩa, CSS thuần với design tokens, JavaScript thuần thao tác DOM.
+- Pulse AI demo chạy bằng JavaScript phía trình duyệt; chưa tích hợp LLM/backend.
+- `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ và nháp/phân công trên trình duyệt hiện tại.
+- Các thao tác tạo/cập nhật điểm giao, bằng chứng bàn giao, ngoại lệ, tùy chọn giao nhận, phản hồi và quyết định/phân công điều phối được đưa vào `parcelpulse.sharedRecords`. Quản trị viên xem và xử lý chúng trong trang quản lý trạng thái hiện có.
+- Trang quản lý người dùng có 15 hồ sơ demo; hàng đợi ngoại lệ hiện gồm 5 hồ sơ mẫu.
+- CSV được tạo ở phía trình duyệt.
+
 ## Công nghệ và giới hạn
 
 - HTML5, CSS thuần và JavaScript thuần; không sử dụng framework giao diện.
-- Một số dữ liệu demo được lưu bằng `localStorage` hoặc `sessionStorage` trên trình duyệt hiện tại.
+- Dữ liệu liên vai trò dùng `localStorage` trên cùng trình duyệt và cùng origin (ví dụ cùng địa chỉ Live Server); dữ liệu không đồng bộ giữa thiết bị hoặc trình duyệt khác.
 - Đăng nhập, giao nhận, điều phối, quản trị, cài đặt và trợ lý (nếu hiển thị) chỉ mô phỏng; không có backend, API logistics thật hoặc đồng bộ dữ liệu.
 - Báo cáo CSV được tạo ngay trong trình duyệt. Ảnh được chọn trong biểu mẫu không được tải lên máy chủ.
 
