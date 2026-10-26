@@ -61,7 +61,7 @@ git/
 │   ├── ai-usage-report.md
 │   ├── roles-and-features.md
 │   ├── screen-list.md
-│   ├── team-assignment.md
+│   └── team-assignment.md
 ├── css/                 # Kiểu dùng chung và theo từng khu vực
 ├── js/                  # Tương tác DOM và xử lý dữ liệu demo
 └── page/                # Các màn hình HTML của ứng dụng
@@ -102,6 +102,9 @@ Dự án không cần cài thư viện hoặc chạy bước build.
 - [Báo cáo sử dụng AI](docs/ai-usage-report.md)
 - [Bản demo triển khai](https://duongquynh16042007-cell.github.io/cse122-parcelpulse-team12/page/index.html)
 - [Figma](https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=zDJNyxMIUbNaoNGI-1)
-- [YouTube — Playlist 1](https://www.youtube.com/playlist?list=PLdwaB8kTRTB0)
-- [YouTube — Playlist 2](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
+- [YouTube]
+- [Hung](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
+- [Quan](https://www.youtube.com/playlist?list=PLQj4UhvHFinY)
+- [Quynh](https://www.youtube.com/playlist?list=PLFuFhj5IUmMU)
+- [trello](https://trello.com/b/LKDknIdj/nhom-12-n%E1%BB%81n-t%E1%BA%A3ng-web)
 - [GitHub](https://github.com/duongquynh16042007-cell/cse122-parcelpulse-team12)
