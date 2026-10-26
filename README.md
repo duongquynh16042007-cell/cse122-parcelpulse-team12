@@ -59,7 +59,6 @@ git/
 ├── README.md
 ├── docs/
 │   ├── ai-usage-report.md
-│   ├── project-proposal.md
 │   ├── roles-and-features.md
 │   ├── screen-list.md
 │   └── team-assignment.md
@@ -97,7 +96,6 @@ Dự án không cần cài thư viện hoặc chạy bước build.
 
 ## Tài liệu và liên kết
 
-- [Đề xuất dự án](docs/project-proposal.md)
 - [Vai trò và chức năng](docs/roles-and-features.md)
 - [Danh sách màn hình](docs/screen-list.md)
 - [Phân công nhóm](docs/team-assignment.md)
