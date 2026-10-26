@@ -102,7 +102,7 @@ Dự án không cần cài thư viện hoặc chạy bước build.
 - [Bản demo triển khai](https://duongquynh16042007-cell.github.io/cse122-parcelpulse-team12/page/index.html)
 - [Figma](https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=zDJNyxMIUbNaoNGI-1)
 - [YouTube]
-(https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
-(https://www.youtube.com/playlist?list=PLQj4UhvHFinY)
-(https://www.youtube.com/playlist?list=PLFuFhj5IUmMU)
+- [Hung](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
+- [Quan](https://www.youtube.com/playlist?list=PLQj4UhvHFinY)
+- [Quynh](https://www.youtube.com/playlist?list=PLFuFhj5IUmMU)
 - [GitHub](https://github.com/duongquynh16042007-cell/cse122-parcelpulse-team12)
