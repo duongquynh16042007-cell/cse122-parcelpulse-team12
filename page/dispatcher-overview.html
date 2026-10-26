@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Điều hành hôm nay — ParcelPulse</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <link rel="stylesheet" href="../css/dispatcher.css" />
+    <link rel="stylesheet" href="../css/pulse-ai.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="side">
+        <a class="brand" href="dispatcher-overview.html"
+          ><span class="logo" aria-hidden="true">P</span>ParcelPulse</a
+        >
+        <span class="role-chip">Điều phối viên</span>
+
+        <nav class="nav" aria-label="Điều hướng chính">
+          <a
+            class="nav-item--icon"
+            href="dispatcher-overview.html"
+            aria-current="page"
+            ><span class="nav-icon" aria-hidden="true">▦</span>Điều hành</a
+          >
+          <a class="nav-item--icon" href="dispatcher-exceptions.html"
+            ><span class="nav-icon" aria-hidden="true">☷</span>Hàng đợi</a
+          >
+          <a class="nav-item--icon" href="dispatcher-reassign.html"
+            ><span class="nav-icon" aria-hidden="true">⇄</span>Phân công</a
+          >
+        </nav>
+        <div class="nav">
+          <a class="settings-trigger" href="settings.html?role=dispatcher">
+            <span class="nav-icon" aria-hidden="true">⚙</span>Cài đặt
+          </a>
+        </div>
+
+        <div class="user">
+          <strong>Minh Anh</strong>
+          <span>Trực tuyến • Ca 08:00–17:00</span>
+          <span class="chip amber">Thông báo: 3</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header>
+          <p class="eyebrow">Điều phối viên</p>
+          <h1>Điều hành hôm nay</h1>
+          <p class="lead">
+            Sức khỏe mạng lưới và điểm nghẽn theo thời gian thực.
+          </p>
+        </header>
+        <section class="kpis" aria-label="Chỉ số chính">
+          <article class="card kpi">
+            <div class="top">
+              <span>Đang vận chuyển</span><i class="dot"></i>
+            </div>
+            <strong>1.248</strong>
+            <small>+8,2% hôm qua</small>
+          </article>
+          <article class="card kpi green">
+            <div class="top"><span>Giao đúng hẹn</span><i class="dot"></i></div>
+            <strong>94,6%</strong>
+            <small>+1,4 điểm</small>
+          </article>
+          <article class="card kpi amber">
+            <div class="top"><span>Ngoại lệ mở</span><i class="dot"></i></div>
+            <strong>36</strong>
+            <small>12 cần xử lý</small>
+          </article>
+          <article class="card kpi indigo">
+            <div class="top"><span>ETA rủi ro</span><i class="dot"></i></div>
+            <strong>82</strong>
+            <small>6,6% đang giao</small>
+          </article>
+        </section>
+
+        <div class="ov">
+          <div class="stack">
+            <section class="card" aria-labelledby="chart-title">
+              <div class="card-head">
+                <div>
+                  <h2 id="chart-title">Sản lượng giao theo giờ</h2>
+                  <p class="sub" id="chart-sub">788 kiện đã nhận đơn hôm nay</p>
+                </div>
+                <div class="chips" role="group" aria-label="Chọn ngày">
+                  <button
+                    class="chip"
+                    type="button"
+                    data-range="today"
+                    aria-pressed="true"
+                  >
+                    Hôm nay
+                  </button>
+                  <button
+                    class="chip"
+                    type="button"
+                    data-range="yesterday"
+                    aria-pressed="false"
+                  >
+                    Hôm qua
+                  </button>
+                </div>
+              </div>
+              <div
+                class="chart"
+                id="chart"
+                role="img"
+                aria-label="Biểu đồ cột sản lượng giao theo giờ"
+              ></div>
+              <div class="axis" aria-hidden="true">
+                <span>08:00</span><span>10:00</span><span>12:00</span>
+                <span>14:00</span><span>16:00</span><span>18:00</span>
+              </div>
+            </section>
+
+            <section class="card" aria-labelledby="perf-title">
+              <div class="card-head">
+                <div>
+                  <h2 id="perf-title">Hiệu suất theo trung tâm</h2>
+                  <p class="sub">SLA giao thành công trong ngày</p>
+                </div>
+              </div>
+              <ul class="rows">
+                <li>
+                  <span><b>Hà Nội 02</b> · Long Biên · 1.842 kiện</span
+                  ><span class="chip green">96,3%</span>
+                </li>
+                <li>
+                  <span><b>Hà Nội 05</b> · Cầu Giấy · 1.226 kiện</span
+                  ><span class="chip amber">94,1%</span>
+                </li>
+                <li>
+                  <span><b>Hà Nội 03</b> · Hà Đông · 1.108 kiện</span
+                  ><span class="chip indigo">91,4%</span>
+                </li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="stack">
+            <section class="map" id="eta" aria-label="Bản đồ rủi ro ETA">
+              <span class="tag">Lớp hiển thị: Rủi ro ETA</span>
+              <svg
+                viewBox="0 0 320 220"
+                role="img"
+                aria-label="Bản đồ nhiệt rủi ro ETA khu vực Hà Nội"
+              >
+                <defs>
+                  <radialGradient id="heat">
+                    <stop offset="0" stop-color="#ff3d6e" stop-opacity=".85" />
+                    <stop offset=".6" stop-color="#ff9a3c" stop-opacity=".45" />
+                    <stop offset="1" stop-color="#ffd27a" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <rect width="320" height="220" fill="#efe6d8" />
+                <path
+                  d="M-10 150 C60 120 90 170 150 140 S260 90 330 110"
+                  stroke="#c9dbe6"
+                  stroke-width="16"
+                  fill="none"
+                />
+                <g stroke="#fff" stroke-width="3" fill="none" opacity=".9">
+                  <path d="M20 20 L300 200" />
+                  <path d="M60 210 L250 10" />
+                  <path d="M0 90 L320 70" />
+                  <path d="M160 0 L170 220" />
+                </g>
+                <circle cx="120" cy="100" r="46" fill="url(#heat)" />
+                <circle cx="190" cy="130" r="38" fill="url(#heat)" />
+                <circle cx="150" cy="70" r="30" fill="url(#heat)" />
+              </svg>
+              <div class="legend">
+                <span><i style="background: #ff3d6e"></i>Cao</span>
+                <span><i style="background: #ff9a3c"></i>Trung bình</span>
+                <span><i style="background: #ffd27a"></i>Thấp</span>
+              </div>
+            </section>
+
+            <section class="card" aria-labelledby="alert-title">
+              <div class="card-head">
+                <div>
+                  <h2 id="alert-title">Cảnh báo ưu tiên</h2>
+                  <p class="sub">3 khu vực cần chú ý</p>
+                </div>
+              </div>
+              <ul class="rows">
+                <li>
+                  <span>Cầu Giấy · Mưa lớn · 18 tuyến ảnh hưởng</span
+                  ><span class="chip red">48 ETA rủi ro</span>
+                </li>
+                <li>
+                  <span>Long Biên · Tắc đường QL5</span
+                  ><span class="chip amber">34 ETA rủi ro</span>
+                </li>
+                <li>
+                  <span>Hà Đông · Thiếu 3 tài xế</span
+                  ><span class="chip indigo">12 đơn chờ gán</span>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../js/dispatcher.js" defer></script>
+    <script src="../js/role-pages.js" defer></script>
+    <script src="../js/pulse-ai.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<!-- Trang đăng ký tài khoản. -->
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo tài khoản — ParcelPulse</title>
+<script src="../js/auth.js" defer></script>
+    <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/register.css">
+</head>
+  <body>
+    <div class="auth">
+      <a
+        class="brand"
+        href="index.html"
+        aria-label="ParcelPulse — về trang chủ"
+      >
+        <span class="logo"><span class="ico i-pulse"></span></span>
+        <span><b>ParcelPulse</b><small>Hệ thống vận hành</small></span>
+      </a>
+
+      <section class="hero" aria-label="Giới thiệu">
+        <span class="badge">Tài khoản mới</span>
+        <p class="headline">
+          Gia nhập mạng lưới. Vận hành liền mạch từ ngày đầu.
+        </p>
+        <p class="sub">
+          Một tài khoản duy nhất để nhận lộ trình, xử lý sự cố và theo dõi toàn
+          bộ đơn hàng — thiết lập chỉ trong vài phút.
+        </p>
+      </section>
+
+      <div class="stat">
+        <span class="ico-box"><span class="ico i-pulse"></span></span>
+        <div>
+          <strong>12.400+</strong>
+          <small>Điểm giao được xử lý mỗi ngày</small>
+        </div>
+      </div>
+
+      <main class="panel">
+        <div class="card">
+          <p class="eyebrow">Tài khoản mới</p>
+          <h1>Tạo tài khoản vận hành</h1>
+          <p class="lead">
+            Điền thông tin và chọn vai trò phù hợp với công việc của bạn.
+          </p>
+
+          <form data-form="register" novalidate>
+            <fieldset>
+              <legend>Vai trò của bạn</legend>
+              <div class="roles">
+                <label class="role">
+                  <input type="radio" name="role" value="recipient" />
+                  <span class="tile"
+                    ><span class="ico i-user"></span><b>Người nhận</b
+                    ><small>Theo dõi và cập nhật giao hàng</small></span
+                  >
+                </label>
+                <label class="role">
+                  <input type="radio" name="role" value="driver" checked />
+                  <span class="tile"
+                    ><span class="ico i-truck"></span><b>Nhân viên giao hàng</b
+                    ><small>Nhận tuyến, báo sự cố</small></span
+                  >
+                </label>
+                <label class="role">
+                  <input type="radio" name="role" value="dispatcher" />
+                  <span class="tile"
+                    ><span class="ico i-route"></span><b>Điều phối viên</b
+                    ><small>Điều phối, xử lý ngoại lệ</small></span
+                  >
+                </label>
+                <label class="role">
+                  <input type="radio" name="role" value="admin" />
+                  <span class="tile"
+                    ><span class="ico i-shield"></span><b>Quản trị viên</b
+                    ><small>Quản trị &amp; báo cáo</small></span
+                  >
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="row">
+              <div class="field">
+                <label for="name">Họ và tên</label>
+                <div class="control">
+                  <span class="ico i-user"></span>
+                  <input
+                    id="name"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="Nguyễn Văn An"
+                    data-rule="name"
+                  />
+                </div>
+                <p class="err" id="name-err"></p>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <div class="control">
+                  <span class="ico i-mail"></span>
+                  <input
+                    id="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="ten@congty.vn"
+                    data-rule="email"
+                  />
+                </div>
+                <p class="err" id="email-err"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Số điện thoại</label>
+              <div class="control">
+                <span class="ico i-phone"></span>
+                <input
+                  id="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="09xx xxx xxx"
+                  data-rule="phone"
+                />
+              </div>
+              <p class="err" id="phone-err"></p>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="password">Mật khẩu</label>
+                <div class="control">
+                  <span class="ico i-lock"></span>
+                  <input
+                    id="password"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="Tối thiểu 8 ký tự"
+                    data-rule="newPass"
+                  />
+                  <button
+                    type="button"
+                    class="eye"
+                    aria-label="Hiện mật khẩu"
+                    aria-pressed="false"
+                  >
+                    <span class="ico i-eye"></span>
+                  </button>
+                </div>
+                <p class="err" id="password-err"></p>
+              </div>
+              <div class="field">
+                <label for="confirm">Xác nhận mật khẩu</label>
+                <div class="control">
+                  <span class="ico i-lock"></span>
+                  <input
+                    id="confirm"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="Nhập lại mật khẩu"
+                    data-rule="match"
+                  />
+                  <button
+                    type="button"
+                    class="eye"
+                    aria-label="Hiện mật khẩu"
+                    aria-pressed="false"
+                  >
+                    <span class="ico i-eye"></span>
+                  </button>
+                </div>
+                <p class="err" id="confirm-err"></p>
+              </div>
+            </div>
+
+            <div class="notice warn" id="admin-note" role="note" hidden>
+              <span class="ico i-info"></span>
+              <span
+                >Tài khoản Quản trị viên cần được duyệt trước khi kích hoạt. Bạn
+                sẽ nhận thông báo khi được chấp thuận.</span
+              >
+            </div>
+
+            <div class="field">
+              <label class="check">
+                <input type="checkbox" id="terms" data-rule="terms" />
+                <span
+                  >Tôi đồng ý với <b>Điều khoản sử dụng</b> và
+                  <b>Chính sách bảo mật</b>.</span
+                >
+              </label>
+              <p class="err" id="terms-err"></p>
+            </div>
+
+            <button type="submit" class="btn">
+              Tạo tài khoản <span class="ico i-right"></span>
+            </button>
+            <p class="status" id="status" role="status"></p>
+          </form>
+
+          <p class="switch">
+            Đã có tài khoản? <a href="login.html">Đăng nhập</a>
+          </p>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

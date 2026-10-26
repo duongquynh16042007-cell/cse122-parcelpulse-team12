@@ -1,4 +1,4 @@
-/* ParcelPulse pulse-ai demo.
+/* ParcelPulse Pulse AI demo.
    Local rule-based assistance only; no remote AI model or API is called. */
 (() => {
   "use strict";
@@ -21,6 +21,8 @@
     if (document.querySelector("[data-copilot-root]")) return;
     document.querySelector(".ai-chat")?.remove();
     document.querySelector(".ai-chat-launcher")?.remove();
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.querySelector("[data-copilot-root]")) return;
 
     const roleName =
       document.querySelector(".role-chip")?.textContent.trim() || "ParcelPulse";
@@ -37,7 +39,7 @@
     launcher.type = "button";
     launcher.setAttribute("aria-expanded", "false");
     launcher.setAttribute("aria-controls", "copilot-panel");
-    launcher.innerHTML = '<span aria-hidden="true">✦</span> pulse-ai';
+    launcher.innerHTML = '<span aria-hidden="true">✦</span> Pulse AI';
 
     const panel = document.createElement("section");
     panel.className = "copilot-panel";
@@ -54,15 +56,14 @@
       <header class="copilot-header">
         <div class="copilot-mark" aria-hidden="true">✦</div>
         <div class="copilot-heading">
-          <strong>pulse-ai</strong>
+          <strong>Pulse AI</strong>
           <span>Tính năng AI số 3 · ${escapeHTML(roleName)} · demo</span>
         </div>
         <button class="copilot-close" type="button" aria-label="Đóng trợ lý">×</button>
       </header>
-      <p class="copilot-disclaimer">pulse-ai phân tích dữ liệu mẫu bằng quy tắc cục bộ, chưa kết nối mô hình AI/API. Hãy xem lại đề xuất trước khi duyệt.</p>
-      <div class="copilot-mode-switch" role="tablist" aria-label="Chế độ pulse-ai">
+      <p class="copilot-disclaimer">Pulse AI phân tích dữ liệu mẫu bằng quy tắc cục bộ, chưa kết nối mô hình AI/API. Hãy xem lại đề xuất trước khi duyệt.</p>
+      <div class="copilot-mode-switch" role="tablist" aria-label="Chế độ Pulse AI">
         <button type="button" role="tab" aria-selected="true" class="is-active" data-ai-mode="chat">Trợ lý vận hành</button>
-        <button type="button" role="tab" aria-selected="false" data-ai-mode="exception">Ngoại lệ · NBA</button>
         <button id="eta-mode-tab" type="button" role="tab" aria-selected="false" data-ai-mode="eta">AI-2 · Giải thích ETA</button>
       </div>
       <div class="copilot-workspace">
@@ -127,6 +128,15 @@
               <p class="eta-decision" id="eta-decision" role="status" aria-live="polite" hidden></p>
               <div class="eta-decision-actions" aria-label="Xử lý kết quả ETA">
                 <button class="copilot-action" id="eta-accept" type="button">Chấp nhận</button>
+              <form id="eta-edit-form" class="eta-edit-form" hidden>
+                <label>Giờ đến đề xuất<input id="eta-edit-time" type="time" required /></label>
+                <label>Ghi chú điều chỉnh<textarea id="eta-edit-note" rows="2" maxlength="240" placeholder="Giải thích lý do sửa ETA..."></textarea></label>
+                <div class="eta-form-actions"><button class="copilot-action" type="submit">Áp dụng sửa</button><button class="copilot-action copilot-action--secondary" id="eta-cancel-edit" type="button">Bỏ sửa</button></div>
+              </form>
+              <p class="eta-decision" id="eta-decision" role="status" aria-live="polite" hidden></p>
+              <div class="eta-decision-actions" aria-label="Xử lý kết quả ETA">
+                <button class="copilot-action" id="eta-accept" type="button">Chấp nhận</button>
+                <button class="copilot-action copilot-action--secondary" id="eta-edit" type="button">Sửa</button>
                 <button class="copilot-action copilot-action--secondary" id="eta-reject" type="button">Từ chối</button>
                 <button class="copilot-action copilot-action--secondary" id="eta-regenerate" type="button">Tạo lại</button>
                 <button class="copilot-action copilot-action--secondary" id="eta-save" type="button">Lưu</button>
@@ -160,6 +170,7 @@
     let exceptionRevision = 0;
     let lastExceptionInputSignature = "";
     let exceptionPlanRegeneration = 0;
+    const etaEditForm = panel.querySelector("#eta-edit-form");
 
     const etaSamples = {
       "PPVN-4829-1024": {
@@ -345,28 +356,12 @@
         confidence,
         decision: "pending",
         reasons: [
-          [
-            "Thời gian di chuyển",
-            `${input.distanceKm} km, giả định tốc độ trung bình 25 km/h`,
-            driveMinutes,
-          ],
+          ["Thời gian di chuyển", `${input.distanceKm} km, giả định tốc độ trung bình 25 km/h`, driveMinutes],
           ["Giao thông", etaFieldNames.traffic[input.traffic], trafficMinutes],
           ["Thời tiết", etaFieldNames.weather[input.weather], weatherMinutes],
           ["Tải tuyến", etaFieldNames.routeLoad[input.routeLoad], loadMinutes],
-          [
-            "Trạng thái kiện",
-            etaFieldNames.status[input.status],
-            statusMinutes,
-          ],
-          ...(retryMinutes
-            ? [
-                [
-                  "Điều chỉnh khi tạo lại",
-                  "Biên độ mô phỏng của lần chạy lại",
-                  retryMinutes,
-                ],
-              ]
-            : []),
+          ["Trạng thái kiện", etaFieldNames.status[input.status], statusMinutes],
+          ...(retryMinutes ? [["Điều chỉnh khi tạo lại", "Biên độ mô phỏng của lần chạy lại", retryMinutes]] : []),
         ],
         createdAt: new Date().toISOString(),
       };

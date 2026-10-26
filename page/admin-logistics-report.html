@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Báo cáo logistics và SLA giao hàng ParcelPulse."
+    />
+    <title>Báo cáo logistics — ParcelPulse</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="stylesheet" href="../css/pulse-ai.css" />
+    <script src="../js/role-pages.js" defer></script>
+    <script src="../js/admin-pages.js" defer></script>
+    <script src="../js/pulse-ai.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="side">
+        <a class="brand" href="admin-status-management.html"
+          ><span class="logo" aria-hidden="true">P</span>ParcelPulse</a
+        >
+        <span class="role-chip">Quản trị viên</span>
+        <nav class="nav" aria-label="Điều hướng quản trị">
+          <a class="nav-item--icon" href="admin-status-management.html"
+            ><span class="nav-icon" aria-hidden="true">◷</span>Trạng thái</a
+          >
+          <a class="nav-item--icon" href="admin-user-management.html"
+            ><span class="nav-icon" aria-hidden="true">♙</span>Người dùng</a
+          >
+          <a
+            class="nav-item--icon"
+            href="admin-logistics-report.html"
+            aria-current="page"
+            ><span class="nav-icon" aria-hidden="true">▤</span>Báo cáo
+            logistics</a
+          >
+        </nav>
+        <div class="nav">
+          <a class="settings-trigger" href="settings.html?role=admin">
+            <span class="nav-icon" aria-hidden="true">⚙</span>Cài đặt
+          </a>
+        </div>
+        <div class="user">
+          <strong>Minh Anh</strong><span>Quản trị viên · Dữ liệu mẫu</span
+          ><span class="chip indigo">Có thể xuất CSV</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header>
+          <p class="eyebrow">Quản trị viên · Vận hành &amp; SLA</p>
+          <h1>Báo cáo logistics</h1>
+          <p class="lead" id="report-period-label">
+            Tổng quan sản lượng, đúng hẹn và ngoại lệ.
+          </p>
+        </header>
+
+        <section
+          class="card portal-card"
+          id="logistics-report"
+          aria-labelledby="report-title"
+        >
+          <div class="card-head">
+            <div>
+              <h2 id="report-title">Hiệu suất giao nhận</h2>
+              <p class="sub">
+                Chỉ số minh họa; thay đổi khoảng thời gian để xem các bộ dữ liệu
+                mẫu khác nhau.
+              </p>
+            </div>
+            <label class="portal-label" for="report-range"
+              >Khoảng thời gian
+              <select class="portal-select" id="report-range">
+                <option value="7">7 ngày gần nhất</option>
+                <option value="30" selected>30 ngày gần nhất</option>
+                <option value="90">90 ngày gần nhất</option>
+              </select>
+            </label>
+          </div>
+          <div class="metric-grid" style="margin-top: 16px">
+            <article class="card metric">
+              <span>Kiện đã giao</span
+              ><strong id="report-delivered">42.680</strong
+              ><small>Dữ liệu tổng hợp</small>
+            </article>
+            <article class="card metric">
+              <span>Tỷ lệ đúng hẹn</span
+              ><strong id="report-ontime">95,4%</strong
+              ><small>SLA giao đúng hẹn</small>
+            </article>
+            <article class="card metric">
+              <span>Tỷ lệ ngoại lệ</span
+              ><strong id="report-exceptions">4,2%</strong
+              ><small>Cần theo dõi nguyên nhân</small>
+            </article>
+            <article class="card metric">
+              <span>Thời gian giao TB</span
+              ><strong id="report-average-time">1,6 ngày</strong
+              ><small>Từ lấy đến bàn giao</small>
+            </article>
+          </div>
+          <div class="portal-grid portal-grid--wide">
+            <section class="card portal-card" aria-labelledby="sla-chart-title">
+              <h2 id="sla-chart-title">Tỷ lệ đúng hẹn theo trung tâm</h2>
+              <div
+                class="report-chart"
+                id="report-bars"
+                role="img"
+                aria-label="Tỷ lệ giao đúng hẹn theo trung tâm"
+              ></div>
+              <div class="chart-caption">
+                <span>0%</span><span>Thang đo: tỷ lệ giao đúng hẹn</span
+                ><span>100%</span>
+              </div>
+            </section>
+            <section
+              class="card portal-card"
+              id="center-report"
+              aria-labelledby="center-title"
+            >
+              <h2 id="center-title">Chi tiết theo trung tâm</h2>
+              <div class="table-wrap">
+                <table class="portal-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Trung tâm</th>
+                      <th scope="col">Đúng hẹn</th>
+                      <th scope="col">Số kiện</th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-center-rows"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <p
+            class="portal-message"
+            id="report-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="portal-actions">
+            <button class="btn primary" id="export-report" type="button">
+              Tải CSV
+            </button>
+            <button class="btn" id="save-report" type="button">
+              Lưu bộ lọc báo cáo
+            </button>
+            <a class="btn" href="admin-user-management.html"
+              >Quản lý người dùng</a
+            >
+          </div>
+        </section>
+
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

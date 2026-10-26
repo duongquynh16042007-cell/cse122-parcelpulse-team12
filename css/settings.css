@@ -18,6 +18,34 @@
   margin-top: 4px;
 }
 
+.settings-back {
+  display: inline-flex;
+  min-height: 42px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.settings-back:hover,
+.settings-back:focus-visible {
+  border-color: var(--pink);
+  background: var(--pink-bg);
+}
+
+.settings-back:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--pink) 35%, transparent);
+  outline-offset: 2px;
+}
+
 .settings-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -508,6 +536,17 @@ html[data-theme="dark"] .settings-main .btn:not(.primary):not(.session-logout) {
 }
 
 @media (max-width: 520px) {
+  .settings-heading {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .settings-back {
+    min-height: 38px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
   .settings-fields {
     grid-template-columns: 1fr;
   }

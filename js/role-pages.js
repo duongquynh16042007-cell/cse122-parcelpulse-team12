@@ -28,6 +28,51 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tone) element.dataset.tone = tone;
     else delete element.dataset.tone;
   };
+  const getSharedRecords = () => {
+    const records = read("sharedRecords", []);
+    return Array.isArray(records) ? records : [];
+  };
+  const notifyRecordsChanged = () =>
+    window.dispatchEvent(new CustomEvent("parcelpulse:records-changed"));
+  const registerSharedRecord = (record) => {
+    const records = getSharedRecords();
+    const now = new Date().toISOString();
+    const id = record.id || `REC-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    const previous = records.find((item) => item.id === id);
+    const next = {
+      id,
+      sourceRole: record.sourceRole || "Chưa xác định",
+      sourceType: record.sourceType || "Bản ghi nghiệp vụ",
+      reference: record.reference || "",
+      title: record.title || "Bản ghi mới",
+      summary: record.summary || "",
+      status: record.status || "pending",
+      createdAt: previous?.createdAt || record.createdAt || now,
+      updatedAt: now,
+      ...record,
+      id,
+    };
+    const index = records.findIndex((item) => item.id === id);
+    if (index >= 0) records[index] = next;
+    else records.unshift(next);
+    write("sharedRecords", records.slice(0, 300));
+    notifyRecordsChanged();
+    return next;
+  };
+  const updateSharedRecord = (id, changes) => {
+    const records = getSharedRecords();
+    const index = records.findIndex((item) => item.id === id);
+    if (index < 0) return null;
+    records[index] = {
+      ...records[index],
+      ...changes,
+      id,
+      updatedAt: new Date().toISOString(),
+    };
+    write("sharedRecords", records);
+    notifyRecordsChanged();
+    return records[index];
+  };
   window.ParcelPulseRolePages = Object.freeze({
     $,
     $$,
@@ -35,6 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
     write,
     toast,
     announce,
+    getSharedRecords,
+    registerSharedRecord,
+    updateSharedRecord,
   });
   const assistantScript = document.createElement("script");
   assistantScript.src = new URL(
@@ -232,6 +280,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===== Shared profile and settings drawer ===== */
+  const currentPage = window.location.pathname.split("/").pop();
+  if (currentPage && currentPage !== "settings.html") {
+    $$('a[href*="settings.html"]').forEach((link) => {
+      const target = new URL(link.href, window.location.href);
+      if (!target.pathname.endsWith("/settings.html")) return;
+      target.searchParams.set("return", currentPage);
+      link.href = `settings.html?${target.searchParams.toString()}`;
+    });
+  }
+
   const settingsTrigger = $("[data-open-profile]");
   const roleElement = $(".role-chip");
   if (roleElement) {

@@ -1,0 +1,66 @@
+.report-chart {
+  display: grid;
+  gap: 12px;
+}
+
+.report-bar-row {
+  display: grid;
+  grid-template-columns: minmax(88px, 120px) minmax(0, 1fr) 44px;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.report-bar-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--pink-bg);
+}
+
+.report-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--pink);
+  transition: width 0.2s ease;
+}
+
+.report-bar-row strong {
+  text-align: right;
+}
+
+.editor-panel {
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid var(--pink-soft);
+  border-radius: 14px;
+  background: var(--pink-bg);
+}
+
+.editor-panel[hidden] {
+  display: none;
+}
+
+.account-pill {
+  display: inline-flex;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.chart-caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-bar-fill {
+    transition: none;
+  }
+}
