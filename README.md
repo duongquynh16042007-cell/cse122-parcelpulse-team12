@@ -105,4 +105,5 @@ Dự án không cần cài thư viện hoặc chạy bước build.
 - [Hung](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
 - [Quan](https://www.youtube.com/playlist?list=PLQj4UhvHFinY)
 - [Quynh](https://www.youtube.com/playlist?list=PLFuFhj5IUmMU)
+- [trello](https://trello.com/b/LKDknIdj/nhom-12-n%E1%BB%81n-t%E1%BA%A3ng-web)
 - [GitHub](https://github.com/duongquynh16042007-cell/cse122-parcelpulse-team12)
