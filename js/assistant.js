@@ -1,4 +1,4 @@
-/* ParcelPulse Pulse AI demo.
+/* ParcelPulse pulse-ai demo.
    Local rule-based assistance only; no remote AI model or API is called. */
 (() => {
   "use strict";
@@ -37,7 +37,7 @@
     launcher.type = "button";
     launcher.setAttribute("aria-expanded", "false");
     launcher.setAttribute("aria-controls", "copilot-panel");
-    launcher.innerHTML = '<span aria-hidden="true">✦</span> Pulse AI';
+    launcher.innerHTML = '<span aria-hidden="true">✦</span> pulse-ai';
 
     const panel = document.createElement("section");
     panel.className = "copilot-panel";
@@ -49,18 +49,18 @@
         ? "admin"
         : "driver";
     panel.hidden = true;
-    panel.setAttribute("aria-label", "Pulse AI vận hành ParcelPulse");
+    panel.setAttribute("aria-label", "pulse-ai vận hành ParcelPulse");
     panel.innerHTML = `
       <header class="copilot-header">
         <div class="copilot-mark" aria-hidden="true">✦</div>
         <div class="copilot-heading">
-          <strong>Pulse AI</strong>
+          <strong>pulse-ai</strong>
           <span>Tính năng AI số 3 · ${escapeHTML(roleName)} · demo</span>
         </div>
         <button class="copilot-close" type="button" aria-label="Đóng trợ lý">×</button>
       </header>
-      <p class="copilot-disclaimer">Pulse AI phân tích dữ liệu mẫu bằng quy tắc cục bộ, chưa kết nối mô hình AI/API. Hãy xem lại đề xuất trước khi duyệt.</p>
-      <div class="copilot-mode-switch" role="tablist" aria-label="Chế độ Pulse AI">
+      <p class="copilot-disclaimer">pulse-ai phân tích dữ liệu mẫu bằng quy tắc cục bộ, chưa kết nối mô hình AI/API. Hãy xem lại đề xuất trước khi duyệt.</p>
+      <div class="copilot-mode-switch" role="tablist" aria-label="Chế độ pulse-ai">
         <button type="button" role="tab" aria-selected="true" class="is-active" data-ai-mode="chat">Trợ lý vận hành</button>
         <button type="button" role="tab" aria-selected="false" data-ai-mode="exception">Ngoại lệ · NBA</button>
         <button id="eta-mode-tab" type="button" role="tab" aria-selected="false" data-ai-mode="eta">AI-2 · Giải thích ETA</button>
@@ -76,7 +76,7 @@
             <button type="button" data-copilot-mode="exception" data-exception-task="action">Gợi ý hành động</button>
           </div>
           <form class="copilot-form" id="copilot-form">
-            <label class="sr-only" for="copilot-input">Hỏi Pulse AI</label>
+            <label class="sr-only" for="copilot-input">Hỏi pulse-ai</label>
             <input id="copilot-input" name="prompt" maxlength="240" autocomplete="off" placeholder="Hỏi về việc cần xử lý..." />
             <button type="submit" aria-label="Gửi câu hỏi">Gửi</button>
           </form>
@@ -84,7 +84,7 @@
         <section class="exception-workflow" id="exception-workflow" role="tabpanel" aria-label="Phân loại ngoại lệ và gợi ý hành động" hidden>
           <div class="exception-workflow-scroll">
             <div class="eta-title-row"><div><p class="eta-eyebrow">AI-1 · EXCEPTION CLASSIFIER / NEXT BEST ACTION</p><h2 data-ex-title>Phân loại ngoại lệ</h2></div><span class="eta-mock-badge">Mô phỏng cục bộ</span></div>
-            <p class="eta-intro">Nhập ghi chú hoặc chọn ngoại lệ để Pulse AI phân loại và đề xuất bước xử lý.</p>
+            <p class="eta-intro">Nhập ghi chú hoặc chọn ngoại lệ để pulse-ai phân loại và đề xuất bước xử lý.</p>
             <div class="exception-task-tabs" role="tablist" aria-label="Chọn tính năng ngoại lệ"><button type="button" class="is-active" aria-selected="true" data-ex-task="classify">Exception Classifier</button><button type="button" aria-selected="false" data-ex-task="action">Next Best Action</button></div>
             <section class="exception-input-card"><h3>Thông tin đầu vào</h3><form class="exception-input-form" id="exception-ai-form">
               <div class="exception-field-grid"><label data-ex-scope-label>Phạm vi<select id="ex-scope" name="scope"></select></label><label>Loại ngoại lệ<select id="ex-category" name="category"></select></label><label class="ex-full">Ghi chú tình huống<textarea id="ex-note" name="note" rows="3" maxlength="400" placeholder="Mô tả việc đã xảy ra, thời điểm và các liên hệ đã thử."></textarea></label></div>
@@ -106,7 +106,7 @@
         <section class="eta-workflow" id="eta-workflow" role="tabpanel" aria-labelledby="eta-mode-tab" hidden>
           <div class="eta-workflow-scroll">
             <div class="eta-title-row"><div><p class="eta-eyebrow">AI-2 · ETA EXPLAINABILITY</p><h2>Ước tính thời gian đến</h2></div><span class="eta-mock-badge">Mô phỏng</span></div>
-            <p class="eta-intro">Nhập thông tin tuyến. Pulse AI sẽ tính ETA theo quy tắc mẫu và nêu rõ yếu tố ảnh hưởng.</p>
+            <p class="eta-intro">Nhập thông tin tuyến. pulse-ai sẽ tính ETA theo quy tắc mẫu và nêu rõ yếu tố ảnh hưởng.</p>
             <form class="eta-input-form" id="eta-input-form">
               <label>Mã kiện<input id="eta-parcel-id" name="parcelId" value="PPVN-4829-1024" maxlength="32" required /></label>
               <div class="eta-field-grid">
@@ -1003,7 +1003,7 @@
           category: "",
           confidence: 0,
           title: "Chưa có ghi chú để phân loại",
-          summary: "Nhập mô tả tình huống để Pulse AI đối chiếu dấu hiệu.",
+          summary: "Nhập mô tả tình huống để pulse-ai đối chiếu dấu hiệu.",
           reason: "Không có dữ liệu đầu vào nên chưa thể đưa ra nhóm ngoại lệ.",
           reasons: [
             "Bổ sung việc đã xảy ra, thời điểm và cách liên hệ đã thử.",
@@ -1872,7 +1872,7 @@
 
       if (!visibleStops.length && allStops.length) {
         return {
-          text: "Bộ lọc hiện tại không hiển thị điểm dừng nào. Hãy hiện toàn bộ tuyến để Pulse AI có thể tóm tắt các điểm giao.",
+          text: "Bộ lọc hiện tại không hiển thị điểm dừng nào. Hãy hiện toàn bộ tuyến để pulse-ai có thể tóm tắt các điểm giao.",
           buttons: [{ label: "Hiện toàn bộ tuyến", run: showAllDriverStops }],
         };
       }
@@ -2423,7 +2423,7 @@
       const subtitle = document.querySelector("#chart-sub")?.textContent.trim();
       const peak = document.querySelector("#chart .bar.peak")?.title;
       return {
-        text: `Tổng quan hiện dùng số liệu mẫu${subtitle ? `: ${subtitle}` : ""}${peak ? `. Cột cao nhất ${peak}` : ""}. Pulse AI không tự coi đây là số liệu thời gian thực. Nếu cần xử lý ngoại lệ, hãy mở hàng đợi và kiểm tra SLA.`,
+        text: `Tổng quan hiện dùng số liệu mẫu${subtitle ? `: ${subtitle}` : ""}${peak ? `. Cột cao nhất ${peak}` : ""}. pulse-ai không tự coi đây là số liệu thời gian thực. Nếu cần xử lý ngoại lệ, hãy mở hàng đợi và kiểm tra SLA.`,
         buttons: [
           {
             label: "Mở hàng đợi ngoại lệ",
@@ -2441,7 +2441,7 @@
     function analyzeStatuses(update, archive, cancel) {
       if (cancel && !document.querySelector("#status-editor")?.hidden) {
         return {
-          text: "Biểu mẫu trạng thái đang mở. Pulse AI có thể hủy phần nhập hiện tại; dữ liệu chưa lưu sẽ bị bỏ.",
+          text: "Biểu mẫu trạng thái đang mở. pulse-ai có thể hủy phần nhập hiện tại; dữ liệu chưa lưu sẽ bị bỏ.",
           buttons: [
             {
               label: "Hủy biểu mẫu",
@@ -2547,7 +2547,7 @@
         const id = cells[0]?.textContent.trim() || "tài khoản chờ";
         const name = cells[1]?.textContent.trim() || "người dùng";
         return {
-          text: `Tìm thấy ${id} (${name}) đang chờ kích hoạt. Kiểm tra danh tính và vai trò ngoài bản demo trước khi duyệt. Pulse AI không thể xác minh người thật từ dữ liệu mẫu.`,
+          text: `Tìm thấy ${id} (${name}) đang chờ kích hoạt. Kiểm tra danh tính và vai trò ngoài bản demo trước khi duyệt. pulse-ai không thể xác minh người thật từ dữ liệu mẫu.`,
           buttons: [
             {
               label: "Mở form duyệt",
