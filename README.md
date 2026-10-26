@@ -33,10 +33,10 @@ CODE/
 
 | Trang | Tệp | Chức năng |
 | --- | --- | --- |
-| Tuyến giao hôm nay | [`pages/driver-route-stops.html`](pages/driver-route-stops.html) | Xem 5 điểm dừng mẫu, tìm kiếm theo nội dung điểm giao, lọc trạng thái và đánh dấu đã giao hoặc hoàn tác. Số điểm hoàn tất và còn lại được cập nhật; quãng đường 12,4 km là số liệu mẫu. |
-| Chi tiết điểm giao | [`pages/driver-stop-detail.html`](pages/driver-stop-detail.html) | Xem thông tin kiện hàng mẫu, nhập tên người nhận và mã gồm 6 chữ số để ghi nhận giao thành công. Mã `482910` là ví dụ hiển thị trên trang; bản demo chỉ kiểm tra đủ 6 chữ số. |
-| Tạo ngoại lệ | [`pages/driver-exception-create.html`](pages/driver-exception-create.html) | Chọn điểm dừng và loại ngoại lệ, nhập mô tả (8–400 ký tự), chọn ảnh tùy chọn và lưu ngoại lệ mẫu. Mã ngoại lệ được tạo sau khi gửi. |
-| Cài đặt | [`pages/settings.html`](pages/settings.html) | Chỉnh sửa tên và số điện thoại, tùy chọn thông báo, giao diện sáng/tối/theo hệ thống, ngôn ngữ và trạng thái xác thực hai bước mô phỏng. Email chỉ đọc. |
+| Tuyến giao hôm nay | [`page/driver-route-stops.html`](page/driver-route-stops.html) | Xem 5 điểm dừng mẫu, tìm kiếm theo nội dung điểm giao, lọc trạng thái và đánh dấu đã giao hoặc hoàn tác. Số điểm hoàn tất và còn lại được cập nhật; quãng đường 12,4 km là số liệu mẫu. |
+| Chi tiết điểm giao | [`page/driver-stop-detail.html`](page/driver-stop-detail.html) | Xem thông tin kiện hàng mẫu, nhập tên người nhận và mã gồm 6 chữ số để ghi nhận giao thành công. Mã `482910` là ví dụ hiển thị trên trang; bản demo chỉ kiểm tra đủ 6 chữ số. |
+| Tạo ngoại lệ | [`page/driver-exception-create.html`](page/driver-exception-create.html) | Chọn điểm dừng và loại ngoại lệ, nhập mô tả (8–400 ký tự), chọn ảnh tùy chọn và lưu ngoại lệ mẫu. Mã ngoại lệ được tạo sau khi gửi. |
+| Cài đặt | [`page/settings.html`](page/settings.html) | Chỉnh sửa tên và số điện thoại, tùy chọn thông báo, giao diện sáng/tối/theo hệ thống, ngôn ngữ và trạng thái xác thực hai bước mô phỏng. Email chỉ đọc. |
 
 Các trạng thái giao hàng và ngoại lệ được lưu trong `localStorage` của trình duyệt. Trợ lý AI xuất hiện trên các trang nghiệp vụ; đây là mô phỏng theo từ khóa, có thể trả lời về ETA, gợi ý loại ngoại lệ hoặc bước tiếp theo. Gợi ý ngoại lệ không tự chọn loại hay gửi biểu mẫu.
 
@@ -44,17 +44,17 @@ Các trạng thái giao hàng và ngoại lệ được lưu trong `localStorage
 
 Trang Cài đặt nhận vai trò từ tham số URL `role` hoặc phiên demo đã lưu. Có thể mở trực tiếp bằng các URL như:
 
-- `pages/settings.html?role=driver`
-- `pages/settings.html?role=recipient`
-- `pages/settings.html?role=dispatcher`
-- `pages/settings.html?role=admin`
+- `page/settings.html?role=driver`
+- `page/settings.html?role=recipient`
+- `page/settings.html?role=dispatcher`
+- `page/settings.html?role=admin`
 
 Trang không có bộ chọn vai trò. Trong thư mục hiện tại chỉ có các trang của nhân viên giao hàng và trang Cài đặt; các trang người nhận, điều phối viên và quản trị viên được tham chiếu trong menu nhưng chưa có ở đây.
 
 ## Cách chạy
 
 1. Mở thư mục `CODE` trong VS Code.
-2. Dùng tiện ích **Live Server** để mở `pages/driver-route-stops.html` (cổng `5501` được cấu hình trong `.vscode/settings.json`). Không cần cài thư viện hay chạy lệnh build.
+2. Dùng tiện ích **Live Server** để mở `page/driver-route-stops.html` (cổng `5501` được cấu hình trong `.vscode/settings.json`). Không cần cài thư viện hay chạy lệnh build.
 3. Dùng menu trong trang để chuyển giữa Tuyến giao, Điểm giao, Ngoại lệ và Cài đặt.
 
 Một số thao tác để xem thử:
@@ -71,7 +71,6 @@ Một số thao tác để xem thử:
 - Ảnh bằng chứng chỉ được chọn trên thiết bị; ứng dụng không tải ảnh lên máy chủ. Ảnh đại diện trong Cài đặt cũng chỉ được chọn để minh họa, không được tải lên hay lưu làm hồ sơ.
 - Trợ lý AI chạy bằng quy tắc và từ khóa trong JavaScript, không gọi dịch vụ AI hoặc dữ liệu vận chuyển trực tiếp.
 - Tùy chọn xác thực hai bước chỉ đổi trạng thái hiển thị; chức năng đổi mật khẩu chỉ hiện thông báo demo. Tiếng Anh chưa được hỗ trợ.
-- Nút đăng xuất chuyển tới `login.html`, nhưng trang đăng nhập hiện chưa có trong thư mục `pages`.
 
 ## Tài liệu và liên kết nhóm
 
