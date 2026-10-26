@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     chat.innerHTML = `
       <header class="ai-chat__header">
         <span class="ai-chat__sparkle" aria-hidden="true">✦</span>
-        <div><h2 id="ai-chat-title">Trợ lý AI ParcelPulse</h2><p><span></span>Đang trực tuyến · mô phỏng cục bộ</p></div>
-        <button class="ai-chat__close" type="button" aria-label="Đóng trợ lý AI">×</button>
+        <div><h2 id="ai-chat-title">pulse-ai · ParcelPulse</h2><p><span></span>Đang trực tuyến · mô phỏng cục bộ</p></div>
+        <button class="ai-chat__close" type="button" aria-label="Đóng pulse-ai">×</button>
       </header>
       <div class="ai-chat__messages" role="log" aria-live="polite" aria-relevant="additions">
         <p class="ai-chat__bubble ai-chat__bubble--assistant"></p>
@@ -85,20 +85,20 @@ document.addEventListener("DOMContentLoaded", () => {
           <button type="button" data-ai-prompt="Hành động tiếp theo">Hành động tiếp theo</button>
         </div>
         <form class="ai-chat__form">
-          <label class="sr-only" for="ai-chat-input">Nhập câu hỏi cho trợ lý</label>
-          <textarea id="ai-chat-input" rows="1" maxlength="500" placeholder="Hỏi trợ lý: khi nào đơn đến, vì sao trễ..." required></textarea>
+          <label class="sr-only" for="ai-chat-input">Nhập câu hỏi cho pulse-ai</label>
+          <textarea id="ai-chat-input" rows="1" maxlength="500" placeholder="Hỏi pulse-ai: khi nào đơn đến, vì sao trễ..." required></textarea>
           <button type="submit" aria-label="Gửi tin nhắn">➤</button>
         </form>
       </div>
     `;
     $(".ai-chat__bubble--assistant", chat).textContent =
-      `Xin chào ${profileName}! Mình là trợ lý AI của ParcelPulse. Mình có thể giải thích ETA, phân loại ngoại lệ và gợi ý hành động tiếp theo dựa trên dữ liệu mẫu trong phiên này.`;
+      `Xin chào ${profileName}! Mình là pulse-ai của ParcelPulse. Mình có thể giải thích ETA, phân loại ngoại lệ và gợi ý hành động tiếp theo dựa trên dữ liệu mẫu trong phiên này.`;
     const launcher = document.createElement("button");
     launcher.className = "ai-chat-launcher";
     launcher.type = "button";
     launcher.setAttribute("aria-haspopup", "dialog");
-    launcher.setAttribute("aria-label", "Mở Trợ lý AI");
-    launcher.innerHTML = '<span aria-hidden="true">✦</span> Trợ lý AI';
+    launcher.setAttribute("aria-label", "Mở pulse-ai");
+    launcher.innerHTML = '<span aria-hidden="true">✦</span> pulse-ai';
     document.body.append(chat, launcher);
 
     const messages = $(".ai-chat__messages", chat);
