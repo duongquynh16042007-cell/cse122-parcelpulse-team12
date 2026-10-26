@@ -1,4 +1,5 @@
 /* Shared, local-only interactions for all role screens. */
+const rolePagesScriptUrl = document.currentScript && document.currentScript.src;
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [
@@ -35,6 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
     toast,
     announce,
   });
+  const assistantScript = document.createElement("script");
+  assistantScript.src = new URL(
+    "assistant.js",
+    rolePagesScriptUrl || document.baseURI,
+  ).href;
+  assistantScript.async = true;
+  assistantScript.dataset.parcelpulseAssistant = "true";
+  document.head.append(assistantScript);
 
   const assistantRoleElement = $(".role-chip");
   if (assistantRoleElement) {
