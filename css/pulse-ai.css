@@ -1,7 +1,3 @@
-.ai-chat,
-.ai-chat-launcher {
-  display: none !important;
-}
 .copilot-launcher {
   position: fixed;
   z-index: 1100;
@@ -199,9 +195,6 @@
 .eta-intro {
   margin: 7px 0 11px;
 }
-
-.eta-input-form {
-.eta-intro { margin: 7px 0 11px; }
 
 .eta-input-form,
 .eta-edit-form {

@@ -19,11 +19,6 @@
   }
   const initialize = () => {
     if (document.querySelector("[data-copilot-root]")) return;
-    document.querySelector(".ai-chat")?.remove();
-    document.querySelector(".ai-chat-launcher")?.remove();
-  document.addEventListener("DOMContentLoaded", () => {
-    if (document.querySelector("[data-copilot-root]")) return;
-
     const roleName =
       document.querySelector(".role-chip")?.textContent.trim() || "ParcelPulse";
     const pageName = window.location.pathname.split("/").pop() || "";
@@ -57,7 +52,7 @@
         <div class="copilot-mark" aria-hidden="true">✦</div>
         <div class="copilot-heading">
           <strong>Pulse AI</strong>
-          <span>Tính năng AI số 3 · ${escapeHTML(roleName)} · demo</span>
+          <span data-copilot-capabilities></span>
         </div>
         <button class="copilot-close" type="button" aria-label="Đóng trợ lý">×</button>
       </header>
@@ -84,9 +79,9 @@
         </div>
         <section class="exception-workflow" id="exception-workflow" role="tabpanel" aria-label="Phân loại ngoại lệ và gợi ý hành động" hidden>
           <div class="exception-workflow-scroll">
-            <div class="eta-title-row"><div><p class="eta-eyebrow">AI-1 · EXCEPTION CLASSIFIER / NEXT BEST ACTION</p><h2 data-ex-title>Phân loại ngoại lệ</h2></div><span class="eta-mock-badge">Mô phỏng cục bộ</span></div>
+            <div class="eta-title-row"><div><p class="eta-eyebrow" data-ex-eyebrow>AI-1 · EXCEPTION CLASSIFIER</p><h2 data-ex-title>Phân loại ngoại lệ</h2></div><span class="eta-mock-badge">Mô phỏng cục bộ</span></div>
             <p class="eta-intro">Nhập ghi chú hoặc chọn ngoại lệ để pulse-ai phân loại và đề xuất bước xử lý.</p>
-            <div class="exception-task-tabs" role="tablist" aria-label="Chọn tính năng ngoại lệ"><button type="button" class="is-active" aria-selected="true" data-ex-task="classify">Exception Classifier</button><button type="button" aria-selected="false" data-ex-task="action">Next Best Action</button></div>
+            <div class="exception-task-tabs" role="tablist" aria-label="Chọn tính năng ngoại lệ"><button type="button" class="is-active" aria-selected="true" data-ex-task="classify">AI-1 · Exception Classifier</button><button type="button" aria-selected="false" data-ex-task="action">AI-3 · Next Best Action</button></div>
             <section class="exception-input-card"><h3>Thông tin đầu vào</h3><form class="exception-input-form" id="exception-ai-form">
               <div class="exception-field-grid"><label data-ex-scope-label>Phạm vi<select id="ex-scope" name="scope"></select></label><label>Loại ngoại lệ<select id="ex-category" name="category"></select></label><label class="ex-full">Ghi chú tình huống<textarea id="ex-note" name="note" rows="3" maxlength="400" placeholder="Mô tả việc đã xảy ra, thời điểm và các liên hệ đã thử."></textarea></label></div>
               <p class="ex-help" data-ex-help>Dấu hiệu trong ghi chú được đối chiếu với các loại ngoại lệ mẫu.</p>
@@ -125,15 +120,7 @@
               <div class="eta-result-heading"><div><p class="eta-eyebrow">KẾT QUẢ ĐỀ XUẤT</p><strong id="eta-result-time">--:--</strong></div><span id="eta-confidence" class="eta-confidence"></span></div>
               <p class="eta-result-copy" id="eta-result-summary"></p>
               <h3>Yếu tố ảnh hưởng</h3><ul class="eta-reason-list" id="eta-reasons"></ul>
-              <p class="eta-decision" id="eta-decision" role="status" aria-live="polite" hidden></p>
-              <div class="eta-decision-actions" aria-label="Xử lý kết quả ETA">
-                <button class="copilot-action" id="eta-accept" type="button">Chấp nhận</button>
-              <form id="eta-edit-form" class="eta-edit-form" hidden>
-                <label>Giờ đến đề xuất<input id="eta-edit-time" type="time" required /></label>
-                <label>Ghi chú điều chỉnh<textarea id="eta-edit-note" rows="2" maxlength="240" placeholder="Giải thích lý do sửa ETA..."></textarea></label>
-                <div class="eta-form-actions"><button class="copilot-action" type="submit">Áp dụng sửa</button><button class="copilot-action copilot-action--secondary" id="eta-cancel-edit" type="button">Bỏ sửa</button></div>
-              </form>
-              <p class="eta-decision" id="eta-decision" role="status" aria-live="polite" hidden></p>
+              <p class="eta-decision" id="eta-input-notice" role="status" aria-live="polite" hidden></p>
               <div class="eta-decision-actions" aria-label="Xử lý kết quả ETA">
                 <button class="copilot-action" id="eta-accept" type="button">Chấp nhận</button>
                 <button class="copilot-action copilot-action--secondary" id="eta-edit" type="button">Sửa</button>
@@ -141,6 +128,11 @@
                 <button class="copilot-action copilot-action--secondary" id="eta-regenerate" type="button">Tạo lại</button>
                 <button class="copilot-action copilot-action--secondary" id="eta-save" type="button">Lưu</button>
               </div>
+              <form id="eta-edit-form" class="eta-edit-form" hidden>
+                <label>Giờ đến đề xuất<input id="eta-edit-time" type="time" required /></label>
+                <label>Ghi chú điều chỉnh<textarea id="eta-edit-note" rows="2" maxlength="240" placeholder="Giải thích lý do sửa ETA..."></textarea></label>
+                <div class="eta-form-actions"><button class="copilot-action" type="submit">Áp dụng sửa</button><button class="copilot-action copilot-action--secondary" id="eta-cancel-edit" type="button">Bỏ sửa</button></div>
+              </form>
             </section>
             <p class="eta-disclaimer">ETA chỉ là ước tính từ JSON giả lập và quy tắc JavaScript; không dùng GPS, dữ liệu giao thông trực tiếp hoặc API thật.</p>
           </div>
@@ -148,6 +140,45 @@
       </div>`;
 
     document.body.append(launcher, panel);
+
+    panel.querySelector("[data-copilot-capabilities]").textContent =
+      panel.dataset.role === "driver"
+        ? `AI-1 & AI-3 · ${roleName} · demo`
+        : `AI-1, AI-2 & AI-3 · ${roleName} · demo`;
+
+    const roleQuickPrompts = {
+      driver: [
+        ["Tóm tắt tuyến giao", "Phân tích tuyến giao"],
+        ["AI-1 · Phân loại ngoại lệ", "Phân loại ghi chú ngoại lệ"],
+        ["AI-3 · Gợi ý hành động", "Gợi ý hành động tiếp theo"],
+      ],
+      dispatcher: [
+        ["Tóm tắt hàng đợi", "Phân tích hàng đợi ngoại lệ"],
+        ["Tìm việc ưu tiên", "Tìm việc cần duyệt"],
+        ["Gợi ý phân công", "Gợi ý phân công lại"],
+      ],
+      admin: [
+        ["Tóm tắt báo cáo", "Tóm tắt báo cáo logistics"],
+        ["Kiểm tra trạng thái", "Kiểm tra trạng thái hệ thống"],
+        ["Tài khoản chờ duyệt", "Tìm tài khoản chờ kích hoạt"],
+      ],
+    };
+    const rolePrompts = roleQuickPrompts[panel.dataset.role] || [];
+    if (panel.dataset.role === "driver")
+      panel.querySelector("#eta-mode-tab").hidden = true;
+    panel.querySelectorAll("[data-copilot-prompt]").forEach((button, index) => {
+      const prompt = rolePrompts[index];
+      button.hidden = !prompt;
+      if (!prompt) return;
+      button.textContent = prompt[0];
+      button.dataset.copilotPrompt = prompt[1];
+    });
+    panel.querySelector("#copilot-input").placeholder =
+      panel.dataset.role === "driver"
+        ? "Hỏi về tuyến giao, ETA hoặc ngoại lệ..."
+        : panel.dataset.role === "dispatcher"
+          ? "Hỏi về hàng đợi, SLA hoặc phân công..."
+          : "Hỏi về trạng thái, người dùng hoặc báo cáo...";
 
     const messages = panel.querySelector("#copilot-messages");
     const input = panel.querySelector("#copilot-input");
@@ -287,7 +318,7 @@
         .value.trim()
         .toUpperCase();
       const sample = etaSamples[parcelId];
-      const notice = panel.querySelector("#eta-decision");
+      const notice = panel.querySelector("#eta-input-notice");
       if (!sample) {
         notice.hidden = false;
         notice.textContent =
@@ -471,6 +502,28 @@
       if (!currentEta) return;
       currentEta.savedAt = new Date().toISOString();
       persistEta("Đã lưu kết quả ETA vào localStorage của trình duyệt này.");
+    });
+    panel.querySelector("#eta-edit").addEventListener("click", () => {
+      if (!currentEta) return;
+      panel.querySelector("#eta-edit-time").value = currentEta.etaTime;
+      panel.querySelector("#eta-edit-note").value = "";
+      etaEditForm.hidden = false;
+      panel.querySelector("#eta-edit-time").focus();
+    });
+    panel.querySelector("#eta-cancel-edit").addEventListener("click", () => {
+      etaEditForm.hidden = true;
+    });
+    etaEditForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!currentEta || !etaEditForm.reportValidity()) return;
+      currentEta.etaTime = panel.querySelector("#eta-edit-time").value;
+      currentEta.decision = "edited";
+      currentEta.editNote = panel.querySelector("#eta-edit-note").value.trim();
+      currentEta.editedAt = new Date().toISOString();
+      etaEditForm.hidden = true;
+      persistEta(
+        `Đã điều chỉnh ETA thành ${currentEta.etaTime} trong dữ liệu demo.${currentEta.editNote ? ` Ghi chú: ${currentEta.editNote}` : ""}`,
+      );
     });
 
     const exceptionTypes = [
@@ -814,6 +867,10 @@
         task === "classify"
           ? "Phân loại ngoại lệ"
           : "Gợi ý hành động tiếp theo";
+      panel.querySelector("[data-ex-eyebrow]").textContent =
+        task === "classify"
+          ? "AI-1 · EXCEPTION CLASSIFIER"
+          : "AI-3 · NEXT BEST ACTION";
       panel.querySelector("[data-ex-help]").textContent =
         task === "classify"
           ? "Dấu hiệu trong ghi chú được đối chiếu với các loại ngoại lệ mẫu."
@@ -1238,7 +1295,9 @@
       exResult.hidden = false;
       exProcessing.hidden = true;
       panel.querySelector("[data-ex-kind]").textContent =
-        result.task === "action" ? "NEXT BEST ACTION" : "EXCEPTION CLASSIFIER";
+        result.task === "action"
+          ? "AI-3 · NEXT BEST ACTION"
+          : "AI-1 · EXCEPTION CLASSIFIER";
       panel.querySelector("[data-ex-result-title]").textContent = result.title;
       panel.querySelector("[data-ex-summary]").textContent = result.summary;
       const confidence = panel.querySelector("[data-ex-confidence]");
@@ -1771,6 +1830,13 @@
       if (
         /eta|thời gian đến|khi nào đến|bao giờ đến/.test(normalizedQuestion)
       ) {
+        if (panel.dataset.role === "driver") {
+          addMessage(
+            "assistant",
+            "Trong vai trò nhân viên giao hàng, Pulse AI cung cấp AI-1 để phân loại ngoại lệ và AI-3 để gợi ý bước xử lý. Màn hình AI-2 giải thích ETA hiện dành cho điều phối viên và quản trị viên.",
+          );
+          return;
+        }
         setAiMode("eta");
         return;
       }
@@ -2646,7 +2712,11 @@
 
     addMessage(
       "assistant",
-      `Xin chào ${roleName}. Tôi có thể phân tích màn hình, tìm việc cần duyệt và mở thao tác cập nhật. Mọi thay đổi quan trọng đều cần bạn xem lại.`,
+      panel.dataset.role === "driver"
+        ? `Xin chào ${roleName}. AI-1 giúp phân loại ghi chú ngoại lệ; AI-3 đề xuất bước xử lý tiếp theo. Tôi cũng có thể tóm tắt tuyến giao để bạn kiểm tra trước khi thao tác.`
+        : panel.dataset.role === "dispatcher"
+          ? `Xin chào ${roleName}. Tôi có thể ưu tiên hàng đợi ngoại lệ, giải thích SLA, phân tích phân công lại và ước tính ETA. Các thay đổi vẫn cần bạn kiểm tra và xác nhận.`
+          : `Xin chào ${roleName}. Tôi có thể tóm tắt báo cáo logistics, tìm tài khoản cần duyệt và hỗ trợ quản lý trạng thái. Dữ liệu demo được lưu trên trình duyệt; hãy kiểm tra trước khi xác nhận thay đổi.`,
     );
   };
 
