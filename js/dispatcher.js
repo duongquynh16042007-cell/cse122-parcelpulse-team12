@@ -114,32 +114,125 @@ if (exBody) {
       type: "Không liên hệ được",
       text: "Tài xế gọi 3 lần cho người nhận tại điểm giao CG-14 nhưng không có phản hồi.",
       note: "Ghi chú tài xế nêu rõ 3 cuộc gọi nhỡ. Kiểm tra lịch sử liên hệ trước khi quyết định bước tiếp theo.",
+      stop: "STP-10463",
+      parcel: "PTVN-5821-0112",
     },
     "EX-10479": {
       type: "Địa chỉ không hợp lệ",
       text: "Địa chỉ của kiện PTVN-7730-3308 không khớp số nhà trong khu vực LB-08, tài xế không tìm được điểm giao.",
       note: "Ghi chú đề cập 'không có số 42 trong ngõ này'. Địa chỉ đối chiếu bản đồ còn thiếu phường/xã.",
+      stop: "STP-10469",
+      parcel: "PTVN-7730-3308",
     },
     "EX-10474": {
       type: "Kiện hàng hư hỏng",
       text: "Kiện hàng PTVN-0294-7751 bị hư hỏng trong quá trình vận chuyển, tài xế ghi nhận tại điểm giao HD-03.",
       note: "Ghi chú tài xế đề cập 'hộp bị móp, hàng ướt'. Kiểm tra ảnh bằng chứng và lịch sử tuyến trước khi xử lý.",
+      stop: "STP-10492",
+      parcel: "PTVN-0294-7751",
     },
     "EX-10468": {
       type: "Khách đổi lịch",
       text: "Người nhận đề nghị dời giao hàng sang khung giờ chiều tại điểm CG-09.",
       note: "Đối chiếu yêu cầu đổi lịch của người nhận với ghi chú của tài xế.",
+      stop: "STP-10496",
+      parcel: "PTVN-8932-1140",
     },
     "EX-10461": {
       type: "Xe gặp sự cố",
       text: "Xe của tài xế gặp sự cố trên tuyến LB-12, các điểm giao còn lại có nguy cơ trễ.",
       note: "Ghi chú nêu 'xe thủng lốp, chờ cứu hộ'. Liên hệ tài xế để cập nhật tình trạng tuyến.",
+      stop: "STP-10462",
+      parcel: "PTVN-4481-2026",
     },
   };
+
+  // Đọc cả khóa nghiệp vụ của tài xế và bản ghi chia sẻ cùng origin.
+  const driverExceptions = readStore("driverExceptions", []);
+  const savedSharedRecords = readStore("sharedRecords", []);
+  const sharedDriverExceptions = (Array.isArray(savedSharedRecords) ? savedSharedRecords : [])
+    .filter((record) => record.sourceType === "Ngoại lệ giao hàng")
+    .map((record) => ({
+      id: record.payload?.exceptionId || String(record.id || "").replace(/^driver-exception:/, ""),
+      stop: record.payload?.stop || record.reference,
+      category: record.payload?.category || record.title,
+      note: record.summary,
+      createdAt: record.createdAt,
+    }));
+  const exceptionById = new Map();
+  (Array.isArray(driverExceptions) ? driverExceptions : []).forEach((item) => {
+    if (item?.id) exceptionById.set(item.id, item);
+  });
+  sharedDriverExceptions.forEach((item) => {
+    if (item.id && !exceptionById.has(item.id)) exceptionById.set(item.id, item);
+  });
+  [...exceptionById.values()].forEach((item) => {
+    if (!item?.id || exBody.querySelector(`tr[data-id="${CSS.escape(item.id)}"]`))
+      return;
+    const row = document.createElement("tr");
+    row.tabIndex = 0;
+    row.dataset.id = item.id;
+    row.dataset.pri = "high";
+    row.dataset.sla = "near";
+    const stop = item.stop || item.stopId || "Chưa rõ điểm dừng";
+    const cells = [
+      item.id,
+      item.parcel || item.parcelId || stop,
+      item.category || item.type || "Chưa phân loại",
+      `${item.route || "Tuyến tài xế"} · ${item.driver || "Tài xế"}`,
+      Number.isFinite(Date.parse(item.createdAt || ""))
+        ? `${Math.max(0, Math.floor((Date.now() - Date.parse(item.createdAt)) / 60000))} phút`
+        : "Mới gửi",
+      "Cao",
+    ];
+    cells.forEach((value, index) => {
+      const cell = document.createElement("td");
+      if (index === 0) {
+        const strong = document.createElement("strong");
+        strong.textContent = value;
+        cell.append(strong);
+      } else if (index === 5) {
+        const chip = document.createElement("span");
+        chip.className = "chip amber";
+        chip.textContent = value;
+        cell.append(chip);
+      } else {
+        if (index === 2) cell.className = "t-type";
+        cell.textContent = value;
+      }
+      row.append(cell);
+    });
+    exBody.prepend(row);
+    EXCEPTION_DETAILS[item.id] = {
+      type: item.category || item.type || "Chưa phân loại",
+      text: `${item.note || item.description || "Tài xế đã ghi nhận ngoại lệ."} (Điểm dừng: ${stop})`,
+      note: "Ngoại lệ do tài xế gửi; kiểm tra thông tin và xác nhận trước khi phân công lại.",
+      stop,
+      parcel: item.parcel || item.parcelId || "",
+    };
+  });
 
   const rows = $$("tr[data-id]", exBody);
   const decisions = readStore("exceptionDecisions", {});
   let currentId = null;
+
+  function enqueueException(id) {
+    const details = EXCEPTION_DETAILS[id];
+    if (!details?.stop) return true;
+    const storedStops = readStore("reassignStops", []);
+    const reassignStops = Array.isArray(storedStops) ? storedStops : [];
+    if (reassignStops.some((stop) => stop.exceptionId === id)) return true;
+    reassignStops.unshift({
+      id,
+      exceptionId: id,
+      stopId: details.stop,
+      parcelId: details.parcel || "",
+      type: decisions[id]?.type || details.type,
+      note: details.text,
+      createdAt: new Date().toISOString(),
+    });
+    return writeStore("reassignStops", reassignStops.slice(0, 100));
+  }
 
   function renderException(id) {
     currentId = id;
@@ -165,6 +258,14 @@ if (exBody) {
 
   rows.forEach((row) => {
     const saved = decisions[row.dataset.id];
+    if (saved?.status === "confirmed" && enqueueException(row.dataset.id)) {
+      row.remove();
+      return;
+    }
+    if (saved?.status === "dismissed") {
+      row.remove();
+      return;
+    }
     if (saved?.type) $(".t-type", row).textContent = saved.type;
     row.addEventListener("click", () => selectRow(row));
     row.addEventListener("keydown", (e) => {
@@ -186,17 +287,51 @@ if (exBody) {
       return;
     }
     const details = EXCEPTION_DETAILS[currentId];
-    window.ParcelPulseRolePages?.registerSharedRecord({
-      id: `dispatcher-exception:${currentId}`,
-      sourceRole: "Điều phối viên",
-      sourceType: "Quyết định ngoại lệ",
-      reference: currentId,
-      title: `${status === "confirmed" ? "Đã duyệt" : "Đã bỏ qua"} ${currentId}`,
-      summary: `${decisions[currentId]?.type || details?.type || "Ngoại lệ"}: ${details?.text || ""}`,
-      status: "pending",
-      payload: { exceptionId: currentId, decision: status },
-    });
-    renderException(currentId);
+    if (status === "confirmed" && !enqueueException(currentId)) {
+      toast("Không thể lưu ngoại lệ vào danh sách phân công lại.");
+      return;
+    }
+    if (status === "confirmed") {
+      window.ParcelPulseRolePages?.registerSharedRecord({
+        id: `dispatcher-exception:${currentId}`,
+        sourceRole: "Điều phối viên",
+        sourceType: "Quyết định ngoại lệ",
+        reference: currentId,
+        title: `Đã duyệt ${currentId}`,
+        summary: `${decisions[currentId]?.type || details?.type || "Ngoại lệ"}: ${details?.text || ""}`,
+        status: "pending",
+        payload: { exceptionId: currentId, decision: status },
+      });
+    } else if (status === "dismissed") {
+      const driverItems = readStore("driverExceptions", []);
+      if (Array.isArray(driverItems))
+        writeStore("driverExceptions", driverItems.filter((item) => item.id !== currentId));
+      const reassignItems = readStore("reassignStops", []);
+      if (Array.isArray(reassignItems))
+        writeStore("reassignStops", reassignItems.filter((item) => item.exceptionId !== currentId));
+      const sharedRecords = readStore("sharedRecords", []);
+      if (Array.isArray(sharedRecords)) {
+        writeStore("sharedRecords", sharedRecords.filter((record) =>
+          record.id !== `dispatcher-exception:${currentId}` &&
+          record.id !== `driver-exception:${currentId}`));
+        window.dispatchEvent(new CustomEvent("parcelpulse:records-changed"));
+      }
+    }
+
+    const removedId = currentId;
+    rows.find((row) => row.dataset.id === removedId)?.remove();
+    const nextRow = rows.find((row) => row.isConnected && !row.hidden);
+    if (nextRow) selectRow(nextRow);
+    else {
+      currentId = null;
+      $("#exception-detail-id").textContent = "";
+      $("#exception-detail-type").textContent = "";
+      $("#exception-detail-text").textContent = "Không còn ngoại lệ chờ xử lý.";
+      $("#exception-detail-note").textContent = "";
+      $("#exception-detail-status").textContent = "Đã xử lý";
+      $("#exception-detail-status").className = "chip green";
+    }
+    applyFilters();
     toast(message);
   }
 
@@ -249,6 +384,7 @@ if (exBody) {
   function applyFilters() {
     let shown = 0;
     rows.forEach((row) => {
+      if (!row.isConnected) return;
       const matchQuick =
         quick === "all" ||
         (quick === "urgent" && row.dataset.pri === "urgent") ||
@@ -261,7 +397,8 @@ if (exBody) {
       if (visible) shown++;
     });
     emptyRow.hidden = shown > 0;
-    $("#count").textContent = `Hiển thị ${shown} trong ${rows.length} ngoại lệ mẫu${quick !== "all" || query || typeFilter ? " khớp bộ lọc" : ""}`;
+    const remaining = rows.filter((row) => row.isConnected).length;
+    $("#count").textContent = `Hiển thị ${shown} trong ${remaining} ngoại lệ chờ xử lý${quick !== "all" || query || typeFilter ? " khớp bộ lọc" : ""}`;
   }
 
   $$("[data-filter]").forEach((btn) =>
@@ -318,7 +455,16 @@ if (exBody) {
     if (!current) btn.title = "Trang này chưa có dữ liệu mẫu";
   });
 
-  selectRow($('tr[aria-current="true"]'));
+  const initialRow = $('tr[aria-current="true"]') || rows.find((row) => row.isConnected);
+  if (initialRow) selectRow(initialRow);
+  else {
+    $("#exception-detail-id").textContent = "";
+    $("#exception-detail-type").textContent = "";
+    $("#exception-detail-text").textContent = "Không còn ngoại lệ chờ xử lý.";
+    $("#exception-detail-note").textContent = "";
+    $("#exception-detail-status").textContent = "Đã xử lý";
+    $("#exception-detail-status").className = "chip green";
+  }
 }
 
 /* ===== Trang Phân công lại ===== */
@@ -330,6 +476,34 @@ if (stopsBox) {
   const checkedStops = () => stops().filter((s) => $("input", s).checked);
   const drivers = () => $$(".driver", driversBox);
   const pickedDriver = () => drivers().find((d) => $("input", d).checked);
+
+  // Ngoại lệ đã duyệt xuất hiện thành mục có thể phân công.
+  const reassignItems = readStore("reassignStops", []);
+  (Array.isArray(reassignItems) ? reassignItems : []).forEach((item) => {
+    if (!item?.exceptionId || stopsBox.querySelector(`[data-exception-id="${CSS.escape(item.exceptionId)}"]`))
+      return;
+    const stop = document.createElement("label");
+    stop.className = "stop";
+    stop.dataset.kien = item.parcelId ? "1" : "0";
+    stop.dataset.km = "0";
+    stop.dataset.exceptionId = item.exceptionId;
+    stop.dataset.stopId = item.stopId || "";
+    stop.dataset.parcelId = item.parcelId || "";
+    stop.dataset.exceptionType = item.type || "";
+    stop.dataset.exceptionNote = item.note || "";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    const meta = document.createElement("span");
+    meta.className = "meta";
+    const ref = document.createElement("b");
+    ref.textContent = item.exceptionId;
+    meta.append(ref, ` ${item.stopId || "Điểm dừng chưa rõ"} · ${item.type || "Ngoại lệ đã xác nhận"}`);
+    if (item.parcelId) meta.append(document.createElement("br"), `Kiện hàng ${item.parcelId}`);
+    const time = document.createElement("time");
+    time.textContent = "Ngoại lệ";
+    stop.append(checkbox, meta, time);
+    stopsBox.prepend(stop);
+  });
 
   // Tính lại mọi con số mỗi khi người dùng đổi điểm dừng hoặc tài xế
   function update() {
@@ -423,6 +597,14 @@ if (stopsBox) {
     const assignment = {
       id: `ASG-${Date.now()}`,
       stopIds: selected.map(stopId),
+      exceptionIds: selected.map((stop) => stop.dataset.exceptionId).filter(Boolean),
+      routeStops: selected.map((stop) => ({
+        stopId: stop.dataset.stopId || stopId(stop),
+        exceptionId: stop.dataset.exceptionId || "",
+        parcelId: stop.dataset.parcelId || "",
+        type: stop.dataset.exceptionType || "",
+        note: stop.dataset.exceptionNote || "",
+      })),
       driver: driver.dataset.name,
       assignedAt: new Date().toISOString(),
     };
@@ -450,3 +632,16 @@ if (stopsBox) {
 
   update();
 }
+
+window.addEventListener("storage", (event) => {
+  if (
+    ["parcelpulse.driverExceptions", "parcelpulse.sharedRecords"].includes(event.key) &&
+    $("#ex-body")
+  )
+    window.location.reload();
+  if (
+    ["parcelpulse.reassignStops", "parcelpulse.assignments"].includes(event.key) &&
+    $("#stops")
+  )
+    window.location.reload();
+});
