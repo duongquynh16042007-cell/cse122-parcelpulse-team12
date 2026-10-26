@@ -61,6 +61,7 @@ git/
 │   ├── ai-usage-report.md
 │   ├── roles-and-features.md
 │   ├── screen-list.md
+│   ├── team-assignment.md
 ├── css/                 # Kiểu dùng chung và theo từng khu vực
 ├── js/                  # Tương tác DOM và xử lý dữ liệu demo
 └── page/                # Các màn hình HTML của ứng dụng
@@ -97,6 +98,7 @@ Dự án không cần cài thư viện hoặc chạy bước build.
 
 - [Vai trò và chức năng](docs/roles-and-features.md)
 - [Danh sách màn hình](docs/screen-list.md)
+- [Phân công thành viên](docs/team-assignment.md)
 - [Báo cáo sử dụng AI](docs/ai-usage-report.md)
 - [Bản demo triển khai](https://duongquynh16042007-cell.github.io/cse122-parcelpulse-team12/page/index.html)
 - [Figma](https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=zDJNyxMIUbNaoNGI-1)
