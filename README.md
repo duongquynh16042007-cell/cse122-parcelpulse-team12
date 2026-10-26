@@ -14,14 +14,14 @@ CODE/
 ├── css/
 │   ├── base.css                  # Bố cục và thành phần giao diện dùng chung
 │   ├── driver.css                # Giao diện các trang nhân viên giao hàng
-│   ├── assistant.css             # Giao diện pulse-ai
+│   ├── pulse-ai.css             # Giao diện pulse-ai
 │   ├── profile.css               # Ngăn hồ sơ người dùng
 │   └── settings.css              # Giao diện trang Cài đặt
 ├── js/
 │   ├── role-pages.js             # pulse-ai, hồ sơ và tiện ích dùng chung
 │   ├── driver-pages.js           # Tương tác tuyến giao, điểm giao, ngoại lệ
 │   ├── settings-page.js          # Hồ sơ và tùy chọn trên trang Cài đặt
-│   └── assistant.js              # Panel AI độc lập; các trang hiện tại không nạp tệp này
+│   └── pulse-ai.js              # Trợ lý được nạp dùng chung qua role-pages.js
 └── pages/
     ├── driver-route-stops.html
     ├── driver-stop-detail.html

@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   const assistantScript = document.createElement("script");
   assistantScript.src = new URL(
-    "assistant.js",
+    "pulse-ai.js",
     rolePagesScriptUrl || document.baseURI,
   ).href;
   assistantScript.async = true;

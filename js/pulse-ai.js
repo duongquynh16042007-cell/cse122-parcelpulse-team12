@@ -6,7 +6,7 @@
   const assistantScriptUrl =
     document.currentScript && document.currentScript.src;
   if (assistantScriptUrl && document.head) {
-    const cssUrl = new URL("../css/assistant.css", assistantScriptUrl).href;
+    const cssUrl = new URL("../css/pulse-ai.css", assistantScriptUrl).href;
     const exists = Array.from(
       document.querySelectorAll('link[rel="stylesheet"]'),
     ).some((link) => link.href === cssUrl);
