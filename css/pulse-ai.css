@@ -1,3 +1,7 @@
+.ai-chat,
+.ai-chat-launcher {
+  display: none !important;
+}
 .copilot-launcher {
   position: fixed;
   z-index: 1100;
@@ -166,7 +170,7 @@
   color: var(--pink-dark);
   font-size: 9px;
   font-weight: 800;
-  letter-spacing: .09em;
+  letter-spacing: 0.09em;
 }
 
 .eta-title-row h2 {
@@ -192,6 +196,11 @@
   line-height: 1.45;
 }
 
+.eta-intro {
+  margin: 7px 0 11px;
+}
+
+.eta-input-form {
 .eta-intro { margin: 7px 0 11px; }
 
 .eta-input-form,
@@ -241,7 +250,9 @@
   gap: 8px;
 }
 
-.eta-full-field { grid-column: 1 / -1; }
+.eta-full-field {
+  grid-column: 1 / -1;
+}
 
 .eta-form-actions,
 .eta-decision-actions {
@@ -261,7 +272,9 @@
   font-size: 9px;
 }
 
-.eta-json-details summary { cursor: pointer; }
+.eta-json-details summary {
+  cursor: pointer;
+}
 
 .eta-json-details pre {
   max-height: 100px;
@@ -296,10 +309,14 @@
   border: 2px solid var(--pink-soft);
   border-top-color: var(--pink);
   border-radius: 50%;
-  animation: eta-spin .75s linear infinite;
+  animation: eta-spin 0.75s linear infinite;
 }
 
-@keyframes eta-spin { to { transform: rotate(360deg); } }
+@keyframes eta-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .eta-result {
   margin-top: 11px;
@@ -309,16 +326,49 @@
   background: var(--card);
 }
 
-.eta-result-heading { align-items: center; }
-.eta-result-heading strong { color: var(--pink-dark); font-size: 27px; line-height: 1.15; }
-.eta-result-copy { margin: 8px 0; color: var(--ink); font-size: 11px; line-height: 1.5; }
-.eta-result h3 { margin: 10px 0 5px; font-size: 11px; }
-.eta-reason-list { margin: 0; padding-left: 17px; color: var(--muted); font-size: 9px; line-height: 1.6; }
-.eta-reason-list strong { color: var(--ink); }
-.eta-edit-form { margin-top: 10px; padding: 9px; border: 1px dashed var(--line); border-radius: 9px; }
-.eta-decision { margin: 9px 0; padding: 8px; border-radius: 8px; color: var(--green); background: var(--green-bg); font-size: 10px; }
-.eta-decision[hidden] { display: none; }
-.eta-disclaimer { margin: 10px 0 0; font-size: 9px; }
+.eta-result-heading {
+  align-items: center;
+}
+.eta-result-heading strong {
+  color: var(--pink-dark);
+  font-size: 27px;
+  line-height: 1.15;
+}
+.eta-result-copy {
+  margin: 8px 0;
+  color: var(--ink);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.eta-result h3 {
+  margin: 10px 0 5px;
+  font-size: 11px;
+}
+.eta-reason-list {
+  margin: 0;
+  padding-left: 17px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.6;
+}
+.eta-reason-list strong {
+  color: var(--ink);
+}
+.eta-decision {
+  margin: 9px 0;
+  padding: 8px;
+  border-radius: 8px;
+  color: var(--green);
+  background: var(--green-bg);
+  font-size: 10px;
+}
+.eta-decision[hidden] {
+  display: none;
+}
+.eta-disclaimer {
+  margin: 10px 0 0;
+  font-size: 9px;
+}
 
 .copilot-messages {
   display: flex;
@@ -450,8 +500,12 @@
     height: min(72vh, 620px);
   }
 
-  .eta-field-grid { grid-template-columns: 1fr; }
-  .eta-full-field { grid-column: auto; }
+  .eta-field-grid {
+    grid-template-columns: 1fr;
+  }
+  .eta-full-field {
+    grid-column: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -462,5 +516,349 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  .eta-spinner { animation: none; }
+  .eta-spinner {
+    animation: none;
+  }
+}
+
+/* ParcelPulse integration: role label, persistent hidden states, exception workflow */
+.copilot-panel[hidden] {
+  display: none !important;
+}
+.copilot-panel[data-role="dispatcher"] {
+  --copilot-role: #7050bb;
+}
+.copilot-panel[data-role="admin"] {
+  --copilot-role: #8b4e9b;
+}
+.copilot-role {
+  display: inline-flex;
+  margin-left: 5px;
+  padding: 2px 7px;
+  border: 1px solid rgb(255 255 255 / 38%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 14%);
+  font-size: 9px;
+  vertical-align: 2px;
+}
+
+.copilot-mode-switch {
+  overflow-x: auto;
+}
+.copilot-mode-switch button {
+  flex: 0 0 auto;
+}
+.copilot-mode-switch button[aria-selected="true"] {
+  border-color: var(--pink-soft);
+}
+
+.exception-workflow {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--bg);
+}
+.exception-workflow[hidden] {
+  display: none !important;
+}
+.exception-workflow-scroll {
+  min-height: 0;
+  padding: 13px 15px 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.exception-task-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0 8px;
+}
+.exception-task-tabs button {
+  min-height: 31px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+  background: var(--card);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.exception-task-tabs button.is-active {
+  border-color: var(--pink-soft);
+  color: var(--pink-dark);
+  background: var(--pink-soft);
+}
+.exception-input-card,
+.exception-processing,
+.exception-result,
+.exception-history {
+  min-width: 0;
+  margin-top: 8px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--card);
+}
+.exception-input-card h3 {
+  margin: 0;
+  font-size: 13px;
+}
+.exception-input-form {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.exception-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.exception-field-grid .ex-full {
+  grid-column: 1 / -1;
+}
+.exception-input-form label {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  color: var(--ink);
+  font-size: 9px;
+  font-weight: 700;
+}
+.exception-input-form select,
+.exception-input-form textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 33px;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--bg);
+  font: inherit;
+  font-size: 10px;
+}
+.exception-input-form textarea {
+  min-height: 62px;
+  resize: vertical;
+}
+.exception-input-form :focus-visible {
+  outline: 3px solid #f2a1bd;
+  outline-offset: 1px;
+}
+.ex-help {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.4;
+}
+.ex-demo-actions,
+.ex-controls,
+.ex-low-actions > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+.ex-demo-actions button,
+.ex-low-actions button {
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--pink-dark);
+  background: var(--card);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ex-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  margin-top: 8px;
+}
+.ex-form-actions small {
+  color: var(--muted);
+  font-size: 8px;
+}
+.ex-processing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+}
+.ex-processing[hidden] {
+  display: none !important;
+}
+.exception-result[hidden],
+.ex-low-actions[hidden] {
+  display: none !important;
+}
+.exception-result {
+  border-color: var(--pink-soft);
+}
+.ex-result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+.ex-result-head h3 {
+  margin: 0;
+  font-size: 13px;
+}
+.ex-confidence {
+  padding: 4px 7px;
+  border-radius: 999px;
+  color: var(--indigo);
+  background: var(--indigo-bg);
+  font-size: 8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.ex-confidence[data-tone="warning"] {
+  color: var(--amber);
+  background: var(--amber-bg);
+}
+.ex-result-summary {
+  margin: 7px 0;
+  color: var(--ink);
+  font-size: 10px;
+  line-height: 1.55;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.ex-plan {
+  margin: 8px 0 0;
+  padding-left: 17px;
+  font-size: 9px;
+  line-height: 1.5;
+}
+.ex-warning,
+.ex-low-actions {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid #e9cb91;
+  border-radius: 8px;
+  color: var(--amber);
+  background: var(--amber-bg);
+  font-size: 9px;
+  line-height: 1.4;
+}
+.ex-low-actions strong {
+  font-size: 9px;
+}
+.ex-controls {
+  padding-top: 7px;
+  border-top: 1px solid var(--line);
+}
+.ex-controls .copilot-action {
+  min-height: 29px;
+  padding: 5px 8px;
+  font-size: 9px;
+}
+.ex-controls button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.ex-history-list {
+  display: grid;
+  gap: 5px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ex-history-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 7px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 9px;
+}
+.ex-history-copy {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 2px;
+}
+.ex-history-copy span {
+  overflow-wrap: anywhere;
+}
+.ex-history-list small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 8px;
+}
+.ex-history-delete {
+  flex: 0 0 auto;
+  min-height: 27px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--muted);
+  background: var(--card);
+  font: inherit;
+  cursor: pointer;
+}
+.ex-history-delete:hover {
+  border-color: var(--pink);
+  color: var(--pink-dark);
+  background: var(--pink-soft);
+}
+.ex-history-delete:focus-visible {
+  outline: 3px solid #f2a1bd;
+  outline-offset: 2px;
+}
+.ex-status {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.portal-form label.assistant-field-highlight {
+  position: relative;
+  z-index: 1;
+  margin: -7px;
+  padding: 7px;
+  border: 2px solid var(--pink);
+  border-radius: 12px;
+  background: var(--pink-bg);
+  box-shadow: 0 0 0 4px rgb(207 52 109 / 16%);
+  scroll-margin-block: 120px;
+  animation: assistant-field-guide 1.2s ease-in-out 2;
+}
+
+.portal-form label.assistant-field-highlight input {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgb(207 52 109 / 20%);
+}
+
+@keyframes assistant-field-guide {
+  50% {
+    box-shadow: 0 0 0 7px rgb(207 52 109 / 24%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-form label.assistant-field-highlight {
+    animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .exception-workflow-scroll {
+    padding: 10px;
+  }
+  .exception-field-grid {
+    grid-template-columns: 1fr;
+  }
+  .exception-field-grid .ex-full {
+    grid-column: auto;
+  }
 }
