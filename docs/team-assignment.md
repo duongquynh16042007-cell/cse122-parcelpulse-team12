@@ -9,7 +9,7 @@ Tài liệu này mô tả phạm vi công việc theo vai trò dựa trên các 
 | Chưa cập nhật | Điều phối viên | `page/dispatcher-overview.html`, `page/dispatcher-exceptions.html`, `page/dispatcher-reassign.html`; `js/dispatcher.js` | Chưa có tên thành viên trong repository |
 | Chưa cập nhật | Quản trị viên | `page/admin-status-management.html`, `page/admin-user-management.html`, `page/admin-logistics-report.html`; `js/admin-pages.js` | Chưa có tên thành viên trong repository |
 | Chưa cập nhật | Tích hợp/giao diện dùng chung | `page/index.html`, các trang xác thực, `page/settings.html`, `css/`, `js/role-pages.js` | Chưa có tên thành viên trong repository |
-| Chưa cập nhật | Tài liệu và kiểm tra tích hợp | `README.md`, `docs/project-proposal.md`, `docs/roles-and-features.md`, `docs/screen-list.md`, `docs/team-assignment.md` | Điền người phụ trách theo thực tế |
+| Chưa cập nhật | Tài liệu và kiểm tra tích hợp | `README.md`, `docs/roles-and-features.md`, `docs/screen-list.md`, `docs/team-assignment.md` | Điền người phụ trách theo thực tế |
 
 ## Ghi nhận đóng góp
 

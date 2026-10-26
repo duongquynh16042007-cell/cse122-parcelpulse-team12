@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } = window.ParcelPulseRolePages;
 
   /* ===== Driver: route and stops ===== */
-  const routeStops = $$(".route-stop");
+  let routeStops = $$(".route-stop");
   if (routeStops.length) {
     const filters = $$("[data-stop-filter]");
     const search = $("#stop-search");
@@ -13,6 +13,80 @@ document.addEventListener("DOMContentLoaded", () => {
     const exceptions = new Set(
       read("driverExceptions", []).map((item) => item.stop),
     );
+    const routeDriverName = (
+      $(".user strong")?.textContent || read("profile.driver", {}).name || ""
+    ).trim();
+    const assignments = read("assignments", []);
+    const assignedStops = (Array.isArray(assignments) ? assignments : [])
+      .filter(
+        (assignment) =>
+          String(assignment.driver || "").trim().toLocaleLowerCase("vi") ===
+          routeDriverName.toLocaleLowerCase("vi"),
+      )
+      .flatMap((assignment) =>
+        (Array.isArray(assignment.routeStops) ? assignment.routeStops : []).map(
+          (stop) => ({ ...stop, assignmentId: assignment.id }),
+        ),
+      );
+
+    assignedStops.forEach((assignment) => {
+      if (!assignment.stopId) return;
+      let routeStop = routeStops.find(
+        (stop) => stop.dataset.stop === assignment.stopId,
+      );
+      if (!routeStop) {
+        routeStop = document.createElement("article");
+        routeStop.className = "route-stop";
+        routeStop.id = assignment.stopId;
+        routeStop.dataset.stop = assignment.stopId;
+        routeStop.dataset.status = "pending";
+        const avatar = document.createElement("span");
+        avatar.className = "avatar";
+        avatar.setAttribute("aria-hidden", "true");
+        avatar.textContent = "↻";
+        const content = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = `${assignment.stopId}${assignment.parcelId ? ` · ${assignment.parcelId}` : ""}`;
+        const source = document.createElement("small");
+        source.textContent = "Điểm được điều phối phân công lại";
+        content.append(title, source);
+        routeStop.append(avatar, content);
+        const actions = document.createElement("div");
+        actions.className = "stop-actions";
+        const state = document.createElement("span");
+        state.className = "chip stop-state";
+        const detail = document.createElement("a");
+        detail.className = "btn";
+        detail.href = `driver-stop-detail.html?stop=${encodeURIComponent(assignment.stopId)}`;
+        detail.textContent = "Chi tiết";
+        const complete = document.createElement("button");
+        complete.className = "btn primary";
+        complete.type = "button";
+        complete.dataset.stopComplete = "";
+        complete.textContent = "Đã giao";
+        actions.append(state, detail, complete);
+        routeStop.append(actions);
+        $(".route-list")?.append(routeStop);
+      } else {
+        routeStop.dataset.status = "pending";
+      }
+
+      const content = routeStop.children[1];
+      const noteKey = `${assignment.assignmentId}:${assignment.exceptionId || assignment.stopId}`;
+      const alreadyShown = [...content.querySelectorAll("[data-route-assignment]")].some(
+        (note) => note.dataset.routeAssignment === noteKey,
+      );
+      if (!alreadyShown) {
+        const note = document.createElement("small");
+        note.dataset.routeAssignment = noteKey;
+        note.textContent = assignment.exceptionId
+          ? `Phân công lại từ ngoại lệ ${assignment.exceptionId}${assignment.type ? ` · ${assignment.type}` : ""}`
+          : "Được điều phối phân công lại";
+        content.append(note);
+        routeStop.dataset.status = "pending";
+      }
+    });
+    routeStops = $$(".route-stop");
     let activeFilter = "all";
 
     routeStops.forEach((stop) => {
@@ -59,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
       $("#route-done-count").textContent = String(
         routeStops.filter((stop) => stop.dataset.status === "completed").length,
       );
+      $("#route-total-count").textContent = String(routeStops.length);
       $("#route-pending-count").textContent = String(
         routeStops.filter((stop) => stop.dataset.status !== "completed").length,
       );
@@ -107,6 +182,9 @@ document.addEventListener("DOMContentLoaded", () => {
             : `Đã mở lại ${stop.dataset.stop}.`,
         );
       });
+    });
+    window.addEventListener("storage", (event) => {
+      if (event.key === "parcelpulse.assignments") window.location.reload();
     });
     renderStops();
   }
@@ -189,30 +267,49 @@ document.addEventListener("DOMContentLoaded", () => {
         note.focus();
         return;
       }
-      const exceptions = read("driverExceptions", []);
+      const storedExceptions = read("driverExceptions", []);
+      const exceptions = Array.isArray(storedExceptions) ? storedExceptions : [];
       const id = `EX-DEMO-${String(Date.now()).slice(-5)}`;
-      exceptions.unshift({
+      const stopSelect = $("#exception-stop");
+      const stop = stopSelect.value;
+      const parcel = stopSelect.selectedOptions[0]?.textContent.split("·").pop().trim() || "";
+      const exception = {
         id,
-        stop: $("#exception-stop").value,
+        stop,
+        parcel,
         category: category.value,
         note: note.value.trim(),
         createdAt: new Date().toISOString(),
-      });
-      write("driverExceptions", exceptions.slice(0, 20));
-      registerSharedRecord({
-        id: `driver-exception:${id}`,
-        sourceRole: "Nhân viên giao hàng",
-        sourceType: "Ngoại lệ giao hàng",
-        reference: $("#exception-stop").value,
-        title: `${category.value} tại ${$("#exception-stop").value}`,
-        summary: note.value.trim(),
-        status: "pending",
-        payload: { exceptionId: id, stop: $("#exception-stop").value, category: category.value },
-        createdAt: exceptions[0].createdAt,
-      });
+      };
+      exceptions.unshift(exception);
+      try {
+        write("driverExceptions", exceptions.slice(0, 20));
+      } catch {
+        announce(
+          $("#exception-status"),
+          "Không lưu được ngoại lệ trên trình duyệt này. Hãy kiểm tra quyền lưu rồi thử lại.",
+          "error",
+        );
+        return;
+      }
+      try {
+        registerSharedRecord({
+          id: `driver-exception:${id}`,
+          sourceRole: "Nhân viên giao hàng",
+          sourceType: "Ngoại lệ giao hàng",
+          reference: stop,
+          title: `${category.value} tại ${stop}`,
+          summary: note.value.trim(),
+          status: "pending",
+          payload: { exceptionId: id, stop, parcel, category: category.value },
+          createdAt: exception.createdAt,
+        });
+      } catch {
+        // Dispatcher can still read the saved driverExceptions record directly.
+      }
       announce(
         $("#exception-status"),
-        `Đã tạo ngoại lệ ${id} trong dữ liệu demo và giữ nguyên quyền chỉnh sửa trước khi xử lý.`,
+        `Đã gửi ngoại lệ ${id} cho nhân viên điều hành. Vui lòng chờ xác nhận.`,
         "success",
       );
       exceptionForm.reset();

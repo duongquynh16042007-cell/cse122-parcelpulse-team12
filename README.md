@@ -1,131 +1,106 @@
 # ParcelPulse — Hệ thống mô phỏng giao nhận
 
-ParcelPulse là bản demo giao diện HTML, CSS và JavaScript cho quy trình giao nhận. Nhánh này có các màn hình cho **Người nhận, Nhân viên giao hàng, Điều phối viên và Quản trị viên**, cùng trang công khai, xác thực và Cài đặt dùng chung. Dữ liệu là dữ liệu mẫu lưu cục bộ trên trình duyệt; dự án chưa có backend hoặc API logistics thật.
+ParcelPulse là ứng dụng web demo mô phỏng quy trình giao nhận với bốn vai trò: **Người nhận, Nhân viên giao hàng, Điều phối viên và Quản trị viên**. Dự án dùng HTML, CSS và JavaScript thuần; chưa có backend hoặc API logistics thật. Dữ liệu nghiệp vụ được lưu trong `localStorage` của trình duyệt.
+
+## Chức năng theo vai trò
+
+### Người nhận
+
+| Màn hình | Tệp | Chức năng |
+| --- | --- | --- |
+| Trang chủ | [`page/index.html`](page/index.html) | Điểm vào ứng dụng và điều hướng đến các chức năng demo. |
+| Theo dõi kiện hàng | [`page/track-parcel.html`](page/track-parcel.html) | Tra cứu trạng thái kiện hàng mẫu. |
+| Tùy chọn giao nhận | [`page/delivery-preferences.html`](page/delivery-preferences.html) | Lưu lựa chọn giao hàng demo. |
+| Phản hồi giao hàng | [`page/delivery-feedback.html`](page/delivery-feedback.html) | Gửi phản hồi mẫu sau giao hàng. |
+
+### Nhân viên giao hàng
+
+| Màn hình | Tệp | Chức năng |
+| --- | --- | --- |
+| Tuyến giao hôm nay | [`page/driver-route-stops.html`](page/driver-route-stops.html) | Xem, tìm, lọc và cập nhật điểm giao. Các mục được điều phối lại sẽ xuất hiện trên tuyến nếu tên tài xế được phân công trùng tên nhân viên đang dùng. |
+| Chi tiết điểm giao | [`page/driver-stop-detail.html`](page/driver-stop-detail.html) | Xem chi tiết điểm giao và mô phỏng xác nhận bàn giao bằng tên người nhận cùng mã 6 chữ số. |
+| Tạo ngoại lệ | [`page/driver-exception-create.html`](page/driver-exception-create.html) | Gửi ngoại lệ gồm điểm dừng, loại và mô tả; thông báo cho biết ngoại lệ đã gửi cho nhân viên điều hành và đang chờ xác nhận. |
+
+### Điều phối viên
+
+| Màn hình | Tệp | Chức năng |
+| --- | --- | --- |
+| Tổng quan điều hành | [`page/dispatcher-overview.html`](page/dispatcher-overview.html) | Xem KPI, biểu đồ sản lượng và cảnh báo demo. |
+| Hàng đợi ngoại lệ | [`page/dispatcher-exceptions.html`](page/dispatcher-exceptions.html) | Nhận ngoại lệ do tài xế gửi, tìm/lọc, xem chi tiết, sửa loại, xác nhận hoặc bỏ qua. Xác nhận chuyển ngoại lệ sang danh sách phân công lại; bỏ qua sẽ xóa khỏi luồng xử lý. |
+| Phân công lại | [`page/dispatcher-reassign.html`](page/dispatcher-reassign.html) | Chọn điểm cần chuyển và tài xế khả dụng, xem tóm tắt, lưu nháp hoặc xác nhận phân công. Khi tên tài xế khớp nhân viên giao hàng, công việc được nối vào tuyến của nhân viên đó. |
+
+### Quản trị viên
+
+| Màn hình | Tệp | Chức năng |
+| --- | --- | --- |
+| Quản lý trạng thái | [`page/admin-status-management.html`](page/admin-status-management.html) | Tạo, sửa, lưu trữ trạng thái demo và xem các bản ghi nghiệp vụ được chia sẻ từ những vai trò khác. |
+| Quản lý người dùng | [`page/admin-user-management.html`](page/admin-user-management.html) | Tìm/lọc, tạo, sửa, khóa/mở khóa và xóa tài khoản demo. |
+| Báo cáo logistics | [`page/admin-logistics-report.html`](page/admin-logistics-report.html) | Xem chỉ số demo theo kỳ, lưu lựa chọn và tải CSV được tạo trên trình duyệt. |
+
+### Xác thực và cài đặt
+
+- [`page/login.html`](page/login.html), [`page/register.html`](page/register.html), [`page/forgot-password.html`](page/forgot-password.html): mô phỏng đăng nhập, đăng ký và khôi phục tài khoản; không xác thực với máy chủ.
+- [`page/settings.html`](page/settings.html): hồ sơ và tùy chọn giao diện dùng chung; vai trò được chọn qua tham số URL như `?role=driver` hoặc `?role=dispatcher`.
+
+## Luồng dữ liệu liên vai trò
+
+1. Nhân viên giao hàng gửi ngoại lệ. Ứng dụng lưu dữ liệu demo vào `parcelpulse.driverExceptions` và bản ghi chia sẻ `parcelpulse.sharedRecords`.
+2. Điều phối viên mở **Hàng đợi ngoại lệ**. Trang đọc ngoại lệ từ các khóa trên cùng trình duyệt và cùng origin; nếu trang đang mở ở tab khác, thay đổi được nhận qua sự kiện `storage`.
+3. Khi điều phối viên **xác nhận**, ngoại lệ rời hàng đợi và được lưu trong `parcelpulse.reassignStops` để xuất hiện ở **Phân công lại**. Khi **bỏ qua**, ngoại lệ bị loại khỏi hàng đợi và không chuyển sang phân công.
+4. Điều phối viên chọn tài xế và xác nhận phân công. Bản ghi `parcelpulse.assignments` lưu tên tài xế cùng các điểm giao liên quan.
+5. Tuyến giao chỉ nhận công việc nếu tên tài xế trong bản phân công trùng tên nhân viên giao hàng hiện tại. Với dữ liệu demo mặc định, **Minh Anh** có trong danh sách tài xế khả dụng để minh họa việc khớp tên.
+
+Dữ liệu chỉ chia sẻ giữa các trang chạy trên **cùng trình duyệt và cùng origin** (ví dụ cùng địa chỉ Live Server). Dữ liệu không đồng bộ giữa máy tính, trình duyệt hoặc origin khác nhau.
 
 ## Cấu trúc thư mục
 
 ```text
 git/
 ├── README.md
-├── docs/                         # Tài liệu dự án
-├── css/
-│   ├── base.css                  # Kiểu và thành phần dùng chung
-│   ├── profile.css               # Hồ sơ dùng chung
-│   ├── home.css                  # Trang chủ
-│   ├── auth.css                  # Giao diện xác thực
-│   ├── login.css                 # Đăng nhập
-│   ├── register.css              # Đăng ký
-│   ├── forgot-password.css       # Khôi phục mật khẩu
-│   ├── recipient.css             # Giao diện Người nhận
-│   ├── recipient-app.css         # Khung ứng dụng Người nhận
-│   ├── track-parcel.css          # Theo dõi kiện hàng
-│   ├── delivery-preferences.css  # Tùy chọn giao nhận
-│   ├── delivery-feedback.css     # Phản hồi giao hàng
-│   ├── driver.css                # Nhân viên giao hàng
-│   ├── dispatcher.css            # Điều phối viên
-│   ├── admin.css                 # Quản trị viên
-│   ├── pulse-ai.css              # Giao diện Pulse AI
-│   └── settings.css              # Cài đặt
-├── js/
-│   ├── home.js                   # Tương tác trang chủ
-│   ├── auth.js                   # Đăng nhập, đăng ký, khôi phục demo
-│   ├── role-pages.js             # Tiện ích và tương tác dùng chung
-│   ├── recipient-pages.js        # Chức năng Người nhận
-│   ├── driver-pages.js           # Chức năng Nhân viên giao hàng
-│   ├── dispatcher.js             # Chức năng Điều phối viên
-│   ├── admin-pages.js            # Chức năng Quản trị viên
-│   ├── pulse-ai.js               # Trợ lý Pulse AI
-│   └── settings-page.js          # Cài đặt dùng chung
-└── page/                         # Tất cả trang HTML
-    ├── index.html
-    ├── login.html
-    ├── register.html
-    ├── forgot-password.html
-    ├── track-parcel.html
-    ├── delivery-preferences.html
-    ├── delivery-feedback.html
-    ├── driver-route-stops.html
-    ├── driver-stop-detail.html
-    ├── driver-exception-create.html
-    ├── settings.html
-    ├── dispatcher-overview.html
-    ├── dispatcher-exceptions.html
-    ├── dispatcher-reassign.html
-    ├── admin-status-management.html
-    ├── admin-user-management.html
-    └── admin-logistics-report.html
+├── docs/
+│   ├── ai-usage-report.md
+│   ├── roles-and-features.md
+│   ├── screen-list.md
+│   └── team-assignment.md
+├── css/                 # Kiểu dùng chung và theo từng khu vực
+├── js/                  # Tương tác DOM và xử lý dữ liệu demo
+└── page/                # Các màn hình HTML của ứng dụng
 ```
 
-## Vai trò và màn hình
+Một số tệp JavaScript chính:
 
-### Khu vực công khai và xác thực
+- `js/role-pages.js`: tiện ích dùng chung, hồ sơ và bản ghi liên vai trò.
+- `js/driver-pages.js`: tuyến giao, xác nhận bàn giao và gửi ngoại lệ.
+- `js/dispatcher.js`: tổng quan, hàng đợi ngoại lệ và phân công lại.
+- `js/admin-pages.js`: màn hình quản trị và đọc dữ liệu được chia sẻ.
+- `js/pulse-ai.js`: tương tác Pulse AI theo quy tắc cục bộ.
 
-- [`page/index.html`](page/index.html): trang chủ, điểm vào các khu vực và tra cứu demo.
-- [`page/login.html`](page/login.html): chọn vai trò và mô phỏng đăng nhập.
-- [`page/register.html`](page/register.html): biểu mẫu đăng ký demo.
-- [`page/forgot-password.html`](page/forgot-password.html): mô phỏng yêu cầu khôi phục tài khoản.
+## Pulse AI
 
-### Người nhận
-
-- [`page/track-parcel.html`](page/track-parcel.html): tra cứu kiện hàng và lịch sử trạng thái mẫu.
-- [`page/delivery-preferences.html`](page/delivery-preferences.html): cập nhật tùy chọn nhận hàng demo.
-- [`page/delivery-feedback.html`](page/delivery-feedback.html): gửi đánh giá và phản hồi demo.
-
-### Tính năng AI số 3 — Pulse AI dùng chung
-
-- Có trên các màn hình Điều phối viên và Quản trị viên; mở bằng nút **Pulse AI** ở góc dưới.
-- Phân tích ngữ cảnh của màn đang mở, tìm ngoại lệ ưu tiên, gợi ý tài xế, duyệt người dùng chờ kích hoạt, cập nhật trạng thái hoặc lưu trữ trạng thái tùy chỉnh.
-- Pulse AI yêu cầu người dùng xem lại và xác nhận các thao tác quan trọng; thao tác được chuyển qua các luồng CRUD hiện có.
-- Đây là bản demo dùng quy tắc cục bộ và dữ liệu mẫu. Không gọi mô hình AI hoặc API từ xa; không xác minh danh tính, không tự quyết định vận hành thật.
-
-### Nhân viên giao hàng
-
-- [`page/driver-route-stops.html`](page/driver-route-stops.html): xem, tìm kiếm, lọc và cập nhật điểm giao mẫu.
-- [`page/driver-stop-detail.html`](page/driver-stop-detail.html): xem chi tiết điểm giao và mô phỏng xác nhận bàn giao.
-- [`page/driver-exception-create.html`](page/driver-exception-create.html): tạo ngoại lệ giao nhận demo.
-
-### Điều phối viên
-
-- [`page/dispatcher-overview.html`](page/dispatcher-overview.html): KPI, biểu đồ và cảnh báo vận hành mẫu.
-- [`page/dispatcher-exceptions.html`](page/dispatcher-exceptions.html): tìm/lọc ngoại lệ và mô phỏng quyết định xử lý.
-- [`page/dispatcher-reassign.html`](page/dispatcher-reassign.html): mô phỏng phân công lại điểm giao/tài xế.
-
-### Quản trị viên
-
-- [`page/admin-status-management.html`](page/admin-status-management.html): quản lý trạng thái giao nhận mẫu.
-- [`page/admin-user-management.html`](page/admin-user-management.html): tìm/lọc và quản lý tài khoản demo.
-- [`page/admin-status-management.html`](page/admin-status-management.html): ngoài quản lý trạng thái, trang này hiển thị hàng đợi dữ liệu từ các vai trò; quản trị viên có thể lọc, duyệt, hủy hoặc lưu trữ.
-- [`page/admin-logistics-report.html`](page/admin-logistics-report.html): báo cáo dữ liệu mẫu và tải CSV được tạo trên trình duyệt.
-
-### Cài đặt dùng chung
-
-- [`page/settings.html`](page/settings.html): hồ sơ và tùy chọn mô phỏng; nhận vai trò qua URL hoặc phiên demo.
-
-## Chạy thử
-
-Mở thư mục dự án trong VS Code, chạy Live Server và truy cập `page/index.html`. Có thể mở trực tiếp từng trang trong danh sách trên. Không cần cài thư viện hoặc chạy bước build.
-
-- HTML5 ngữ nghĩa, CSS thuần với design tokens, JavaScript thuần thao tác DOM.
-- Pulse AI demo chạy bằng JavaScript phía trình duyệt; chưa tích hợp LLM/backend.
-- `localStorage` lưu cài đặt, người dùng/trạng thái demo, quyết định ngoại lệ và nháp/phân công trên trình duyệt hiện tại.
-- Các thao tác tạo/cập nhật điểm giao, bằng chứng bàn giao, ngoại lệ, tùy chọn giao nhận, phản hồi và quyết định/phân công điều phối được đưa vào `parcelpulse.sharedRecords`. Quản trị viên xem và xử lý chúng trong trang quản lý trạng thái hiện có.
-- Trang quản lý người dùng có 15 hồ sơ demo; hàng đợi ngoại lệ hiện gồm 5 hồ sơ mẫu.
-- CSV được tạo ở phía trình duyệt.
+Pulse AI hỗ trợ các màn hình nghiệp vụ được tích hợp bằng cách phân tích dữ liệu demo và quy tắc JavaScript. Công cụ có thể giải thích ETA, gợi ý xử lý ngoại lệ hoặc đề xuất thao tác để người dùng xem lại. Pulse AI không gọi mô hình AI, API từ xa, GPS hoặc dữ liệu vận tải trực tiếp; các thao tác quan trọng cần người dùng xác nhận.
 
 ## Công nghệ và giới hạn
 
-- HTML5, CSS thuần và JavaScript thuần; không sử dụng framework giao diện.
-- Dữ liệu liên vai trò dùng `localStorage` trên cùng trình duyệt và cùng origin (ví dụ cùng địa chỉ Live Server); dữ liệu không đồng bộ giữa thiết bị hoặc trình duyệt khác.
-- Đăng nhập, giao nhận, điều phối, quản trị, cài đặt và trợ lý (nếu hiển thị) chỉ mô phỏng; không có backend, API logistics thật hoặc đồng bộ dữ liệu.
-- Báo cáo CSV được tạo ngay trong trình duyệt. Ảnh được chọn trong biểu mẫu không được tải lên máy chủ.
+- HTML5, CSS thuần với design tokens và JavaScript thuần thao tác DOM; không dùng Bootstrap hoặc framework giao diện.
+- `localStorage` lưu dữ liệu demo, nháp, quyết định ngoại lệ và phân công trên trình duyệt hiện tại.
+- Không có backend, API logistics thật, xác thực tài khoản thật hoặc đồng bộ dữ liệu giữa thiết bị.
+- CSV được tạo ngay trên trình duyệt. Tệp ảnh được chọn trong biểu mẫu không được tải lên máy chủ.
 
-## Tài liệu dự án
+## Chạy dự án
 
-Các tài liệu bổ sung nằm trong `docs/`, gồm đề xuất dự án, vai trò và chức năng, danh sách màn hình, phân công nhóm và báo cáo sử dụng AI.
+1. Mở thư mục dự án trong VS Code.
+2. Chạy Live Server từ thư mục dự án.
+3. Mở [`page/index.html`](page/index.html) hoặc vào trực tiếp màn hình cần xem.
 
-## Liên kết dự án
+Dự án không cần cài thư viện hoặc chạy bước build.
 
-- [Chạy thử demo](https://duongquynh16042007-cell.github.io/cse122-parcelpulse-team12/page/index.html)
+## Tài liệu và liên kết
+
+- [Vai trò và chức năng](docs/roles-and-features.md)
+- [Danh sách màn hình](docs/screen-list.md)
+- [Phân công nhóm](docs/team-assignment.md)
+- [Báo cáo sử dụng AI](docs/ai-usage-report.md)
+- [Bản demo triển khai](https://duongquynh16042007-cell.github.io/cse122-parcelpulse-team12/page/index.html)
 - [Figma](https://www.figma.com/design/pLIUo9jzEtocX72oPxVQ3p/Untitled?node-id=0-1&t=zDJNyxMIUbNaoNGI-1)
 - [YouTube — Playlist 1](https://www.youtube.com/playlist?list=PLdwaB8kTRTB0)
 - [YouTube — Playlist 2](https://www.youtube.com/playlist?list=PLM1LbaS3zgUg)
